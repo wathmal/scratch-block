@@ -36,14 +36,14 @@
 		["w", "reset timer","resetTimer", "0",
 		{"encode":"{n0}","setup":"","inc":"","def":"double currentTime = 0;\ndouble lastTime = 0;\n","work":"lastTime = millis()/1000.0;\n","loop":""}],
 
-		["R", "get temperature from pin %d.pins","getTemperature", "1",
-		{"encode":"{d0}","setup":"pinMode(A0+{0},INPUT);\n","inc":"","def":"","work":"analogRead(A0+{0})","loop":""}],
+		["R", "read analog","readAnalog", "",
+		{"encode":"{d0}","setup":"","inc":"","def":"","work":"adc.read(0)\n","loop":""}],
 
         ["w", "switch %d.state LED at pin %d.pins","switchLED", "ON", "1",
-        {"encode":"{d0}{d1}","setup":"pinMode({1},OUTPUT);\n","inc":"","def":"","work":"digitalWrite({1},{0});\n","loop":""}],
+        {"encode":"{d0}{d1}","setup":"gpio.mode({1},gpio.OUTPUT)\n","inc":"","def":"","work":"gpio.write({1},{0})\n","loop":""}],
 
-        ["w", "send to server %s as %m.types","sendToServer", "","Temperature",
-        {"encode":"{s0}{d1}","setup":"","inc":"","def":"","work":"json = String(\"{ \\\"{1}\\\" : \") +  {0} + \"}\";\n json.toCharArray(buffer, json.length() + 1);\n client.publish(\"user_id\", buffer );\n","loop":""}]
+        ["w", "Send %s as %m.types","sendToServer", "","Temperature",
+        {"encode":"{s0}{d1}","setup":"","inc":"","def":"","work":"","loop":""}]
 
 	],
 	"menus": {
@@ -67,8 +67,8 @@
 		"tone":34,
 		"timer":50,
 		"HIGH":1,"LOW":0,
-		"Temperature":1, "Motion":2,
-		"ON":1,"OFF":0,
+		"Temperature": "temp", "Motion": "motion",
+		"ON":"gpio.HIGH","OFF":"gpio.LOW",
 		"B0":31,"C1":33,"D1":37,"E1":41,"F1":44,"G1":49,"A1":55,"B1":62,
 			"C2":65,"D2":73,"E2":82,"F2":87,"G2":98,"A2":110,"B2":123,
 			"C3":131,"D3":147,"E3":165,"F3":175,"G3":196,"A3":220,"B3":247,

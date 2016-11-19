@@ -26,6 +26,7 @@ package extensions
 	import util.ApplicationManager;
 	import util.JSON;
 	import util.LogManager;
+	import util.SharedObjectManager;
 	
 	public class ArduinoManager extends EventDispatcher
 	{
@@ -91,135 +92,44 @@ package extensions
 		/**
 		 * Main code template
 		 */	
-		private var codeTemplate:String = ( <![CDATA[
-		
-		//include
-
+		private var codeTemplate:String = ( <![CDATA[//include
 		//define
-		
-		// adc config
-		if adc.force_init_mode(adc.INIT_VDD33)
-		then
-		  node.restart()
-		  return -- don't bother continuing, the restart is scheduled
-		end
+		-- adc config
+		--if adc.force_init_mode(adc.INIT_VDD33)
+		--then
+		  --node.restart()
+		  --return -- don't bother continuing, the restart is scheduled
+		--end
 
-		//connect to Wifi
+		-- connect to Wifi
+		wifi.setmode(wifi.STATION)
 		wifi.sta.config("DR", "Dula@0201")
 		
-		//MQTT Client configuration
+		-- MQTT Client configuration
 		m = mqtt.Client("user_id", 120, "", "")
-				
 		m:on("connect", function(client) print ("connected To MQTT Server!") end)
-		m:on("offline", function(client) print ("offline") end)
+		m:on("offline", function(client) print ("offline on mqtt") end)
 		
-		//on publish message receive event
-//		m:on("message", function(client, topic, data) 
-//		  print(topic .. ":" ) 
-//		  if data ~= nil then
-//		    print(data)
-//		  end
-//		end)
-		
-//		-- for TLS: m:connect("192.168.11.118", secure-port, 1)
-		m:connect("192.168.88.100", 1883, 0, function(client) print("Connected TO MQTT Server Successfully!") end, function(client, reason) print("failed reason: "..reason) end)
+		function mqttcon()
+		    if wifi.sta.getip()== nil then
+		        print("IP unavailable, Waiting...")
+		    else
+		    tmr.stop(1)
+		    m:connect("192.168.88.100", 1883, 0, function(client) print("connected to mqtt") end, function(client, reason) print("failed reason: "..reason) end) 
+		    end    
+		end
 
-//		m:subscribe("user_id",0, function(client) print("subscribe success") end)
-
-//		m:publish("user_id","hello",0,0, function(client) print("sent") end)
-
+		tmr.alarm(1,5000,1,mqttcon)
 		//serialParser
-
 		//function
-		
 		//setup
-		
 		//serialParserCall
-
-		//loop
-		
+		function mainloop()
+			//loop
+		end	
+		tmr.alarm(2,500,1,mainloop)		
+			
 		]]> ).toString();//delay(50);
-		
-//		private var codeTemplate:String = ( <![CDATA[
-//#include <Wire.h>
-//#include <Servo.h>
-//#include <SoftwareSerial.h>
-//#include <ESP8266WiFi.h>
-//#include <PubSubClient.h>
-//
-////include
-//double angle_rad = PI/180.0;
-//double angle_deg = 180.0/PI;
-//String json;
-//char buffer[100];
-//
-//const char* ssid = "DR";
-//const char* password = "Dula@0201";
-//const char* mqtt_server = "192.168.88.100";
-//WiFiClient espClient;
-//PubSubClient client(espClient);
-//
-////define
-////serialParser
-////function
-//void setup(){
-////setup
-//	Serial.begin(115200);
-//	setup_wifi();
-//	client.setServer(mqtt_server, 1883);
-//}
-//void reconnect() {
-//	// Loop until we're reconnected
-//	while (!client.connected()) {
-//	Serial.print("Attempting MQTT connection...");
-//	// Attempt to connect
-//	if (client.connect("temp_1")) {
-//	Serial.println("connected");
-//	// Once connected, publish an announcement...
-//	client.publish("temperature_1",  itoa(analogRead(A0), buffer, 10) );
-//	// ... and resubscribe
-//	client.subscribe("test-temp-1");
-//	} else {
-//	Serial.print("failed, rc=");
-//	Serial.print(client.state());
-//	Serial.println(" try again in 5 seconds");
-//	// Wait 5 seconds before retrying
-//	delay(5000);
-//	}
-//	}
-//	}
-//
-//void setup_wifi() {
-//
-//	delay(10);
-//	// We start by connecting to a WiFi network
-//	Serial.println();
-//	Serial.print("Connecting to ");
-//	Serial.println(ssid);
-//
-//	WiFi.begin(ssid, password);
-//
-//	while (WiFi.status() != WL_CONNECTED) {
-//	delay(500);
-//	Serial.print(".");
-//	}
-//
-//	Serial.println("");
-//	Serial.println("WiFi connected");
-//	Serial.println("IP address: ");
-//	Serial.println(WiFi.localIP());
-//	}
-//
-//void loop(){
-////serialParserCall
-////loop
-//	if (!client.connected()) {
-//	reconnect();
-//	}
-//	client.loop();
-//}
-//
-//]]> ).toString();//delay(50);
 		
 		private var codeSerialParser:String = ( <![CDATA[
 char inputBuf[64];
@@ -323,6 +233,7 @@ void updateVar(char * varName,double * var)
 			return slotSlotEnum[slot]
 		}
 		
+		// lua
 		private function parseMath(blk:Object):CodeObj{
 			var op:Object= blk[0]
 			var mp1:CodeBlock=getCodeBlock(blk[1]);
@@ -355,17 +266,17 @@ void updateVar(char * varName,double * var)
 			//			}
 			var code:String = StringUtil.substitute("({0}) {1} ({2})",mp1.type=="obj"?mp1.code.code:mp1.code ,op,mp2.type=="obj"?mp2.code.code:mp2.code);
 			if(op=="=="){
-				if(mp1.type=="string"&&mp2.type=="string"){
-					code = StringUtil.substitute("({0}.	equals(\"{1}\"))",mp1.code,mp2.code);
-				}else{
-					code = StringUtil.substitute("(({0})==({1}))",mp1.type=="obj"?mp1.code.code:mp1.code,mp2.type=="obj"?mp2.code.code:mp2.code);
-				}
-			}else if(op=="%"){
-				code = StringUtil.substitute("fmod({0},{1})",mp1.type=="obj"?mp1.code.code:mp1.code,mp2.type=="obj"?mp2.code.code:mp2.code);
-			}else if(op=="not"){
+				
+				code = StringUtil.substitute("(({0})==({1}))",mp1.type=="obj"?mp1.code.code:mp1.code,mp2.type=="obj"?mp2.code.code:mp2.code);
+				
+			}
+//			else if(op=="%"){
+//				code = StringUtil.substitute("fmod({0},{1})",mp1.type=="obj"?mp1.code.code:mp1.code,mp2.type=="obj"?mp2.code.code:mp2.code);
+//			}
+			else if(op=="not"){
 				code = StringUtil.substitute("!({0})",mp1.type=="obj"?mp1.code.code:mp1.code);
 			}else if(op=="rounded"){
-				code = StringUtil.substitute("round({0})",mp1.type=="obj"?mp1.code.code:mp1.code);
+				code = StringUtil.substitute("math.floor({0})",mp1.type=="obj"?mp1.code.code:mp1.code);
 			}
 			return new CodeObj(code);
 		}
@@ -534,10 +445,11 @@ void updateVar(char * varName,double * var)
 			funcCode+="}\n";
 			funcList.push({name:funcName,code:funcCode});
 		}
+		// lua
 		private function parseIfElse(blk:Object):String{
 			var codeIfElse:String = ""
 			var logiccode:CodeBlock = getCodeBlock(blk[1]);
-			codeIfElse+=StringUtil.substitute("if({0}){\n",logiccode.type=="obj"?logiccode.code.code:logiccode.code);
+			codeIfElse+=StringUtil.substitute("if {0} then \n",logiccode.type=="obj"?logiccode.code.code:logiccode.code);
 			if(blk[2]!=null){
 				for(var i:int=0;i<blk[2].length;i++){
 					var b:CodeBlock = getCodeBlock(blk[2][i]);
@@ -545,7 +457,7 @@ void updateVar(char * varName,double * var)
 					codeIfElse+=ifcode
 				}
 			}
-			codeIfElse+="}else{\n";
+			codeIfElse+="else \n";
 			if(blk[3]!=null){
 				for(i=0;i<blk[3].length;i++){
 					b = getCodeBlock(blk[3][i]);
@@ -553,14 +465,15 @@ void updateVar(char * varName,double * var)
 					codeIfElse+=elsecode;
 				}
 			}
-			codeIfElse+="}\n"
+			codeIfElse+="end \n"
 			return codeIfElse
 		}
 		
+		// lua
 		private function parseIf(blk:Object):String{
 			var codeIf:String = ""
 			var logiccode:String = getCodeBlock(blk[1]).code;
-			codeIf+=StringUtil.substitute("if({0}){\n",logiccode)
+			codeIf+=StringUtil.substitute("if {0} then \n",logiccode)
 			if(blk is Array){
 				if(blk.length>2){
 					if(blk[2]!=null){
@@ -572,7 +485,7 @@ void updateVar(char * varName,double * var)
 					}
 				}
 			}
-			codeIf+="}\n"
+			codeIf+="end \n"
 			return codeIf
 		}
 		
@@ -799,7 +712,7 @@ void updateVar(char * varName,double * var)
 				return codeBlock;
 			}else if(blk[0]=="randomFrom:to:"){
 				codeBlock.type = "number";
-				codeBlock.code = StringUtil.substitute("random({0},{1})",getCodeBlock(blk[1]).code,getCodeBlock(blk[2]).code);
+				codeBlock.code = StringUtil.substitute("math.random({0},{1})",getCodeBlock(blk[1]).code,getCodeBlock(blk[2]).code);
 				return codeBlock;
 			}else if(blk[0]=="computeFunction:of:"){
 				codeBlock.type = "number";
@@ -809,21 +722,21 @@ void updateVar(char * varName,double * var)
 				var s1:CodeBlock = getCodeBlock(blk[1]);
 				var s2:CodeBlock = getCodeBlock(blk[2]);
 				codeBlock.type = "obj";
-				codeBlock.code = new CodeObj(StringUtil.substitute("{0}+{1}",(s1.type=="obj")?s1.code.code:"String(\""+s1.code+"\")",(s2.type=="obj")?s2.code.code:"String(\""+s2.code+"\")"));
+				codeBlock.code = new CodeObj(StringUtil.substitute("{0}..{1}",(s1.type=="obj")?s1.code.code:"\""+s1.code+"\"",(s2.type=="obj")?s2.code.code:"\""+s2.code+"\""));
 				return codeBlock;
 			}else if(blk[0]=="letter:of:"){
 				s2 = getCodeBlock(blk[2]);
 				codeBlock.type = "obj";
-				codeBlock.code = new CodeObj(StringUtil.substitute("{1}.charAt({0}-1)",getCodeBlock(blk[1]).code,(s2.type=="obj")?"String("+s2.code.code+")":"String(\""+s2.code+"\")"));
+				codeBlock.code = new CodeObj(StringUtil.substitute("string.sub({1},{0},{0})",getCodeBlock(blk[1]).code,(s2.type=="obj")?"("+s2.code.code+")":"\""+s2.code+"\""));
 				return codeBlock;
 			}else if(blk[0]=="castDigitToString:"){
 				codeBlock.type = "obj";
-				codeBlock.code = new CodeObj(StringUtil.substitute('String({0})',getCodeBlock(blk[1]).code));
+				codeBlock.code = new CodeObj(StringUtil.substitute("\"{0}\"",getCodeBlock(blk[1]).code));
 				return codeBlock;
-			}else if(blk[0]=="stringLength:"){
+			}else if(blk[0]=="stringLength:"){	
 				s1 = getCodeBlock(blk[1]);
 				codeBlock.type = "obj";
-				codeBlock.code = new CodeObj(StringUtil.substitute("String({0}).length()",(s1.type != "obj")?"\""+s1.code+"\"":s1.code.code));
+				codeBlock.code = new CodeObj(StringUtil.substitute("string.len({0})",(s1.type != "obj")?"\""+s1.code+"\"":s1.code.code));
 				return codeBlock;
 			}else if(blk[0]=="changeVar:by:"){
 				codeBlock.type = "string";
@@ -833,6 +746,16 @@ void updateVar(char * varName,double * var)
 				//			else if(blk[0].indexOf("Makeblock")>=0||blk[0].indexOf("Arduino")>=0||blk[0].indexOf("Communication")>=0){
 				//				code = new CodeObj(getModule(blk)["code"]["work"]);
 				//			}
+			else if(blk[0]=="Arduino.sendToServer"){
+				codeBlock.type= "obj";
+				var key:String = String(getCodeBlock(blk[2]).code);
+//				var skey:String = String(key).toString();
+//				trace(getCodeBlock(blk[1]).code);
+//				trace(skey);
+				codeBlock.code = new CodeObj(StringUtil.substitute("m:publish(\"user_id\",cjson.encode({ "+key.toLowerCase()+"= {0}}),0,0, function(client) print(\"sent\") end)",getCodeBlock(blk[1]).code));
+				return codeBlock;
+			}
+			
 			else{
 				var objs:Array = MBlock.app.extensionManager.specForCmd(blk[0]);
 				if(objs!=null){
@@ -1043,6 +966,7 @@ void updateVar(char * varName,double * var)
 			var childs:Array = objs.children.reverse();
 			for(var i:int=0;i<childs.length;i++){
 				buildSuccess = parseScripts(childs[i].scripts);
+				trace(buildSuccess);
 			}
 			if(!buildSuccess){
 				parseScripts(objs.scripts);
@@ -1490,62 +1414,7 @@ void updateVar(char * varName,double * var)
 			return ""
 		}
 		
-		/**
-		 * Upload using Arduino IDE
-		 */
-		private function pushThroughArduino(projectDocumentName:String):void{
-			
-			var nativeProcessStartupInfo:NativeProcessStartupInfo = new NativeProcessStartupInfo();
-			
-			var arduinoPath:String ="C:/Users/Dulaj/Documents/FYP/scratch-block/bin-debug/Arduino";
-			var mp:File = new File();
-			mp = mp.resolvePath(arduinoPath+"/arduino.exe");
-			
-			nativeProcessStartupInfo.executable = mp;
-			
-			var args:Vector.<String> = new Vector.<String>();
-			
-			args.push("--upload");
-			args.push(projectDocumentName);
-			
-			nativeProcessStartupInfo.arguments = args;
-			
-			var process:NativeProcess = new NativeProcess();
-			
-			process.start(nativeProcessStartupInfo);
-			
-		}
-		
 		public function openArduinoIDE(ccode:String):String{
-			/*
-			if(arduinoInstallPath==""){
-				var dialog:DialogBox = new DialogBox();
-				dialog.addTitle("Message");
-				dialog.addText("Arduino IDE not found,\nClick 'Set Path' to find the install path of Arduino,\nor Click 'Download' to install the Arduino IDE.");
-				function onCancel():void{
-					dialog.cancel();
-				}
-				function onSetPath():void{
-					var fileRef:File = new File();
-					function onPathSelected(evt:Event):void{
-						var f:File = evt.target as File;
-						arduinoPath = f.url;
-					}
-					fileRef.browseForDirectory(Translator.map("Arduino IDE"));
-					fileRef.addEventListener(Event.SELECT,onPathSelected);
-					dialog.cancel();
-				}
-				function onDownload():void{
-					flash.net.navigateToURL(new URLRequest("http://learn.makeblock.cc/learning-arduino/"));
-					dialog.cancel();
-				}
-				dialog.addButton("Cancel",onCancel);
-				dialog.addButton("Set Path",onSetPath);
-				dialog.addButton("Download",onDownload);
-				dialog.showOnStage(MBlock.app.stage);
-				return "Arduino IDE not found.";
-			}
-			*/
 			prepareProjectDir(ccode)
 			var file:File;
 			if(ApplicationManager.sharedManager().system==ApplicationManager.WINDOWS){
@@ -1804,18 +1673,6 @@ void updateVar(char * varName,double * var)
 				cmd = " -c -g -x -assembler-with-cpp -mmcu=atmega168 -DF_CPU=16000000L -DARDUINO=10605 -MMD -DUSB_VID=null -DUSB_PID=null -I"+path+avrPath+"/cores/arduino -I"+path+avrPath+"/variants/standard -"+path+avrPath+"/cores/arduino/wiring_pulse.S";
 			}
 			
-			/*
-			 * manipulate the cmd 
-			*/
-			
-			cmd = " -c -g -x -assembler-with-cpp -mmcu=atmega168 -DF_CPU=16000000L -DARDUINO=10605 -MMD -DUSB_VID=null -DUSB_PID=null -I"
-				+path+avrPath
-				+"/cores/arduino -I"
-				+path+avrPath
-				+"/variants/standard -"
-				+path+avrPath
-				+"/cores/arduino/wiring_pulse.S";	
-			
 			var arg:Array = cmd.split(" -")
 			var processArgs:Vector.<String> = new Vector.<String>(); 
 			for(var i:int=0;i<arg.length;i++){
@@ -1832,26 +1689,6 @@ void updateVar(char * varName,double * var)
 			nativeProcessStartupInfo.arguments = processArgs;
 			nativeWorkList.push(nativeProcessStartupInfo);
 		
-			/*
-			 * Execute through Arduino IDE 
-			*/
-//			var nativeProcessStartupInfo:NativeProcessStartupInfo = new NativeProcessStartupInfo();
-//			
-//			var mp:File = new File();
-//			mp = mp.resolvePath('native\path\to\mediaplayer.exe');
-//			
-//			nativeProcessStartupInfo.executable = mp;
-//			
-//			var args:Vector.<String> = new Vector.<String>();
-//			
-//			args.push('mySong.mp3');
-//			
-//			nativeProcessStartupInfo.arguments = args;
-//			
-//			var process:NativeProcess = new NativeProcess();
-//			
-//			process.start(nativeProcessStartupInfo);
-//		
 		}
 		private function compileElf(token:String,dir:File,elf:Array):void
 		{
