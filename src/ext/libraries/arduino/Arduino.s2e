@@ -43,7 +43,7 @@
         {"encode":"{d0}{d1}","setup":"pinMode({1},OUTPUT);\n","inc":"","def":"","work":"digitalWrite({1},{0});\n","loop":""}],
 
         ["w", "send to server %s as %m.types","sendToServer", "","Temperature",
-        {"encode":"{s0}{d1}","setup":"","inc":"","def":"","work":"json = String(\"{ \\\"{1} \\\" : \") +  {0} + \"}\";\n json.toCharArray(buffer, json.length() + 1);\n client.publish(\"user_id\", buffer );\n","loop":""}]
+        {"encode":"{s0}{d1}","setup":"","inc":"","def":"","work":"json = String(\"{ \\\"{1}\\\" : \") +  {0} + \"}\";\n json.toCharArray(buffer, json.length() + 1);\n client.publish(\"user_id\", buffer );\n","loop":""}]
 
 	],
 	"menus": {

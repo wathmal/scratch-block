@@ -11,7 +11,7 @@
 	<!-- A universally unique application identifier. Must be unique across 
 		all AIR applications. Using a reverse DNS-style name as the id is recommended. 
 		(Eg. com.example.ExampleApplication.) Required. -->
-	<id>com.makeblock.Scratch</id>
+	<id>MBlock</id>
 
 	<!-- Used as the filename for the application. Required. -->
 	<filename>mBlock</filename>
@@ -19,7 +19,7 @@
 	<!-- The name that is displayed in the AIR application installer. May have 
 		multiple values for each language. See samples or xsd schema file. Optional. -->
 	<name>
-		<text xml:lang="zh-CN">mBlock - 创客工场</text>
+        <text xml:lang="zh-CN">mBlock - 创客工场</text>
 		<text xml:lang="EN">mBlock - Based On Scratch From the MIT Media Lab
 		</text>
 	</name>

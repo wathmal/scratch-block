@@ -310,8 +310,19 @@ public class ScriptsPart extends UIPart {
 	public function get isArduinoMode():Boolean{
 		return arduinoFrame.visible;
 	}
+	
+	/**
+	 * Upload Button Action
+	 */
 	private function onCompileArduino(evt:MouseEvent):void{
+		
 		if(SerialManager.sharedManager().isConnected){
+			
+			/**
+			 * Upload code using serial com 
+			 */
+//			SerialManager.sharedManager().sendString(arduinoTextPane.textField.text);
+			
 			if(ArduinoManager.sharedManager().isUploading==false){
 				messageTextPane.clear();
 				if(showArduinoCode()){

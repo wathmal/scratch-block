@@ -1,18 +1,18 @@
 <xml>
 <category id="0" name="undefined" color="0xD42828"/>
-<category id="1" name="Motion" color="0x4a6cd4"/>
+<!-- <category id="1" name="Motion" color="0x4a6cd4"/>
 <category id="2" name="Looks" color="0x8a55d7"/>
 <category id="3" name="Sound" color="0xbb42c3"/>
-<category id="4" name="Pen" color="0x0e9a6c"/>
-<category id="5" name="Events" color="0xc88330"/>
+<category id="4" name="Pen" color="0x0e9a6c"/> -->
+<!-- <category id="5" name="Events" color="0xc88330"/> -->
 <category id="6" name="Control" color="0xe1a91a"/>
-<category id="7" name="Sensing" color="0x2ca5e2"/>
+<!-- <category id="7" name="Sensing" color="0x2ca5e2"/> -->
 <category id="8" name="Operators" color="0x5cb712"/>
 <category id="9" name="Data&Blocks" color="0xEE7D16"/>
 <category id="10" name="Robots" color="0x0a8698"/>
-<category id="11" name="Parameter" color="0x5947B1"/>
+<!-- <category id="11" name="Parameter" color="0x5947B1"/>
 <category id="12" name="List" color="0xCC5B22"/>
-<category id="20" name="Extension" color="0x0a8698"/>
+<category id="20" name="Extension" color="0x0a8698"/> -->
 <command category="1" type=" " opcode="forward:" spec="move %n steps">[10]</command>
 <command category="1" type=" " opcode="turnRight:" spec="turn @turnRight %n degrees">[15]</command>
 <command category="1" type=" " opcode="turnLeft:" spec="turn @turnLeft %n degrees">[15]</command>

@@ -15,7 +15,6 @@ package extensions
 	import flash.net.URLRequest;
 	import flash.net.URLRequestMethod;
 	import flash.net.URLVariables;
-	import flash.net.navigateToURL;
 	import flash.system.Capabilities;
 	import flash.utils.getQualifiedClassName;
 	
@@ -24,14 +23,9 @@ package extensions
 	
 	import cc.makeblock.mbot.util.StringUtil;
 	
-	import translation.Translator;
-	
-	import uiwidgets.DialogBox;
-	
 	import util.ApplicationManager;
 	import util.JSON;
 	import util.LogManager;
-	import util.SharedObjectManager;
 	
 	public class ArduinoManager extends EventDispatcher
 	{
@@ -94,123 +88,138 @@ package extensions
 		public var mainX:int = 0;
 		public var mainY:int = 0;
 		
-		/*
-		
-		char buffer[64];
-		String lastLine;
-		int bufferIndex = 0;
-		boolean dataLineAvailable(){
-		if(Serial.available()){
-		char c = Serial.read();
-		if(c=='\n'){
-		buffer[bufferIndex] = 0;
-		return true;
-		}else{
-		buffer[bufferIndex]=c;
-		bufferIndex++;
-		}
-		}
-		return false;
-		}
-		String readDataLine(){
-		if(bufferIndex>0){
-		lastLine = buffer;
-		}
-		bufferIndex = 0;
-		memset(buffer,0,64);
-		return lastLine;
-		}
-		String concatenateWith(String s1,String s2){
-		return s1+s2;
-		}
-		char letterOf(int i,String s){
-		return s.charAt(i);
-		}
-		int stringLength(String s){
-		return s.length();
-		}		
-		*/
-		
+		/**
+		 * Main code template
+		 */	
 		private var codeTemplate:String = ( <![CDATA[
-#include <Wire.h>
-#include <Servo.h>
-#include <SoftwareSerial.h>
-#include <ESP8266WiFi.h>
-#include <PubSubClient.h>
+		
+		//include
 
-//include
-double angle_rad = PI/180.0;
-double angle_deg = 180.0/PI;
-String json;
-char buffer[100];
+		//define
+		
+		// adc config
+		if adc.force_init_mode(adc.INIT_VDD33)
+		then
+		  node.restart()
+		  return -- don't bother continuing, the restart is scheduled
+		end
 
-const char* ssid = "DR";
-const char* password = "Dula@0201";
-const char* mqtt_server = "192.168.88.100";
-WiFiClient espClient;
-PubSubClient client(espClient);
+		//connect to Wifi
+		wifi.sta.config("DR", "Dula@0201")
+		
+		//MQTT Client configuration
+		m = mqtt.Client("user_id", 120, "", "")
+				
+		m:on("connect", function(client) print ("connected To MQTT Server!") end)
+		m:on("offline", function(client) print ("offline") end)
+		
+		//on publish message receive event
+//		m:on("message", function(client, topic, data) 
+//		  print(topic .. ":" ) 
+//		  if data ~= nil then
+//		    print(data)
+//		  end
+//		end)
+		
+//		-- for TLS: m:connect("192.168.11.118", secure-port, 1)
+		m:connect("192.168.88.100", 1883, 0, function(client) print("Connected TO MQTT Server Successfully!") end, function(client, reason) print("failed reason: "..reason) end)
 
-//define
-//serialParser
-//function
-void setup(){
-//setup
-	Serial.begin(115200);
-	setup_wifi();
-	client.setServer(mqtt_server, 1883);
-}
-void reconnect() {
-	// Loop until we're reconnected
-	while (!client.connected()) {
-	Serial.print("Attempting MQTT connection...");
-	// Attempt to connect
-	if (client.connect("temp_1")) {
-	Serial.println("connected");
-	// Once connected, publish an announcement...
-	client.publish("temperature_1",  itoa(analogRead(A0), buffer, 10) );
-	// ... and resubscribe
-	client.subscribe("test-temp-1");
-	} else {
-	Serial.print("failed, rc=");
-	Serial.print(client.state());
-	Serial.println(" try again in 5 seconds");
-	// Wait 5 seconds before retrying
-	delay(5000);
-	}
-	}
-	}
+//		m:subscribe("user_id",0, function(client) print("subscribe success") end)
 
-void setup_wifi() {
+//		m:publish("user_id","hello",0,0, function(client) print("sent") end)
 
-	delay(10);
-	// We start by connecting to a WiFi network
-	Serial.println();
-	Serial.print("Connecting to ");
-	Serial.println(ssid);
+		//serialParser
 
-	WiFi.begin(ssid, password);
+		//function
+		
+		//setup
+		
+		//serialParserCall
 
-	while (WiFi.status() != WL_CONNECTED) {
-	delay(500);
-	Serial.print(".");
-	}
-
-	Serial.println("");
-	Serial.println("WiFi connected");
-	Serial.println("IP address: ");
-	Serial.println(WiFi.localIP());
-	}
-
-void loop(){
-//serialParserCall
-//loop
-	if (!client.connected()) {
-	reconnect();
-	}
-	client.loop();
-}
-
-]]> ).toString();//delay(50);
+		//loop
+		
+		]]> ).toString();//delay(50);
+		
+//		private var codeTemplate:String = ( <![CDATA[
+//#include <Wire.h>
+//#include <Servo.h>
+//#include <SoftwareSerial.h>
+//#include <ESP8266WiFi.h>
+//#include <PubSubClient.h>
+//
+////include
+//double angle_rad = PI/180.0;
+//double angle_deg = 180.0/PI;
+//String json;
+//char buffer[100];
+//
+//const char* ssid = "DR";
+//const char* password = "Dula@0201";
+//const char* mqtt_server = "192.168.88.100";
+//WiFiClient espClient;
+//PubSubClient client(espClient);
+//
+////define
+////serialParser
+////function
+//void setup(){
+////setup
+//	Serial.begin(115200);
+//	setup_wifi();
+//	client.setServer(mqtt_server, 1883);
+//}
+//void reconnect() {
+//	// Loop until we're reconnected
+//	while (!client.connected()) {
+//	Serial.print("Attempting MQTT connection...");
+//	// Attempt to connect
+//	if (client.connect("temp_1")) {
+//	Serial.println("connected");
+//	// Once connected, publish an announcement...
+//	client.publish("temperature_1",  itoa(analogRead(A0), buffer, 10) );
+//	// ... and resubscribe
+//	client.subscribe("test-temp-1");
+//	} else {
+//	Serial.print("failed, rc=");
+//	Serial.print(client.state());
+//	Serial.println(" try again in 5 seconds");
+//	// Wait 5 seconds before retrying
+//	delay(5000);
+//	}
+//	}
+//	}
+//
+//void setup_wifi() {
+//
+//	delay(10);
+//	// We start by connecting to a WiFi network
+//	Serial.println();
+//	Serial.print("Connecting to ");
+//	Serial.println(ssid);
+//
+//	WiFi.begin(ssid, password);
+//
+//	while (WiFi.status() != WL_CONNECTED) {
+//	delay(500);
+//	Serial.print(".");
+//	}
+//
+//	Serial.println("");
+//	Serial.println("WiFi connected");
+//	Serial.println("IP address: ");
+//	Serial.println(WiFi.localIP());
+//	}
+//
+//void loop(){
+////serialParserCall
+////loop
+//	if (!client.connected()) {
+//	reconnect();
+//	}
+//	client.loop();
+//}
+//
+//]]> ).toString();//delay(50);
 		
 		private var codeSerialParser:String = ( <![CDATA[
 char inputBuf[64];
@@ -347,7 +356,7 @@ void updateVar(char * varName,double * var)
 			var code:String = StringUtil.substitute("({0}) {1} ({2})",mp1.type=="obj"?mp1.code.code:mp1.code ,op,mp2.type=="obj"?mp2.code.code:mp2.code);
 			if(op=="=="){
 				if(mp1.type=="string"&&mp2.type=="string"){
-					code = StringUtil.substitute("({0}.equals(\"{1}\"))",mp1.code,mp2.code);
+					code = StringUtil.substitute("({0}.	equals(\"{1}\"))",mp1.code,mp2.code);
 				}else{
 					code = StringUtil.substitute("(({0})==({1}))",mp1.type=="obj"?mp1.code.code:mp1.code,mp2.type=="obj"?mp2.code.code:mp2.code);
 				}
@@ -400,15 +409,20 @@ void updateVar(char * varName,double * var)
 			var funcode:CodeObj=new CodeObj(StringUtil.substitute("Serial.print(\"{0}=\");Serial.println(\"{1}\");\n",param,param));
 			return funcode;
 		}
-		
+		/**
+		 * Modified
+		 */
 		private function parseDelay(fun:Object):String{
 			var cBlk:CodeBlock=getCodeBlock(fun[1]);
-			var funcode:String=(StringUtil.substitute("delay(1000*{0});\n",cBlk.type=="obj"?cBlk.code.code:cBlk.code));
+			var funcode:String=(StringUtil.substitute("tmr.delay(1000*{0})\n",cBlk.type=="obj"?cBlk.code.code:cBlk.code));
 			return funcode;
 		}
+		/**
+		 * Modified
+		 */
 		private function parseDoRepeat(blk:Object):String{
 			var initCode:CodeBlock = getCodeBlock(blk[1]);
-			var repeatCode:String=StringUtil.substitute("for(int i=0;i<{0};i++)\n{\n",initCode.type=="obj"?initCode.code.code:initCode.code);
+			var repeatCode:String=StringUtil.substitute("for(var i=0,i<{0},i++)\ndo\n",initCode.type=="obj"?initCode.code.code:initCode.code);
 			if(blk[2]!=null){
 				for(var i:int=0;i<blk[2].length;i++){
 					var b:Object = blk[2][i]
@@ -416,17 +430,23 @@ void updateVar(char * varName,double * var)
 					repeatCode+=cBlk.type=="obj"?cBlk.code.code:cBlk.code;
 				}
 			}
-			repeatCode+="}\n";
+			repeatCode+="end\n";
 			return repeatCode;
 		}
+		/**
+		 * Modified
+		 */
 		private function parseDoWaitUntil(blk:Object):String{
 			var initCode:CodeBlock = getCodeBlock(blk[1]);
-			var untilCode:String=StringUtil.substitute("while(!({0}));\n",initCode.type=="obj"?initCode.code.code:initCode.code);
+			var untilCode:String=StringUtil.substitute("while(!({0}))\ndo\nend\n",initCode.type=="obj"?initCode.code.code:initCode.code);
 			return (untilCode);
 		}
+		/**
+		 * Modified
+		 */
 		private function parseDoUntil(blk:Object):String{
 			var initCode:CodeBlock = getCodeBlock(blk[1]);
-			var untilCode:String=StringUtil.substitute("while(!({0}))\n{\n",initCode.type=="obj"?initCode.code.code:initCode.code);
+			var untilCode:String=StringUtil.substitute("while(!({0}))\ndo\n",initCode.type=="obj"?initCode.code.code:initCode.code);
 			if(blk[2]!=null){
 				for(var i:int=0;i<blk[2].length;i++){
 					var b:Object = blk[2][i]
@@ -434,7 +454,7 @@ void updateVar(char * varName,double * var)
 					untilCode+=cBlk.type=="obj"?cBlk.code.code:cBlk.code;
 				}
 			}
-			untilCode+="}\n";
+			untilCode+="end\n";
 			return (untilCode);
 		}
 		private function parseCall(blk:Object):String{
@@ -1426,12 +1446,15 @@ void updateVar(char * varName,double * var)
 				ccode = ccode.replace("void setup(){",serialParserInoFile+"\nvoid setup(){"); // too tricky here?
 			}
 			
+//			pushThroughArduino(workdir.resolvePath(projectDocumentName+".ino").nativePath );
+			
 			// get MeModule source list
 			var files:Array = workdir.getDirectoryListing()
 			projectPath = workdir.nativePath
 			// get build dir ready
 			workdir = workdir.resolvePath("build")
 			workdir.createDirectory()
+				
 			// yzj, don't use pre-build object any more, build from arduino libs
 			/*
 			// prepare build directory
@@ -1467,6 +1490,31 @@ void updateVar(char * varName,double * var)
 			return ""
 		}
 		
+		/**
+		 * Upload using Arduino IDE
+		 */
+		private function pushThroughArduino(projectDocumentName:String):void{
+			
+			var nativeProcessStartupInfo:NativeProcessStartupInfo = new NativeProcessStartupInfo();
+			
+			var arduinoPath:String ="C:/Users/Dulaj/Documents/FYP/scratch-block/bin-debug/Arduino";
+			var mp:File = new File();
+			mp = mp.resolvePath(arduinoPath+"/arduino.exe");
+			
+			nativeProcessStartupInfo.executable = mp;
+			
+			var args:Vector.<String> = new Vector.<String>();
+			
+			args.push("--upload");
+			args.push(projectDocumentName);
+			
+			nativeProcessStartupInfo.arguments = args;
+			
+			var process:NativeProcess = new NativeProcess();
+			
+			process.start(nativeProcessStartupInfo);
+			
+		}
 		
 		public function openArduinoIDE(ccode:String):String{
 			/*
@@ -1756,6 +1804,18 @@ void updateVar(char * varName,double * var)
 				cmd = " -c -g -x -assembler-with-cpp -mmcu=atmega168 -DF_CPU=16000000L -DARDUINO=10605 -MMD -DUSB_VID=null -DUSB_PID=null -I"+path+avrPath+"/cores/arduino -I"+path+avrPath+"/variants/standard -"+path+avrPath+"/cores/arduino/wiring_pulse.S";
 			}
 			
+			/*
+			 * manipulate the cmd 
+			*/
+			
+			cmd = " -c -g -x -assembler-with-cpp -mmcu=atmega168 -DF_CPU=16000000L -DARDUINO=10605 -MMD -DUSB_VID=null -DUSB_PID=null -I"
+				+path+avrPath
+				+"/cores/arduino -I"
+				+path+avrPath
+				+"/variants/standard -"
+				+path+avrPath
+				+"/cores/arduino/wiring_pulse.S";	
+			
 			var arg:Array = cmd.split(" -")
 			var processArgs:Vector.<String> = new Vector.<String>(); 
 			for(var i:int=0;i<arg.length;i++){
@@ -1771,6 +1831,27 @@ void updateVar(char * varName,double * var)
 			processArgs.push("./wiring_pulse.S.o");
 			nativeProcessStartupInfo.arguments = processArgs;
 			nativeWorkList.push(nativeProcessStartupInfo);
+		
+			/*
+			 * Execute through Arduino IDE 
+			*/
+//			var nativeProcessStartupInfo:NativeProcessStartupInfo = new NativeProcessStartupInfo();
+//			
+//			var mp:File = new File();
+//			mp = mp.resolvePath('native\path\to\mediaplayer.exe');
+//			
+//			nativeProcessStartupInfo.executable = mp;
+//			
+//			var args:Vector.<String> = new Vector.<String>();
+//			
+//			args.push('mySong.mp3');
+//			
+//			nativeProcessStartupInfo.arguments = args;
+//			
+//			var process:NativeProcess = new NativeProcess();
+//			
+//			process.start(nativeProcessStartupInfo);
+//		
 		}
 		private function compileElf(token:String,dir:File,elf:Array):void
 		{

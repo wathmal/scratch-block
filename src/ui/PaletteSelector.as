@@ -48,9 +48,13 @@ public class PaletteSelector extends Sprite {
 		return false;
 	}
 	
+//	private static const categories:Array = [
+//		'Motion', 'Looks', 'Sound', 'Pen', 'Data&Blocks', // column 1
+//		'Events', 'Control', 'Sensing', 'Operators', 'Robots']; // column 2
+	
 	private static const categories:Array = [
-		'Motion', 'Looks', 'Sound', 'Pen', 'Data&Blocks', // column 1
-		'Events', 'Control', 'Sensing', 'Operators', 'Robots']; // column 2
+		'Control', 'Data&Blocks', // column 1
+		'Operators', 'Robots']; // column 2
 
 	public var selectedCategory:int = 0;
 	private var app:MBlock;
@@ -83,7 +87,7 @@ public class PaletteSelector extends Sprite {
 	}
 
 	private function initCategories():void {
-		const numberOfRows:int = 5;
+		const numberOfRows:int = 2;
 		const w:int = 208+60;
 		const startY:int = 3;
 		var itemH:int;
