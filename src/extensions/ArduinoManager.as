@@ -26,7 +26,6 @@ package extensions
 	import util.ApplicationManager;
 	import util.JSON;
 	import util.LogManager;
-	import util.SharedObjectManager;
 	
 	public class ArduinoManager extends EventDispatcher
 	{
