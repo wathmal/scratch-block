@@ -42,6 +42,8 @@ package ui.parts {
 	import extensions.ArduinoManager;
 	import extensions.SerialManager;
 	
+	import org.aswing.error.UnsupportedError;
+	
 	import scratch.ScratchObj;
 	import scratch.ScratchSprite;
 	import scratch.ScratchStage;
@@ -315,21 +317,26 @@ public class ScriptsPart extends UIPart {
 	 * Upload Button Action
 	 */
 	private function onCompileArduino(evt:MouseEvent):void{
-		
+
+		trace("code");
+		var code:String = arduinoTextPane.textField.text.toString();
+		var a:Array= code.split('\r');
+		trace(code);
 		if(SerialManager.sharedManager().isConnected){
 			
 			/**
 			 * Upload code using serial com 
 			 */
+
 //			SerialManager.sharedManager().sendString(arduinoTextPane.textField.text);
 			
-			if(ArduinoManager.sharedManager().isUploading==false){
-				messageTextPane.clear();
-				if(showArduinoCode()){
-					messageTextPane.append(ArduinoManager.sharedManager().arduinoInstallPath);
-					messageTextPane.append(ArduinoManager.sharedManager().buildAll(arduinoTextPane.textField.text));
-				}
-			}
+//			if(ArduinoManager.sharedManager().isUploading==false){
+//				messageTextPane.clear();
+//				if(showArduinoCode()){
+//					messageTextPane.append(ArduinoManager.sharedManager().arduinoInstallPath);
+//					messageTextPane.append(ArduinoManager.sharedManager().buildAll(arduinoTextPane.textField.text));
+//				}
+//			}
 		}else{
 			var dialog:DialogBox = new DialogBox();
 			dialog.addTitle("Message");

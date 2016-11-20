@@ -110,13 +110,22 @@ package extensions
 		m:on("connect", function(client) print ("connected To MQTT Server!") end)
 		m:on("offline", function(client) print ("offline on mqtt") end)
 		
+		function mainloop()
+			//loop
+		end	
+
 		function mqttcon()
 		    if wifi.sta.getip()== nil then
 		        print("IP unavailable, Waiting...")
 		    else
 		    tmr.stop(1)
-		    m:connect("192.168.88.100", 1883, 0, function(client) print("connected to mqtt") end, function(client, reason) print("failed reason: "..reason) end) 
-		    end    
+		    m:connect("192.168.88.100", 1883, 0, 
+			function(client) 
+				print("connected to mqtt") end, 
+			function(client, reason) 
+				print("failed on MQTT due to : "..reason) end) 
+				tmr.alarm(2,500,1,mainloop)			    
+			end
 		end
 
 		tmr.alarm(1,5000,1,mqttcon)
@@ -124,11 +133,6 @@ package extensions
 		//function
 		//setup
 		//serialParserCall
-		function mainloop()
-			//loop
-		end	
-		tmr.alarm(2,500,1,mainloop)		
-			
 		]]> ).toString();//delay(50);
 		
 		private var codeSerialParser:String = ( <![CDATA[
@@ -752,7 +756,7 @@ void updateVar(char * varName,double * var)
 //				var skey:String = String(key).toString();
 //				trace(getCodeBlock(blk[1]).code);
 //				trace(skey);
-				codeBlock.code = new CodeObj(StringUtil.substitute("m:publish(\"user_id\",cjson.encode({ "+key.toLowerCase()+"= {0}}),0,0, function(client) print(\"sent\") end)",getCodeBlock(blk[1]).code));
+				codeBlock.code = new CodeObj(StringUtil.substitute("m:publish(\"user_id\",cjson.encode({ "+key.toLowerCase()+"= {0}}),0,0, function(client) print(\"sent\") end)\n",getCodeBlock(blk[1]).code));
 				return codeBlock;
 			}
 			
