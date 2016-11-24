@@ -145,6 +145,13 @@ package extensions
 			}
 			return new ByteArray;
 		}
+		public function readString():String{
+			var len:uint = _serial.getAvailable();
+			if(len>0){
+				return _serial.readString();
+			}
+			return new String;
+		}
 		public function get board():String{
 			return _board;
 		}
@@ -157,7 +164,7 @@ package extensions
 		public function get device():String{
 			return _device;
 		}
-		public function open(port:String,baud:uint=115200):Boolean{
+		public function open(port:String,baud:uint=9600):Boolean{
 			if(_serial.isConnected){
 				_serial.close();
 			}
@@ -167,7 +174,7 @@ package extensions
 			_selectPort = port;
 			if(r==0){
 				ArduinoManager.sharedManager().isUploading = false;
-				MBlock.app.topBarPart.setConnectedTitle("Serial Port");
+				MBlock.app.topBarPart.setConnectedTitle("Serial Port "+currentPort);
 			}
 			return r == 0;
 		}
@@ -186,6 +193,7 @@ package extensions
 					close();
 				}
 				setTimeout(ConnectionManager.sharedManager().onOpen,100,port);
+				currentPort=port;
 			}
 			return 0;
 		}
