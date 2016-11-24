@@ -367,7 +367,10 @@ public class ScriptsPart extends UIPart {
 		processArgs.push("app.lua");
 		processArgs.push("--dest");
 		processArgs.push("app.lua");
+		processArgs.push("--dofile");
 		processArgs.push("--verbose");
+//		processArgs.push("--baud");
+//		processArgs.push("115200");
 
 		nativeProcessStartupInfo.arguments = processArgs;
 		var process:NativeProcess = new NativeProcess();
