@@ -26,6 +26,7 @@ package extensions
 	import util.ApplicationManager;
 	import util.JSON;
 	import util.LogManager;
+	import util.SharedObjectManager;
 	
 	public class ArduinoManager extends EventDispatcher
 	{
@@ -92,43 +93,48 @@ package extensions
 		 * Main code template
 		 */	
 		private var codeTemplate:String = ( <![CDATA[//include
-		//define
-		-- adc config
-		--if adc.force_init_mode(adc.INIT_VDD33)
-		--then
-		  --node.restart()
-		  --return -- don't bother continuing, the restart is scheduled
-		--end
+//define
+//setup
+	
+-- adc config
+--if adc.force_init_mode(adc.INIT_VDD33)
+--then
+  --node.restart()
+  --return -- don't bother continuing, the restart is scheduled
+--end
 
-		-- connect to Wifi
-		wifi.setmode(wifi.STATION)
-		wifi.sta.config("DR", "Dula@0201")
-		
-		-- MQTT Client configuration
-		m = mqtt.Client("user_id", 120, "", "")
-		m:on("connect", function(client) print ("connected To MQTT Server!") end)
-		m:on("offline", function(client) print ("offline on mqtt") end)
-		
-		function mqttcon()
-		    if wifi.sta.getip()== nil then
-		        print("IP unavailable, Waiting...")
-		    else
-		    tmr.stop(1)
-		    m:connect("192.168.88.100", 1883, 0, function(client) print("connected to mqtt") end, function(client, reason) print("failed reason: "..reason) end) 
-		    end    
-		end
+-- connect to Wifi
+wifi.setmode(wifi.STATION)
+wifi.sta.config("DR", "Dula@0201")
 
-		tmr.alarm(1,5000,1,mqttcon)
-		//serialParser
-		//function
-		//setup
-		//serialParserCall
-		function mainloop()
-			//loop
-		end	
-		tmr.alarm(2,500,1,mainloop)		
-			
-		]]> ).toString();//delay(50);
+-- MQTT Client configuration
+m = mqtt.Client("user_id", 120, "", "")
+m:on("connect", function(client) print ("connected to MQTT server!") end)
+m:on("offline", function(client) print ("mqtt offline") end)
+
+function mainloop()
+	//loop
+end	
+
+function mqttcon()
+    if wifi.sta.getip()== nil then
+        print("ip unavailable, waiting...")
+    else
+    tmr.stop(1)
+    m:connect("192.168.88.100", 1883, 0, 
+	function(client) 
+		print("connected to mqtt") end, 
+	function(client, reason) 
+		print("failed on MQTT due to : "..reason) end) 
+		tmr.alarm(2,500,1,mainloop)			    
+	end
+end
+
+tmr.alarm(1,5000,1,mqttcon)
+//serialParser
+//function
+//serialParserCall
+]]> ).toString();//delay(50);
 		
 		private var codeSerialParser:String = ( <![CDATA[
 char inputBuf[64];
@@ -404,6 +410,7 @@ void updateVar(char * varName,double * var)
 			var callCode:String = StringUtil.substitute("{0}({1});\n",ps[0],vars);
 			return (callCode);
 		}
+//		what is the use of this ?
 		private function addFunction(blks:Array):void{
 			var funcName:String = blks[0][1].split("&").join("_");
 			for each(var o:Object in funcList){ 
@@ -501,15 +508,15 @@ void updateVar(char * varName,double * var)
 		private function parseComputeFunction(blk:Object):String{
 			var cBlk:CodeBlock = getCodeBlock(blk[2]);
 			if(blk[1]=="10 ^"){
-				return StringUtil.substitute("pow(10,{0})",cBlk.code);
+				return StringUtil.substitute("math.pow(10,{0})",cBlk.code);
 			}else if(blk[1]=="e ^"){
-				return StringUtil.substitute("exp({0})",cBlk.code);
+				return StringUtil.substitute("math.exp({0})",cBlk.code);
 			}else if(blk[1]=="ceiling"){
-				return StringUtil.substitute("ceil({0})",cBlk.code);
+				return StringUtil.substitute("math.ceil({0})",cBlk.code);
 			}else if(blk[1]=="log"){
-				return StringUtil.substitute("log10({0})",cBlk.code);
+				return StringUtil.substitute("math.log10({0})",cBlk.code);
 			}else if(blk[1]=="ln"){
-				return StringUtil.substitute("log({0})",cBlk.code);
+				return StringUtil.substitute("math.log({0})",cBlk.code);
 			}
 			
 			return StringUtil.substitute("{0}({1})",getCodeBlock(blk[1]).code,cBlk.code).split("sin(").join("sin(angle_rad*").split("cos(").join("cos(angle_rad*").split("tan(").join("tan(angle_rad*");
@@ -751,7 +758,7 @@ void updateVar(char * varName,double * var)
 //				var skey:String = String(key).toString();
 //				trace(getCodeBlock(blk[1]).code);
 //				trace(skey);
-				codeBlock.code = new CodeObj(StringUtil.substitute("m:publish(\"user_id\",cjson.encode({ "+key.toLowerCase()+"= {0}}),0,0, function(client) print(\"sent\") end)",getCodeBlock(blk[1]).code));
+				codeBlock.code = new CodeObj(StringUtil.substitute("m:publish(\"user_id\",cjson.encode({ "+key.toLowerCase()+"= {0}}),0,0, function(client) print(\"sent\") end)\n",getCodeBlock(blk[1]).code));
 				return codeBlock;
 			}
 			
@@ -911,7 +918,7 @@ void updateVar(char * varName,double * var)
 			code = code.replace("//serialParserCall","parseSerialInput();").replace("//serialParser",codeParser);
 			return code;
 		}
-		
+//		make this to work with lua
 		private function fixTabs(code:String):String{
 			var tmp:String = "";
 			var tabindex:int=0

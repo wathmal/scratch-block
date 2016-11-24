@@ -135,6 +135,7 @@ package extensions
 			}
 		}
 		public function sendString(msg:String):int{
+			trace(msg);
 			return _serial.writeString(msg);
 		}
 		public function readBytes():ByteArray{

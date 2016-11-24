@@ -42,6 +42,8 @@ package ui.parts {
 	import extensions.ArduinoManager;
 	import extensions.SerialManager;
 	
+	import org.aswing.error.UnsupportedError;
+	
 	import scratch.ScratchObj;
 	import scratch.ScratchSprite;
 	import scratch.ScratchStage;
@@ -315,21 +317,26 @@ public class ScriptsPart extends UIPart {
 	 * Upload Button Action
 	 */
 	private function onCompileArduino(evt:MouseEvent):void{
-		
+
+		trace("code");
+		var code:String = arduinoTextPane.textField.text.toString();
+		var a:Array= code.split('\r');
+		trace(code);
 		if(SerialManager.sharedManager().isConnected){
 			
 			/**
 			 * Upload code using serial com 
 			 */
+
 //			SerialManager.sharedManager().sendString(arduinoTextPane.textField.text);
 			
-			if(ArduinoManager.sharedManager().isUploading==false){
-				messageTextPane.clear();
-				if(showArduinoCode()){
-					messageTextPane.append(ArduinoManager.sharedManager().arduinoInstallPath);
-					messageTextPane.append(ArduinoManager.sharedManager().buildAll(arduinoTextPane.textField.text));
-				}
-			}
+//			if(ArduinoManager.sharedManager().isUploading==false){
+//				messageTextPane.clear();
+//				if(showArduinoCode()){
+//					messageTextPane.append(ArduinoManager.sharedManager().arduinoInstallPath);
+//					messageTextPane.append(ArduinoManager.sharedManager().buildAll(arduinoTextPane.textField.text));
+//				}
+//			}
 		}else{
 			var dialog:DialogBox = new DialogBox();
 			dialog.addTitle("Message");
@@ -397,10 +404,11 @@ public class ScriptsPart extends UIPart {
 		var fontOrange:TextFormat = new TextFormat("Arial",14,0x996600);
 		var fontRed:TextFormat = new TextFormat("Arial",14,0x990000);
 		var fontBlue:TextFormat = new TextFormat("Arial",14,0x000099);
-		formatKeyword(arduinoTextPane.textField,"String ",fontRed,0,1);
-		formatKeyword(arduinoTextPane.textField,"int ",fontRed,0,1);
+
+		formatKeyword(arduinoTextPane.textField,"local ",fontRed,0,1);
+/*		formatKeyword(arduinoTextPane.textField,"int ",fontRed,0,1);
 		formatKeyword(arduinoTextPane.textField,"char ",fontRed,0,1);
-		formatKeyword(arduinoTextPane.textField,"double ",fontRed,0,1); 
+		formatKeyword(arduinoTextPane.textField,"double ",fontRed,0,1);
 		formatKeyword(arduinoTextPane.textField,"boolean ",fontRed,0,1);
 		formatKeyword(arduinoTextPane.textField,"false",fontRed,0,0);
 		formatKeyword(arduinoTextPane.textField,"true",fontRed,0,0);
@@ -409,16 +417,18 @@ public class ScriptsPart extends UIPart {
 		formatKeyword(arduinoTextPane.textField,"if(",fontOrange,0,1);
 		formatKeyword(arduinoTextPane.textField,"else{",fontOrange,0,1);
 		formatKeyword(arduinoTextPane.textField,"while(",fontOrange,0,1);
-		formatKeyword(arduinoTextPane.textField,"#include ",fontRed,0,1);
+		formatKeyword(arduinoTextPane.textField,"#include ",fontRed,0,1);*/
 		
-		formatKeyword(arduinoTextPane.textField," setup()",fontRed,1,2);
+/*		formatKeyword(arduinoTextPane.textField," setup()",fontRed,1,2);
 		formatKeyword(arduinoTextPane.textField," loop()",fontRed,1,2);
 		formatKeyword(arduinoTextPane.textField,"Serial.",fontRed,0,1);
 		formatKeyword(arduinoTextPane.textField,".begin(",fontOrange,1,1);
 		formatKeyword(arduinoTextPane.textField,".available(",fontOrange,1,1);
-		formatKeyword(arduinoTextPane.textField,".println(",fontOrange,1,1);
-		formatKeyword(arduinoTextPane.textField,".print(",fontOrange,1,1);
-		formatKeyword(arduinoTextPane.textField,".read(",fontOrange,1,1);
+		formatKeyword(arduinoTextPane.textField,".println(",fontOrange,1,1);*/
+
+		formatKeyword(arduinoTextPane.textField,"print(",fontOrange,0,1);
+
+		/*formatKeyword(arduinoTextPane.textField,".read(",fontOrange,1,1);
 		formatKeyword(arduinoTextPane.textField,".length(",fontOrange,1,1);
 		formatKeyword(arduinoTextPane.textField,"return ",fontOrange,0,1);
 		formatKeyword(arduinoTextPane.textField,".run(",fontOrange,1,1);
@@ -459,12 +469,14 @@ public class ScriptsPart extends UIPart {
 		formatKeyword(arduinoTextPane.textField,"analogRead(",fontRed,0,1);
 		formatKeyword(arduinoTextPane.textField,"getAngle(",fontRed,0,1);
 		formatKeyword(arduinoTextPane.textField,"refresh(",fontRed,0,1);
-		formatKeyword(arduinoTextPane.textField,"update(",fontRed,0,1);
+		formatKeyword(arduinoTextPane.textField,"update(",fontRed,0,1);*/
 		
-		formatKeyword(arduinoTextPane.textField,"tone(",fontRed,0,1);
-		formatKeyword(arduinoTextPane.textField,"noTone(",fontRed,0,1);
-		formatKeyword(arduinoTextPane.textField,"Wire.",fontGreen,0,1);
-		
+/*		formatKeyword(arduinoTextPane.textField,"tone(",fontRed,0,1);
+		formatKeyword(arduinoTextPane.textField,"noTone(",fontRed,0,1);*/
+
+		formatKeyword(arduinoTextPane.textField,"function ",fontGreen,0,1);
+		formatKeyword(arduinoTextPane.textField,"end",fontGreen,0,0);
+
 		for each(var clsName:String in classNameList){
 			formatKeyword(arduinoTextPane.textField, clsName, fontGreen, 0, 0);
 		}

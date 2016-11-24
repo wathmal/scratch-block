@@ -30,10 +30,10 @@
           <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/automation_agent.swc" useDefaultLinkType="false"/>
         </excludedEntries>
       </libraryPathEntry>
-      <libraryPathEntry kind="1" linkType="1" path="C:/makeblock/libs"/>
-      <libraryPathEntry kind="5" linkType="2" path="C:/makeblock/libs/AIRSerial.ane"/>
-      <libraryPathEntry kind="5" linkType="2" path="C:/makeblock/libs/BluetoothManager.ane"/>
-      <libraryPathEntry kind="5" linkType="2" path="C:/makeblock/libs/HID2.4G.ane"/>
+      <libraryPathEntry kind="1" linkType="1" path="libs"/>
+      <libraryPathEntry kind="5" linkType="2" path="libs/AIRSerial.ane"/>
+      <libraryPathEntry kind="5" linkType="2" path="libs/BluetoothManager.ane"/>
+      <libraryPathEntry kind="5" linkType="2" path="libs/HID2.4G.ane"/>
     </libraryPath>
     <sourceAttachmentPath/>
   </compiler>
@@ -50,21 +50,21 @@
     <buildTarget buildTargetName="default" platformId="default">
       <airSettings airCertificatePath="" airTimestamp="true" anePathSet="true" version="1">
         <airExcludes>
-          <pathEntry path="soundbank"/>
-          <pathEntry path="assets"/>
-          <pathEntry path="ext"/>
-          <pathEntry path="firmware"/>
-          <pathEntry path="filters"/>
-          <pathEntry path="icons"/>
-          <pathEntry path="examples"/>
-          <pathEntry path="locale"/>
-          <pathEntry path="media"/>
           <pathEntry path="drivers"/>
+          <pathEntry path="ext"/>
+          <pathEntry path="examples"/>
+          <pathEntry path="media"/>
+          <pathEntry path="filters"/>
+          <pathEntry path="firmware"/>
+          <pathEntry path="locale"/>
+          <pathEntry path="assets"/>
+          <pathEntry path="soundbank"/>
+          <pathEntry path="icons"/>
         </airExcludes>
         <anePaths>
-          <anePathEntry path="C:/makeblock/libs/AIRSerial.ane"/>
-          <anePathEntry path="C:/makeblock/libs/BluetoothManager.ane"/>
-          <anePathEntry path="C:/makeblock/libs/HID2.4G.ane"/>
+          <anePathEntry path="libs/AIRSerial.ane"/>
+          <anePathEntry path="libs/BluetoothManager.ane"/>
+          <anePathEntry path="libs/HID2.4G.ane"/>
         </anePaths>
         <newLaunchParams/>
         <modifiedLaunchParams/>
