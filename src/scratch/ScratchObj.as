@@ -123,6 +123,7 @@ public class ScratchObj extends Sprite {
 		lastCostume = c.isBitmap() ? c : null; // cache only bitmap costumes for now
 
 		updateImage();
+		trace("costume "+c.text);
 	}
 
 	public function updateCostume():void { updateImage() }

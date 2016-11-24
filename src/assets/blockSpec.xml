@@ -127,12 +127,12 @@
 <command category="6" type=" " opcode="doWaitUntil" spec="wait until %b"/>
 <command category="6" type="c" opcode="doUntil" spec="repeat until %b"/>
 <command/>
-<command category="6" type="f" opcode="stopScripts" spec="stop %m.stop">["all"]</command>
+<!--<command category="6" type="f" opcode="stopScripts" spec="stop %m.stop">["all"]</command>
 <command/>
 <command category="6" type="h" opcode="whenCloned" spec="when I start as a clone"/>
 <command category="6" type=" " opcode="createCloneOf" spec="create clone of %m.spriteOnly"/>
 <command category="6" type="f" opcode="deleteClone" spec="delete this clone"/>
-<command/>
+<command/>-->
 <command category="106" type=" " opcode="wait:elapsed:from:" spec="wait %n secs">[1]</command>
 <command/>
 <command category="106" type="c" opcode="doRepeat" spec="repeat %n">[10]</command>

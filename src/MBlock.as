@@ -176,7 +176,7 @@ package {
 			track("/app/launch");
 			new InvokeMgr();
 			stage.nativeWindow.addEventListener(Event.CLOSING,onExiting);
-			AppUpdater.getInstance().start();
+//			AppUpdater.getInstance().start();
 			stage.align = StageAlign.TOP_LEFT;
 			stage.scaleMode = StageScaleMode.NO_SCALE;
 			
@@ -244,6 +244,7 @@ package {
 
             // set arduino mode
             changeToArduinoMode();
+			clearCachedBitmaps();
 		}
 		private function initExtension():void{
 //			ClickerManager.sharedManager().update();

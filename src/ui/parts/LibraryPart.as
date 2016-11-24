@@ -53,19 +53,17 @@ public class LibraryPart extends UIPart {
 
 	private var spritesTitle:TextField;
 	private var newSpriteLabel:TextField;
-	private var paintButton:IconButton;
+
 	private var libraryButton:IconButton;
-	private var importButton:IconButton;
-	private var photoButton:IconButton;
 
-	private var newBackdropLabel:TextField;
-	private var backdropLibraryButton:IconButton;
-	private var backdropPaintButton:IconButton;
-	private var backdropImportButton:IconButton;
-	private var backdropCameraButton:IconButton;
 
-	private var videoLabel:TextField;
-	private var videoButton:IconButton;
+
+	
+	
+
+
+	
+	
 
 	public function LibraryPart(app:MBlock) {
 		this.app = app;
@@ -75,11 +73,12 @@ public class LibraryPart extends UIPart {
 		spritesTitle = makeLabel(Translator.map('Sprites'), CSS.titleFormat, stageAreaWidth + 10, 5);
 		addChild(spritesTitle);
 
-		addChild(newSpriteLabel = makeLabel(Translator.map('New sprite:'), CSS.titleFormat, 10, 5));
+		addChild(newSpriteLabel = makeLabel(Translator.map('New widget:'), CSS.titleFormat, 10, 5));
 		addChild(libraryButton = makeButton(spriteFromLibrary, 'library'));
-		addChild(paintButton = makeButton(paintSprite, 'paintbrush'));
-		addChild(importButton = makeButton(spriteFromComputer, 'import'));
-		addChild(photoButton = makeButton(spriteFromCamera, 'camera'));
+		// TODO: remove other sprite selection btns
+		//addChild(paintButton = makeButton(paintSprite, 'paintbrush'));
+		//addChild(importButton = makeButton(spriteFromComputer, 'import'));
+		//addChild(photoButton = makeButton(spriteFromCamera, 'camera'));
 
 		addStageArea();
 		addNewBackdropButtons();
@@ -104,20 +103,20 @@ public class LibraryPart extends UIPart {
 	public function updateTranslation():void {
 		spritesTitle.text = Translator.map('Sprites');
 		newSpriteLabel.text = Translator.map('New sprite:');
-		newBackdropLabel.text = Translator.map('New backdrop:');
-		videoLabel.text = Translator.map('Video on:');
+		//newBackdropLabel.text = Translator.map('New backdrop:');
+		//videoLabel.text = Translator.map('Video on:');
 		stageThumbnail.updateThumbnail(true);
 		spriteDetails.updateTranslation();
 
 		SimpleTooltips.add(libraryButton, {text: 'Choose sprite from library', direction: 'bottom'});
-		SimpleTooltips.add(paintButton, {text: 'Paint new sprite', direction: 'bottom'});
-		SimpleTooltips.add(importButton, {text: 'Upload sprite from file', direction: 'bottom'});
-		SimpleTooltips.add(photoButton, {text: 'New sprite from camera', direction: 'bottom'});
+		//SimpleTooltips.add(paintButton, {text: 'Paint new sprite', direction: 'bottom'});
+		//SimpleTooltips.add(importButton, {text: 'Upload sprite from file', direction: 'bottom'});
+		//SimpleTooltips.add(photoButton, {text: 'New sprite from camera', direction: 'bottom'});
 
-		SimpleTooltips.add(backdropLibraryButton, {text: 'Choose backdrop from library', direction: 'bottom'});
-		SimpleTooltips.add(backdropPaintButton, {text: 'Paint new backdrop', direction: 'bottom'});
-		SimpleTooltips.add(backdropImportButton, {text: 'Upload backdrop from file', direction: 'bottom'});
-		SimpleTooltips.add(backdropCameraButton, {text: 'New backdrop from camera', direction: 'bottom'});
+//		SimpleTooltips.add(backdropLibraryButton, {text: 'Choose backdrop from library', direction: 'bottom'});
+//		SimpleTooltips.add(backdropPaintButton, {text: 'Paint new backdrop', direction: 'bottom'});
+//		SimpleTooltips.add(backdropImportButton, {text: 'Upload backdrop from file', direction: 'bottom'});
+//		SimpleTooltips.add(backdropCameraButton, {text: 'New backdrop from camera', direction: 'bottom'});
 
 		fixLayout();
 	}
@@ -147,12 +146,12 @@ public class LibraryPart extends UIPart {
 		libraryButton.x = 380;
 		if (app.stageIsContracted) libraryButton.x = 138;
 		libraryButton.y = buttonY + 0;
-		paintButton.x = libraryButton.x + libraryButton.width + 3;
-		paintButton.y = buttonY + 1;
-		importButton.x = paintButton.x + paintButton.width + 4;
-		importButton.y = buttonY + 0;
-		photoButton.x = importButton.x + importButton.width + 8;
-		photoButton.y = buttonY + 2;
+		//paintButton.x = libraryButton.x + libraryButton.width + 3;
+		//paintButton.y = buttonY + 1;
+		//importButton.x = paintButton.x + paintButton.width + 4;
+		//importButton.y = buttonY + 0;
+		//photoButton.x = importButton.x + importButton.width + 8;
+		//photoButton.y = buttonY + 2;
 
 		newSpriteLabel.x = libraryButton.x - newSpriteLabel.width - 6;
 		newSpriteLabel.y = 6;
@@ -245,7 +244,7 @@ public class LibraryPart extends UIPart {
 		}
 		if (updateThumbnails) lastUpdate = getTimer();
 		if (spriteDetails.visible) spriteDetails.step();
-		if (videoButton.visible) updateVideoButton();
+		//if (videoButton.visible) updateVideoButton();
 	}
 
 	private function addStageArea():void {
@@ -254,24 +253,24 @@ public class LibraryPart extends UIPart {
 	}
 
 	private function addNewBackdropButtons():void {
-		addChild(newBackdropLabel = makeLabel(
-			Translator.map('New backdrop:'), smallTextFormat, 3, 126));
+//		addChild(newBackdropLabel = makeLabel(
+//			Translator.map('New backdrop:'), smallTextFormat, 3, 126));
 
 		// new backdrop buttons
-		addChild(backdropLibraryButton = makeButton(backdropFromLibrary, 'landscapeSmall'));
-		addChild(backdropPaintButton = makeButton(paintBackdrop, 'paintbrushSmall'));
-		addChild(backdropImportButton = makeButton(backdropFromComputer, 'importSmall'));
-		addChild(backdropCameraButton = makeButton(backdropFromCamera, 'cameraSmall'));
+//		addChild(backdropLibraryButton = makeButton(backdropFromLibrary, 'landscapeSmall'));
+//		addChild(backdropPaintButton = makeButton(paintBackdrop, 'paintbrushSmall'));
+//		addChild(backdropImportButton = makeButton(backdropFromComputer, 'importSmall'));
+//		addChild(backdropCameraButton = makeButton(backdropFromCamera, 'cameraSmall'));
 
 		var buttonY:int = 145;
-		backdropLibraryButton.x = 4;
-		backdropLibraryButton.y = buttonY + 3;
-		backdropPaintButton.x = backdropLibraryButton.right() + 4;
-		backdropPaintButton.y = buttonY + 1;
-		backdropImportButton.x = backdropPaintButton.right() + 1;
-		backdropImportButton.y = buttonY + 0;
-		backdropCameraButton.x = backdropImportButton.right() + 5;
-		backdropCameraButton.y = buttonY + 3;
+//		backdropLibraryButton.x = 4;
+//		backdropLibraryButton.y = buttonY + 3;
+//		backdropPaintButton.x = backdropLibraryButton.right() + 4;
+//		backdropPaintButton.y = buttonY + 1;
+//		backdropImportButton.x = backdropPaintButton.right() + 1;
+//		backdropImportButton.y = buttonY + 0;
+//		backdropCameraButton.x = backdropImportButton.right() + 5;
+//		backdropCameraButton.y = buttonY + 3;
 	}
 
 	private function addSpritesArea():void {
@@ -295,17 +294,17 @@ public class LibraryPart extends UIPart {
 
 	public	function showVideoButton():void {
 		// Show the video button. Turn on the camera the first time this is called.
-		if (videoButton.visible) return; // already showing
-		videoButton.visible = true;
-		videoLabel.visible = true;
-		if (!app.stagePane.isVideoOn()) {
-			app.stagePane.setVideoState('on');
-		}
+//		if (videoButton.visible) return; // already showing
+//		videoButton.visible = true;
+//		videoLabel.visible = true;
+//		if (!app.stagePane.isVideoOn()) {
+//			app.stagePane.setVideoState('on');
+//		}
 	}
 
 	private function updateVideoButton():void {
 		var isOn:Boolean = app.stagePane.isVideoOn();
-		if (videoButton.isOn() != isOn) videoButton.setOn(isOn);
+		//if (videoButton.isOn() != isOn) videoButton.setOn(isOn);
 	}
 
 	private function addVideoControl():void {
@@ -313,18 +312,18 @@ public class LibraryPart extends UIPart {
 			app.stagePane.setVideoState(b.isOn() ? 'on' : 'off');
 			app.setSaveNeeded();
 		}
-		addChild(videoLabel = makeLabel(
-			Translator.map('Video on:'), smallTextFormat,
-			1, backdropLibraryButton.y + 22));
+//		addChild(videoLabel = makeLabel(
+//			Translator.map('Video on:'), smallTextFormat,
+//			1, backdropLibraryButton.y + 22));
 
-		videoButton = makeButton(turnVideoOn, 'checkbox');
-		videoButton.x = videoLabel.x + videoLabel.width + 1;
-		videoButton.y = videoLabel.y + 3;
-		videoButton.disableMouseover();
-		videoButton.isMomentary = false;
-		addChild(videoButton);
+		//videoButton = makeButton(turnVideoOn, 'checkbox');
+//		videoButton.x = videoLabel.x + videoLabel.width + 1;
+//		videoButton.y = videoLabel.y + 3;
+//		videoButton.disableMouseover();
+//		videoButton.isMomentary = false;
+//		addChild(videoButton);
 
-		videoLabel.visible = videoButton.visible = false; // hidden until video turned on
+		//videoLabel.visible = videoButton.visible = false; // hidden until video turned on
 	}
 
 	// -----------------------------

@@ -361,27 +361,16 @@ public class ScriptsPart extends UIPart {
 	}
 	
 	static private const classNameList:Array = [
-		"SoftwareSerial",
-		"MeBoard",
-		"MeDCMotor",
-		"MeServo",
-		"MeIR",
-		"Me7SegmentDisplay",
-		"MeRGBLed",
-		"MePort",
-		"MeGyro",
-		"MeJoystick",
-		"MeLight",
-		"MeSound",
-		"MeStepper",
-		"MeEncoderMotor",
-		"MeInfraredReceiver",
-		"MeTemperature",
-		"MeUltrasonicSensor",
-		"MeSerial",
-		"Servo",
-		"mBot",
-		"Arduino",
+		"math.",
+		"wifi.",
+		"tmr.",
+		"mqtt.",
+		"adc.",
+		"cjson.",
+		"gpio.",
+		"http.",
+		"net.",
+		"ow.",
 	];
 	
 	public function showArduinoCode(arg:String=""):Boolean{
@@ -474,11 +463,11 @@ public class ScriptsPart extends UIPart {
 /*		formatKeyword(arduinoTextPane.textField,"tone(",fontRed,0,1);
 		formatKeyword(arduinoTextPane.textField,"noTone(",fontRed,0,1);*/
 
-		formatKeyword(arduinoTextPane.textField,"function ",fontGreen,0,1);
+		formatKeyword(arduinoTextPane.textField,"function",fontGreen,0,0);
 		formatKeyword(arduinoTextPane.textField,"end",fontGreen,0,0);
 
 		for each(var clsName:String in classNameList){
-			formatKeyword(arduinoTextPane.textField, clsName, fontGreen, 0, 0);
+			formatKeyword(arduinoTextPane.textField, clsName, fontOrange, 0, 1);
 		}
 		
 		
@@ -550,7 +539,7 @@ public class ScriptsPart extends UIPart {
 	}
 	public function updateTranslation():void{
 		backBt.setLabel(Translator.map("Back"));
-		uploadBt.setLabel(Translator.map("Upload to Arduino"));
+		uploadBt.setLabel(Translator.map("Upload"));
 		openBt.setLabel(Translator.map("Edit with Arduino IDE"));
 		sendBt.setLabel(Translator.map("Send"));
 		displayModeBtn.setLabel(Translator.map(isByteDisplayMode ? "binary mode" :  "char mode"));

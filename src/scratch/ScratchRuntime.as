@@ -421,7 +421,8 @@ package scratch {
 			installProject(new ScratchStage());
 			var io:ProjectIO = new ProjectIO(app);
 			//21d7c8705a0fdeea32affb616ee6c984
-			io.fetchSprite("mcat.json", whenDone);
+			// load nodemcu sprite initially
+			io.fetchSprite("nodemcu.json", whenDone);
 		}
 	
 		public function installNewProject():void {
