@@ -5,7 +5,6 @@ package extensions
 	import flash.filesystem.File;
 	import flash.net.URLRequest;
 	import flash.net.navigateToURL;
-	import flash.signals.Signal;
 	import flash.utils.ByteArray;
 	
 	import util.ApplicationManager;

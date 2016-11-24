@@ -345,7 +345,6 @@ public class ScriptsPart extends UIPart {
 	private function writeToNodeMCU(code:String):void
 	{
 		var port:String= SerialManager.sharedManager().currentPort;
-		SerialManager.sharedManager().disconnect();
 		SerialManager.sharedManager().close();
 		trace("write code to file :" + code);
 		var codeFile:File = new File(File.applicationDirectory.resolvePath("luatool").nativePath+File.separator+"app.lua");
@@ -363,7 +362,7 @@ public class ScriptsPart extends UIPart {
 		var processArgs:Vector.<String> = new Vector.<String>();
 		processArgs.push("luatool.py")
 		processArgs.push("--port");
-		processArgs.push("COM5");
+		processArgs.push(port);
 		processArgs.push("--src");
 		processArgs.push("app.lua");
 		processArgs.push("--dest");
@@ -391,8 +390,7 @@ public class ScriptsPart extends UIPart {
 				dialog.cancel();
 			});
 			dialog.showOnStage(app.stage);
-			SerialManager.sharedManager().connect(port);
-			SerialManager.sharedManager().reconnectSerial();	
+			SerialManager.sharedManager().open(port);
 		});
 		process.start(nativeProcessStartupInfo);
 		

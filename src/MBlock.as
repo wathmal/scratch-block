@@ -1,25 +1,5 @@
 package {
-import blocks.Block;
-
-import cc.makeblock.mbot.lookandfeel.MyLookAndFeel;
-import cc.makeblock.mbot.ui.parts.TopSystemMenu;
-import cc.makeblock.mbot.uiwidgets.errorreport.ErrorReportFrame;
-import cc.makeblock.mbot.util.AppTitleMgr;
-import cc.makeblock.mbot.util.PopupUtil;
-import cc.makeblock.menu.MenuBuilder;
-import cc.makeblock.updater.AppUpdater;
-import cc.makeblock.util.FileUtil;
-import cc.makeblock.util.FlashSprite;
-import cc.makeblock.util.InvokeMgr;
-
 import com.google.analytics.GATracker;
-
-import extensions.BluetoothManager;
-import extensions.DeviceManager;
-import extensions.ExtensionManager;
-import extensions.HIDManager;
-import extensions.SerialManager;
-import extensions.SocketManager;
 
 import flash.desktop.NativeApplication;
 import flash.display.DisplayObject;
@@ -40,6 +20,25 @@ import flash.system.System;
 import flash.ui.Keyboard;
 import flash.utils.ByteArray;
 import flash.utils.setTimeout;
+
+import blocks.Block;
+
+import cc.makeblock.mbot.lookandfeel.MyLookAndFeel;
+import cc.makeblock.mbot.ui.parts.TopSystemMenu;
+import cc.makeblock.mbot.util.AppTitleMgr;
+import cc.makeblock.mbot.util.PopupUtil;
+import cc.makeblock.menu.MenuBuilder;
+import cc.makeblock.updater.AppUpdater;
+import cc.makeblock.util.FileUtil;
+import cc.makeblock.util.FlashSprite;
+import cc.makeblock.util.InvokeMgr;
+
+import extensions.BluetoothManager;
+import extensions.DeviceManager;
+import extensions.ExtensionManager;
+import extensions.HIDManager;
+import extensions.SerialManager;
+import extensions.SocketManager;
 
 import interpreter.Interpreter;
 

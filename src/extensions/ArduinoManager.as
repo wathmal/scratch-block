@@ -86,9 +86,12 @@ package extensions
 -- connect to Wifi
 wifi.setmode(wifi.STATION)
 wifi.sta.config("DR", "Dula@0201")
+mqttClientId= "userid"
+mqttBroker="192.168.88.100"
+mqttTopic= "userid"
 
 -- MQTT Client configuration
-m = mqtt.Client("user_id", 120, "", "")
+m = mqtt.Client(mqttClientId, 120, "", "")
 m:on("connect", function(client) print ("connected to MQTT server!") end)
 m:on("offline", function(client) print ("mqtt offline") end)
 
@@ -101,12 +104,16 @@ function mqttcon()
         print("ip unavailable, waiting...")
     else
     tmr.stop(1)
-    m:connect("192.168.88.100", 1883, 0, 
-	function(client) 
-		print("connected to mqtt") end, 
-	function(client, reason) 
-		print("failed on MQTT due to : "..reason) end) 
-		tmr.alarm(2,500,1,mainloop)			    
+    m:connect(
+		mqttBroker, 1883, 0, 
+		function(client) 
+			print("connected to mqtt") 
+			tmr.alarm(2,500,1,mainloop)	
+		end, 
+		function(client, reason) 
+			print("failed on MQTT due to : "..reason) 
+		end
+	) 
 	end
 end
 
@@ -728,7 +735,7 @@ void updateVar(char * varName,double * var)
 //				var skey:String = String(key).toString();
 //				trace(getCodeBlock(blk[1]).code);
 //				trace(skey);
-				codeBlock.code = new CodeObj(StringUtil.substitute("m:publish(\"user_id\",cjson.encode({ "+key.toLowerCase()+"= {0}}),0,0, function(client) print(\"sent\") end)\n",getCodeBlock(blk[1]).code));
+				codeBlock.code = new CodeObj(StringUtil.substitute("m:publish(mqttTopic,cjson.encode({ "+key.toLowerCase()+"= {0}}),0,0, \nfunction(client) \n\tprint(\"sent\".. cjson.encode({ "+key.toLowerCase()+"= {0}})) \nend)\n",getCodeBlock(blk[1]).code));
 				return codeBlock;
 			}
 			
