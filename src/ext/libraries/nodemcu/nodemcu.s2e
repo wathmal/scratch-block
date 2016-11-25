@@ -1,13 +1,19 @@
-{	"extensionName": "Arduino",
+{	"extensionName": "node-mcu",
 	"sort":1,
 	"extensionPort": 0,
 	"firmware":"1.1.103",
-	"javascriptURL":"js/arduino.js",
+	"javascriptURL":"js/nodemcu.js",
 	"blockSpecs": [
 		["h","start","runArduino"],
 
-		["R", "get temperature from socket %d.inputs","getOneWire","1",
-		{"encode":"{d0}","setup":"ow.setup({0})","inc":"","def":"","work":"","loop":""}],
+        ["w", "configure wifi %s and %s","configWifi","name","password",
+		{"encode":"{d0}","setup":"","inc":"","def":"","work":"","loop":"","wifi":"wifi.sta.config({0}, {1})\n"}],
+
+		["R", "get temperature from socket %d.inputs","getDHT","1",
+		{"encode":"{d0}","setup":"","inc":"","def":"","work":"selectindx(2, dht.read({0}))","loop":"", "wifi":""}],
+
+		["R", "get humidity from socket %d.inputs","getDHT","1",
+        {"encode":"{d0}","setup":"","inc":"","def":"","work":"selectindx(3, dht.read({0}))","loop":"", "wifi":""}],
 
         ["w", "switch %d.state device at socket %d.pins","switchDigital", "ON", "1",
         {"encode":"{d0}{d1}","setup":"gpio.mode({1},gpio.OUTPUT)\n","inc":"","def":"","work":"gpio.write({1},{0})\n","loop":""}],
@@ -18,7 +24,7 @@
         ["w", "set %d.state  buzzer on socket %d.pins","switchDigital", "ON", "1",
         {"encode":"{d0}{d1}","setup":"gpio.mode({1},gpio.OUTPUT)\n","inc":"","def":"","work":"gpio.write({1},{0})\n","loop":""}],
 
-        ["w", "send value : %s as %m.types","sendToServer", "","Temperature",
+        ["w", "send value : %s as %s","sendToServer", "","/temp",
         {"encode":"{s0}{d1}","setup":"","inc":"","def":"","work":"","loop":""}]
 
 	],

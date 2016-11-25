@@ -50,6 +50,7 @@ package extensions
 		private var ccode_loop:String = ""
 		private var ccode_def:String = ""
 		private var ccode_inc:String = ""
+		private var ccode_wifi:String = "";
 		private var ccode_pointer:String="setup"
 		private var ccode_func:String = "";
 		private var mathOp:Array=["+","-","*","/","%",">","=","<","&","|","!","not","rounded"];
@@ -95,18 +96,10 @@ package extensions
 		private var codeTemplate:String = ( <![CDATA[//include
 //define
 //setup
-	
--- adc config
---if adc.force_init_mode(adc.INIT_VDD33)
---then
-  --node.restart()
-  --return -- don't bother continuing, the restart is scheduled
---end
 
--- connect to Wifi
+-- connect to wifi
 wifi.setmode(wifi.STATION)
-wifi.sta.config("DR", "Dula@0201")
-
+//wifi
 -- MQTT Client configuration
 m = mqtt.Client("user_id", 120, "", "")
 m:on("connect", function(client) print ("connected to MQTT server!") end)
@@ -134,6 +127,11 @@ tmr.alarm(1,5000,1,mqttcon)
 //serialParser
 //function
 //serialParserCall
+
+function selectindx(n, ...)
+	return arg[n]
+end
+
 ]]> ).toString();//delay(50);
 		
 		private var codeSerialParser:String = ( <![CDATA[
@@ -752,24 +750,27 @@ void updateVar(char * varName,double * var)
 				//			else if(blk[0].indexOf("Makeblock")>=0||blk[0].indexOf("Arduino")>=0||blk[0].indexOf("Communication")>=0){
 				//				code = new CodeObj(getModule(blk)["code"]["work"]);
 				//			}
-			else if(blk[0]=="Arduino.sendToServer"){
+			else if(blk[0].indexOf("sendToServer") > 0){
 				codeBlock.type= "obj";
 				var key:String = String(getCodeBlock(blk[2]).code);
 //				var skey:String = String(key).toString();
 //				trace(getCodeBlock(blk[1]).code);
 //				trace(skey);
-				codeBlock.code = new CodeObj(StringUtil.substitute("m:publish(\"user_id\",cjson.encode({ "+key.toLowerCase()+"= {0}}),0,0, function(client) print(\"sent\") end)\n",getCodeBlock(blk[1]).code));
+				// TODO: format {0} as string or integer
+				codeBlock.code = new CodeObj(StringUtil.substitute("m:publish(\"user_id"+key+"\",cjson.encode({ value= {0}}),0,0, function(client) print(\"sent\") end)\n",getCodeBlock(blk[1]).code));
 				return codeBlock;
 			}
 			
 			else{
+				//trace(blk[0]);
 				var objs:Array = MBlock.app.extensionManager.specForCmd(blk[0]);
 				if(objs!=null){
 					var obj:Object = objs[objs.length-1];
 					obj = obj[obj.length-1];
+					//trace(obj.work);
 					if(typeof obj == "object"){
 						var ext:ScratchExtension = MBlock.app.extensionManager.extensionByName(blk[0].split(".")[0]);
-						var codeObj:Object = {code:{setup:substitute(obj.setup,blk as Array,ext),work:substitute(obj.work,blk as Array,ext),def:substitute(obj.def,blk as Array,ext),inc:substitute(obj.inc,blk as Array,ext),loop:substitute(obj.loop,blk as Array,ext)}};	
+						var codeObj:Object = {code:{setup:substitute(obj.setup,blk as Array,ext),work:substitute(obj.work,blk as Array,ext),def:substitute(obj.def,blk as Array,ext),inc:substitute(obj.inc,blk as Array,ext),loop:substitute(obj.loop,blk as Array,ext),wifi:substitute(obj.wifi,blk as Array,ext)}};
 						if(!availableBlock(codeObj)){
 							if(ext!=null){
 								if(srcDocuments.indexOf(ext.srcPath)==-1){
@@ -978,7 +979,7 @@ void updateVar(char * varName,double * var)
 				parseScripts(objs.scripts);
 			}
 			ccode_func+=buildFunctions();
-			retcode = codeTemplate.replace("//setup",ccode_setup).replace("//loop", ccode_loop).replace("//define", ccode_def).replace("//include", ccode_inc).replace("//function",ccode_func);
+			retcode = codeTemplate.replace("//setup",ccode_setup).replace("//loop", ccode_loop).replace("//define", ccode_def).replace("//include", ccode_inc).replace("//function",ccode_func).replace("//wifi", ccode_wifi);
 			retcode = buildSerialParser(retcode);
 			retcode = fixTabs(retcode);
 			retcode = fixVars(retcode);
@@ -1021,6 +1022,7 @@ void updateVar(char * varName,double * var)
 			buildInclude();			
 			buildDefine();
 			buildSetup();
+			buildWifiConfig();
 			ccode_setup+=ccode_setup_def;
 			//buildSetup();
 			ccode_setup+=ccode_setup_fun;
@@ -1091,6 +1093,20 @@ void updateVar(char * varName,double * var)
 				}
 			}
 			return modIncudeCode;
+		}
+		private function buildWifiConfig():String{
+			var modWifiCode:String = ""
+			for(var i:int=0;i<moduleList.length;i++){
+				var m:Object = moduleList[i]
+				var code:* = m["code"]["wifi"];
+				code = code is CodeObj?code.code:code;
+				//trace(code);
+				if(code!=""){
+
+					ccode_wifi=code+"";
+				}
+			}
+			return modWifiCode;
 		}
 		
 		private function buildLoopMaintance():String{

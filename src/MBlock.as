@@ -237,6 +237,7 @@ package {
 			//VersionManager.sharedManager().start(); //在线更新资源文件
 			if(SharedObjectManager.sharedManager().getObject("first-launch",true)){
 				SharedObjectManager.sharedManager().setObject("first-launch",false);
+				SharedObjectManager.sharedManager().setObject("board","node-mcu");
 				openWelcome();
 			}
 			initExtension();

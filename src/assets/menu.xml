@@ -42,21 +42,22 @@
 		<item name="Install Arduino Driver" label="安装Arduino驱动" action="driver" />
 	</subMenu>
 	<subMenu name="Boards" label="控制板">
-		<item name="Arduino" label="Arduino" enabled="false" />
+		<item name="node-mcu" label="node-mcu" />
+		<!--<item name="Arduino" label="Arduino" enabled="false" />
 		<item name="arduino_uno" label="Arduino Uno" />
 		<item name="arduino_leonardo" label="Arduino Leonardo" />
 		<item name="arduino_nano328" label="Arduino Nano ( mega328 )" />
 		<item name="arduino_mega1280" label="Arduino Mega 1280" />
-		<item name="arduino_mega2560" label="Arduino Mega 2560" />
-		<item isSeparator="true" />
-		<item name="Makeblock" label="Makeblock" enabled="false" />
+		<item name="arduino_mega2560" label="Arduino Mega 2560" />-->
+		<!--<item isSeparator="true" />-->
+<!--		<item name="Makeblock" label="Makeblock" enabled="false" />
 		<item name="me/orion_uno" label="Me Orion" />
 		<item name="me/baseboard_leonardo" label="Me BaseBoard" />
 		<item name="me/uno_shield_uno" label="Me UNO Shield" />
-		<item name="mbot_uno" label="mBot" />
-		<item isSeparator="true" />
-		<item name="Others" label="Others" enabled="false" />
-		<item name="picoboard_unknown" label="PicoBoard" />
+		<item name="mbot_uno" label="mBot" />-->
+		<!--<item isSeparator="true" />-->
+		<!--<item name="Others" label="Others" enabled="false" />-->
+		<!--<item name="picoboard_unknown" label="PicoBoard" />-->
 	</subMenu>
 	<subMenu name="Extensions" label="扩展">
 		<item name="Manage Extensions" label="管理扩展" keyEquivalent="T" />

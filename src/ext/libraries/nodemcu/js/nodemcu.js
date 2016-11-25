@@ -266,11 +266,11 @@
     };
 
     ext._getStatus = function() {
-        if(!device) return {status: 1, msg: 'Arduino disconnected'};
-        if(watchdog) return {status: 1, msg: 'Probing for Arduino'};
-        return {status: 2, msg: 'Arduino connected'};
+        if(!device) return {status: 1, msg: 'mcu disconnected'};
+        if(watchdog) return {status: 1, msg: 'probing for mcu'};
+        return {status: 2, msg: 'mcu connected'};
     }
 
     var descriptor = {};
-	ScratchExtensions.register('Arduino', descriptor, ext, {type: 'serial'});
+	ScratchExtensions.register('node-mcu', descriptor, ext, {type: 'serial'});
 })({});
