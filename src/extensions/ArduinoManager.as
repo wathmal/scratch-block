@@ -89,6 +89,8 @@ package extensions
 		
 		public var mainX:int = 0;
 		public var mainY:int = 0;
+
+		private var srcDocuments:Array = [];
 		
 		/**
 		 * Main code template
@@ -116,10 +118,11 @@ function mqttcon()
     tmr.stop(1)
     m:connect("192.168.88.100", 1883, 0, 
 	function(client) 
-		print("connected to mqtt") end, 
+		print("connected to mqtt")
+		tmr.alarm(2,500,1,mainloop)
+	end,
 	function(client, reason) 
-		print("failed on MQTT due to : "..reason) end) 
-		tmr.alarm(2,500,1,mainloop)			    
+		print("failed on MQTT due to : "..reason) end
 	end
 end
 
@@ -201,9 +204,9 @@ void updateVar(char * varName,double * var)
 		
 		public function ArduinoManager()
 		{
-			addEventListener(EVENT_NATIVE_DONE, gotoNextNativeCmd)
-			addEventListener(EVENT_LIBCOMPILE_DONE,runToolChain,false)
-			addEventListener(EVENT_COMPILE_DONE,uploadHex,false);
+//			addEventListener(EVENT_NATIVE_DONE, gotoNextNativeCmd)
+//			addEventListener(EVENT_LIBCOMPILE_DONE,runToolChain,false)
+//			addEventListener(EVENT_COMPILE_DONE,uploadHex,false);
 		}
 		
 		public function clearTempFiles():void
@@ -1156,7 +1159,7 @@ void updateVar(char * varName,double * var)
 			*/
 		}
 		
-		public function uploadCode(code:String):void{
+		/*public function uploadCode(code:String):void{
 			var url:String = "http://192.168.1.251:8080/";
 			var request:URLRequest = new URLRequest(url);
 			var requestVars:URLVariables = new URLVariables();
@@ -1211,9 +1214,9 @@ void updateVar(char * varName,double * var)
 		
 		
 		
-		/****** *****************************
+		/!****** *****************************
 		 * compiler ralated functions 
-		 * **********************************/
+		 * **********************************!/
 		
 		
 		
@@ -1245,14 +1248,14 @@ void updateVar(char * varName,double * var)
 //			if(srcdir.exists && srcdir.getDirectoryListing().length > 0){
 //				srcdir.copyTo(workdir,true);
 //			}
-			//*
+			//!*
 			for each(var path:String in srcDocuments){
 				var srcdir:File = new File(path);
 				if(srcdir.exists && srcdir.isDirectory){
 					copyCompileFiles(srcdir.getDirectoryListing(),workdir);
 				}
 			}
-			//*/
+			//!*!/
 			var projCpp:File = File.applicationStorageDirectory.resolvePath("scratchTemp/"+projectDocumentName+"/"+projectDocumentName+".ino")
 			LogManager.sharedManager().log("projCpp:"+projCpp.nativePath);
 			var outStream:FileStream = new FileStream();
@@ -1282,7 +1285,7 @@ void updateVar(char * varName,double * var)
 		}
 		
 		private var compileErr:Boolean = false;
-		//*
+		//!*
 		private function copyCompileFiles(files:Array, workdir:File):void
 		{
 			for(var i:int = 0; i < files.length; ++i){
@@ -1302,7 +1305,7 @@ void updateVar(char * varName,double * var)
 				}
 			}
 		}
-		//*/
+		//!*!/
 		public function get projectDocumentName():String{
 			var now:Date = new Date;
 			var pName:String = MBlock.app.projectName().split(" ").join("").split("(").join("").split(")").join("");
@@ -1322,7 +1325,7 @@ void updateVar(char * varName,double * var)
 			if(isUploading){
 				return "uploading";
 			}
-			/*
+			/!*
 			if(arduinoInstallPath==""){
 				var dialog:DialogBox = new DialogBox();
 				dialog.addTitle("Message");
@@ -1351,7 +1354,7 @@ void updateVar(char * varName,double * var)
 				dialog.showOnStage(MBlock.app.stage);
 				return "Arduino IDE not found.";
 			}
-			*/
+			*!/
 			_currentDevice = DeviceManager.sharedManager().currentDevice;
 			// get building direcotry ready
 			var workdir:File = File.applicationStorageDirectory.resolvePath("scratchTemp")
@@ -1369,14 +1372,14 @@ void updateVar(char * varName,double * var)
 //			if(srcdir.exists && srcdir.getDirectoryListing().length > 0){
 //				srcdir.copyTo(workdir,true);
 //			}
-			//*
+			//!*
 			for each(var path:String in srcDocuments){
 				var srcdir:File = new File(path);
 				if(srcdir.exists && srcdir.isDirectory){
 					copyCompileFiles(srcdir.getDirectoryListing(), workdir);
 				}
 			}
-			//*/
+			//!*!/
 			var projCpp:File = File.applicationStorageDirectory.resolvePath("scratchTemp/"+projectDocumentName+"/"+projectDocumentName+".ino")
 			var outStream:FileStream = new FileStream();
 			outStream.open(projCpp, FileMode.WRITE);
@@ -1402,7 +1405,7 @@ void updateVar(char * varName,double * var)
 			workdir.createDirectory()
 				
 			// yzj, don't use pre-build object any more, build from arduino libs
-			/*
+			/!*
 			// prepare build directory
 			if(boardType=="leonardo")
 			srcdir = srcdir.resolvePath("../gcc_template")
@@ -1411,7 +1414,7 @@ void updateVar(char * varName,double * var)
 			workdir = workdir.resolvePath("build")
 			//workdir.deleteDirectory(true)
 			srcdir.copyTo(workdir,true)
-			*/
+			*!/
 			// prebuild arduino lib
 			buildArduinoLib(workdir);
 			copyCompileFiles(files, workdir);
@@ -1816,11 +1819,11 @@ void updateVar(char * varName,double * var)
 		private function onOutputData(event:ProgressEvent):void 
 		{ 
 			isUploading = true;
-			/*
+			/!*
 			var output:String = process.standardOutput.readUTFBytes(process.standardOutput.bytesAvailable)
 			var date:Date = new Date;
 			MBlock.app.scriptsPart.appendMessage(""+(date.month+1)+"-"+date.date+" "+date.hours+":"+date.minutes+": Got: "+output); 
-			*/
+			*!/
 		}
 		
 		private function onErrorData(event:ProgressEvent):void
@@ -1852,5 +1855,6 @@ void updateVar(char * varName,double * var)
 		}
 		
 		private var errorText:String;
-	}
+	}*/
+}
 }

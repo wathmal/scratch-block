@@ -16,13 +16,13 @@
         {"encode":"{d0}","setup":"","inc":"","def":"","work":"selectindx(3, dht.read({0}))","loop":"", "wifi":""}],
 
         ["w", "switch %d.state device at socket %d.pins","switchDigital", "ON", "1",
-        {"encode":"{d0}{d1}","setup":"gpio.mode({1},gpio.OUTPUT)\n","inc":"","def":"","work":"gpio.write({1},{0})\n","loop":""}],
+        {"encode":"{d0}{d1}","setup":"gpio.mode({1},gpio.OUTPUT)\n","inc":"","def":"","work":"gpio.write({1},{0})\n","loop":"","wifi":""}],
 
         ["w", "switch LED %d.state on socket %d.pins","switchDigital", "ON", "1",
-        {"encode":"{d0}{d1}","setup":"gpio.mode({1},gpio.OUTPUT)\n","inc":"","def":"","work":"gpio.write({1},{0})\n","loop":""}],
+        {"encode":"{d0}{d1}","setup":"gpio.mode({1},gpio.OUTPUT)\n","inc":"","def":"","work":"gpio.write({1},{0})\n","loop":"","wifi":""}],
 
         ["w", "set %d.state  buzzer on socket %d.pins","switchDigital", "ON", "1",
-        {"encode":"{d0}{d1}","setup":"gpio.mode({1},gpio.OUTPUT)\n","inc":"","def":"","work":"gpio.write({1},{0})\n","loop":""}],
+        {"encode":"{d0}{d1}","setup":"gpio.mode({1},gpio.OUTPUT)\n","inc":"","def":"","work":"gpio.write({1},{0})\n","loop":"","wifi":""}],
 
         ["w", "send value : %s as %s","sendToServer", "","/temp",
         {"encode":"{s0}{d1}","setup":"","inc":"","def":"","work":"","loop":""}]

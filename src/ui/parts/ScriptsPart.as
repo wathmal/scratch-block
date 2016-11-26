@@ -168,8 +168,9 @@ public class ScriptsPart extends UIPart {
 		sendBt.addEventListener(MouseEvent.CLICK,onSendSerial);
 		displayModeBtn.addEventListener(MouseEvent.CLICK,onDisplayModeChange);
 		inputModeBtn.addEventListener(MouseEvent.CLICK,onInputModeChange);
-		
-		arduinoFrame.addChild(openBt);
+		// for now just don't add the button to the layout
+		// TODO: remove all unnecessary UI components
+		//arduinoFrame.addChild(openBt);
 		arduinoFrame.addChild(arduinoTextPane);
 		arduinoFrame.addChild(messageTextPane);
 		arduinoFrame.addChild(lineNumText);
@@ -248,8 +249,10 @@ public class ScriptsPart extends UIPart {
 		}
 	}
 	public function appendMessage(msg:String):void{
-		messageTextPane.textField.appendText(msg+"\n");
-		messageTextPane.textField.scrollV = messageTextPane.textField.maxScrollV-1;
+		var message:String= (msg.charAt(msg.length-1)) == '\n'? msg: msg+'\n';
+
+		messageTextPane.textField.appendText(message);
+		messageTextPane.textField.scrollV = messageTextPane.textField.maxScrollV-5;
 	}
 	
 	public function onSerialSend(bytes:ByteArray):void
@@ -258,11 +261,12 @@ public class ScriptsPart extends UIPart {
 			return;
 		}
 		if(isByteDisplayMode){
-			appendMsgWithTimestamp(HexUtil.bytesToString(bytes), true);
+//			appendMsgWithTimestamp(HexUtil.bytesToString(bytes), true);
+			appendMessage(bytes.toString());
 		}else{
 			bytes.position = 0;
 			var str:String = bytes.readUTFBytes(bytes.length);
-			appendMsgWithTimestamp(str, true);
+			appendMessage(str);
 		}
 	}
 	
@@ -274,7 +278,11 @@ public class ScriptsPart extends UIPart {
 		appendMessage(msg);
 	}
 	public function onSerialDataReceived(bytes:ByteArray):void{
-		appendMsgWithTimestamp(HexUtil.bytesToString(bytes), false);
+//		appendMsgWithTimestamp(HexUtil.bytesToString(bytes), false);
+		appendMessage(bytes.toString());
+//		trace("length: "+bytes.length);
+//		trace("tosrt: "+bytes.toString());
+//		trace(bytes);
 		/*
 		return;
 		var date:Date = new Date;
@@ -298,6 +306,7 @@ public class ScriptsPart extends UIPart {
 			bytes = HexUtil.stringToBytes(str);
 			SerialManager.sharedManager().sendBytes(bytes);
 		}else{
+			trace("sending string");
 			bytes = new ByteArray();
 			bytes.writeUTFBytes(str);
 			SerialManager.sharedManager().sendString(str+"\n");
@@ -322,21 +331,18 @@ public class ScriptsPart extends UIPart {
 		var code:String = arduinoTextPane.textField.text.toString();
 		var a:Array= code.split('\r');
 		trace(code);
+		// TODO: send widget configurations to cloud API
+		var stageJSON:String = util.JSON.stringify(app.stagePane);
+		//trace(stageJSON);
+		trace(util.JSON.stringify(util.JSON.parse(stageJSON).children));
+
+
 		if(SerialManager.sharedManager().isConnected){
 			
 			/**
 			 * Upload code using serial com 
 			 */
-
-//			SerialManager.sharedManager().sendString(arduinoTextPane.textField.text);
-			
-//			if(ArduinoManager.sharedManager().isUploading==false){
-//				messageTextPane.clear();
-//				if(showArduinoCode()){
-//					messageTextPane.append(ArduinoManager.sharedManager().arduinoInstallPath);
-//					messageTextPane.append(ArduinoManager.sharedManager().buildAll(arduinoTextPane.textField.text));
-//				}
-//			}
+			// TODO: dulajs serial send method
 		}else{
 			var dialog:DialogBox = new DialogBox();
 			dialog.addTitle("Message");
@@ -353,7 +359,7 @@ public class ScriptsPart extends UIPart {
 	}
 	private function onOpenArduinoIDE(evt:MouseEvent):void{
 		if(showArduinoCode()){
-			ArduinoManager.sharedManager().openArduinoIDE(arduinoTextPane.textField.text);
+//			ArduinoManager.sharedManager().openArduinoIDE(arduinoTextPane.textField.text);
 		}
 	}
 	private function onScroll(evt:Event):void{

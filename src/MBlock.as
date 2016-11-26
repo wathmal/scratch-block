@@ -245,7 +245,31 @@ package {
 
             // set arduino mode
             changeToArduinoMode();
+			toggleSmallStage();
 			clearCachedBitmaps();
+
+			// check if user account is set.
+			if(SharedObjectManager.sharedManager().getObject("isUserNotSet",true)){
+				// login user
+				trace("user not set");
+				var dBox:DialogBox = new DialogBox();
+				dBox.addTitle("please login");
+				dBox.addField("username", 100, "user");
+				dBox.addField("password", 100, "pass");
+
+				function loginUser():void{
+					trace("logging in: "+ dBox.getField("username"));
+					SharedObjectManager.sharedManager().setObject("isUserNotSet",false);
+					SharedObjectManager.sharedManager().setObject("username",dBox.getField("username"));
+					SharedObjectManager.sharedManager().setObject("password",dBox.getField("password"));
+//					dBox.setTitle("login failed");
+//					dBox.showOnStage(app.stage);
+
+				}
+				dBox.addButton("login",loginUser);
+				dBox.showOnStage(app.stage);
+				dBox.fixLayout();
+			}
 		}
 		private function initExtension():void{
 //			ClickerManager.sharedManager().update();

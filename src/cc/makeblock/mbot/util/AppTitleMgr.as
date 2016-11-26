@@ -56,12 +56,12 @@ package cc.makeblock.mbot.util
 			
 			var str:String = strList[1];
 			if(Boolean(str)){
-				str = Translator.map(str) + " " + Translator.map("Connected");
+				str = Translator.map(str) + " " + Translator.map("connected");
 			}else{
-				str = Translator.map("Disconnected");
+				str = Translator.map("disconnected");
 			}
 			result += " - " + str;
-			result += " - " + Translator.map(strList[2] ? "Not saved" :  "Saved");
+			result += " - " + Translator.map(strList[2] ? "not saved" :  "saved");
 			
 			return result;
 		}
