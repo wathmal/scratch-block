@@ -117,5 +117,5 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 
-src/Python/*
+
 .actionScriptProperties
