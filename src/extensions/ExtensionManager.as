@@ -48,6 +48,7 @@ import util.LogManager;
 import util.ReadStream;
 import util.SharedObjectManager;
 
+// TODO: remove unwanted extensions
 public class ExtensionManager {
 
 	private var app:MBlock;
@@ -202,6 +203,7 @@ public class ExtensionManager {
 	static public function isCommonExt(extName:String):Boolean
 	{
 		switch(extName){
+			case "node-mcu":
 			case "Arduino":
 			case "Communication":
 				return true;
@@ -351,6 +353,8 @@ public class ExtensionManager {
 						if(checkExtensionSelected(extObj.extensionName)){
 							loadRawExtension(extObj);
 						}
+						// TODO: print
+						trace("ext loaded: " +f.name);
 					}
 				}
 				_extensionList.sortOn("sort", Array.NUMERIC);

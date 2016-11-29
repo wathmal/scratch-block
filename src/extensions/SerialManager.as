@@ -102,8 +102,8 @@ package extensions
 		}
 		public function get list():Array{
 			try{
-				trace("serial ports");
-				trace(_serial.getAvailable());
+//				trace("serial ports");
+//				trace(_serial.getAvailable());
 				_currentList = formatArray(_serial.list().split(",").sort());
 				var emptyIndex:int = _currentList.indexOf("");
 				if(emptyIndex>-1){

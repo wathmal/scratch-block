@@ -3,6 +3,7 @@ package extensions
 	import util.LogManager;
 	import util.SharedObjectManager;
 
+	// TODO: remove unwanted devices
 	public class DeviceManager
 	{
 		private static var _instance:DeviceManager;
@@ -25,7 +26,9 @@ package extensions
 			var tempList:Array = _board.split("_");
 			_device = tempList[tempList.length-1];
 		}
+		// on select board method
 		public function onSelectBoard(value:String):void{
+			trace("on select brd: "+value);
 			if(_board == value){
 				return;
 			}
@@ -35,7 +38,11 @@ package extensions
 			if(_board=="picoboard_unknown"){
 				MBlock.app.extensionManager.singleSelectExtension("PicoBoard");
 			}else{
-				if(_board=="mbot_uno"){
+				if(_board=="node-mcu"){
+					trace("nodemcu selected");
+					MBlock.app.extensionManager.singleSelectExtension("node-mcu");
+				}
+				else if(_board=="mbot_uno"){
 					MBlock.app.extensionManager.singleSelectExtension("mBot");
 				}else if(_board.indexOf("arduino")>-1){
 					MBlock.app.extensionManager.singleSelectExtension("Arduino");

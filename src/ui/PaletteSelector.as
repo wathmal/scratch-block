@@ -41,19 +41,27 @@ public class PaletteSelector extends Sprite {
 		{
 			case Specs.controlCategory:
 			case Specs.operatorsCategory:
-			case Specs.dataCategory:
+			case Specs.extensionsCategory:
 			case Specs.myBlocksCategory:
 				return true;
 		}
 		return false;
 	}
 	
+	static public function canUseInWidgetMode(category:int):Boolean{
+		if(category == Specs.extensionsCategory){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
 //	private static const categories:Array = [
 //		'Motion', 'Looks', 'Sound', 'Pen', 'Data&Blocks', // column 1
 //		'Events', 'Control', 'Sensing', 'Operators', 'Robots']; // column 2
 	
 	private static const categories:Array = [
-		'Control', 'Data&Blocks', // column 1
+		'Control', 'Widgets', // column 1
 		'Operators', 'Robots']; // column 2
 
 	public var selectedCategory:int = 0;

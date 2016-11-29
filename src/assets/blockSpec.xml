@@ -8,11 +8,11 @@
 <category id="6" name="Control" color="0xe1a91a"/>
 <!-- <category id="7" name="Sensing" color="0x2ca5e2"/> -->
 <category id="8" name="Operators" color="0x5cb712"/>
-<category id="9" name="Data&Blocks" color="0xEE7D16"/>
+<!--<category id="9" name="Data&Blocks" color="0xEE7D16"/>-->
 <category id="10" name="Robots" color="0x0a8698"/>
 <!-- <category id="11" name="Parameter" color="0x5947B1"/>
-<category id="12" name="List" color="0xCC5B22"/>
-<category id="20" name="Extension" color="0x0a8698"/> -->
+<category id="12" name="List" color="0xCC5B22"/>-->
+<category id="20" name="Widgets" color="0xEE7D16"/>
 <command category="1" type=" " opcode="forward:" spec="move %n steps">[10]</command>
 <command category="1" type=" " opcode="turnRight:" spec="turn @turnRight %n degrees">[15]</command>
 <command category="1" type=" " opcode="turnLeft:" spec="turn @turnLeft %n degrees">[15]</command>
@@ -36,6 +36,7 @@
 <command category="1" type="r" opcode="xpos" spec="x position"/>
 <command category="1" type="r" opcode="ypos" spec="y position"/>
 <command category="1" type="r" opcode="heading" spec="direction"/>
+    <!--cat 2-->
 <command category="2" type=" " opcode="say:duration:elapsed:from:" spec="say %s for %n secs">["Hello!",2]</command>
 <command category="2" type=" " opcode="say:" spec="say %s">["Hello!"]</command>
 <command category="2" type=" " opcode="think:duration:elapsed:from:" spec="think %s for %n secs">["Hmm...",2]</command>
@@ -61,6 +62,7 @@
 <command category="2" type="r" opcode="costumeIndex" spec="costume #"/>
 <command category="2" type="r" opcode="sceneName" spec="backdrop name"/>
 <command category="2" type="r" opcode="scale" spec="size"/>
+    <!--cat 102-->
 <command category="102" type=" " opcode="startScene" spec="switch backdrop to %m.backdrop">["backdrop1"]</command>
 <command category="102" type=" " opcode="startSceneAndWait" spec="switch backdrop to %m.backdrop and wait">["backdrop1"]</command>
 <command category="102" type=" " opcode="nextScene" spec="next backdrop"/>
@@ -71,6 +73,7 @@
 <command/>
 <command category="102" type="r" opcode="sceneName" spec="backdrop name"/>
 <command category="102" type="r" opcode="backgroundIndex" spec="backdrop #"/>
+    <!--cat 3-->
 <command category="3" type=" " opcode="playSound:" spec="play sound %m.sound">["pop"]</command>
 <command category="3" type=" " opcode="doPlaySoundAndWait" spec="play sound %m.sound until done">["pop"]</command>
 <command category="3" type=" " opcode="stopAllSounds" spec="stop all sounds"/>
@@ -88,6 +91,7 @@
 <command category="3" type=" " opcode="changeTempoBy:" spec="change tempo by %n">[20]</command>
 <command category="3" type=" " opcode="setTempoTo:" spec="set tempo to %n bpm">[60]</command>
 <command category="3" type="r" opcode="tempo" spec="tempo"/>
+    <!--cat 4-->
 <command category="4" type=" " opcode="clearPenTrails" spec="clear"/>
 <command/>
 <command category="4" type=" " opcode="stampCostume" spec="stamp"/>
@@ -105,7 +109,7 @@
 <command category="4" type=" " opcode="changePenSizeBy:" spec="change pen size by %n">[1]</command>
 <command category="4" type=" " opcode="penSize:" spec="set pen size to %n">[1]</command>
 <command/>
-<command category="104" type=" " opcode="clearPenTrails" spec="clear"/>
+    <!--cat 5-->
 <command category="5" type="h" opcode="whenGreenFlag" spec="when @greenFlag clicked"/>
 <command category="5" type="h" opcode="whenKeyPressed" spec="when %m.key key pressed">["space"]</command>
 <command category="5" type="h" opcode="whenKeyReleased" spec="when %m.key key released">["space"]</command>
@@ -117,6 +121,7 @@
 <command category="5" type="h" opcode="whenIReceive" spec="when I receive %m.broadcast">[""]</command>
 <command category="5" type=" " opcode="broadcast:" spec="broadcast %m.broadcast">[""]</command>
 <command category="5" type=" " opcode="doBroadcastAndWait" spec="broadcast %m.broadcast and wait">[""]</command>
+    <!--cat 6-->
 <command category="6" type=" " opcode="wait:elapsed:from:" spec="wait %n secs">[1]</command>
 <command/>
 <command category="6" type="c" opcode="doRepeat" spec="repeat %n">[10]</command>
@@ -127,12 +132,13 @@
 <command category="6" type=" " opcode="doWaitUntil" spec="wait until %b"/>
 <command category="6" type="c" opcode="doUntil" spec="repeat until %b"/>
 <command/>
-<command category="6" type="f" opcode="stopScripts" spec="stop %m.stop">["all"]</command>
+<!--<command category="6" type="f" opcode="stopScripts" spec="stop %m.stop">["all"]</command>
 <command/>
 <command category="6" type="h" opcode="whenCloned" spec="when I start as a clone"/>
 <command category="6" type=" " opcode="createCloneOf" spec="create clone of %m.spriteOnly"/>
 <command category="6" type="f" opcode="deleteClone" spec="delete this clone"/>
-<command/>
+<command/>-->
+    <!--cat 106-->
 <command category="106" type=" " opcode="wait:elapsed:from:" spec="wait %n secs">[1]</command>
 <command/>
 <command category="106" type="c" opcode="doRepeat" spec="repeat %n">[10]</command>
@@ -146,6 +152,7 @@
 <command category="106" type="f" opcode="stopScripts" spec="stop %m.stop">["all"]</command>
 <command/>
 <command category="106" type=" " opcode="createCloneOf" spec="create clone of %m.spriteOnly"/>
+    <!--cat 7-->
 <command category="7" type="b" opcode="touching:" spec="touching %m.touching?">[""]</command>
 <command category="7" type="b" opcode="touchingColor:" spec="touching color %c?"/>
 <command category="7" type="b" opcode="color:sees:" spec="color %c is touching %c?"/>
@@ -172,6 +179,7 @@
 <command/>
 <command category="7" type="r" opcode="timeAndDate" spec="current %m.timeAndDate">["minute"]</command>
 <command category="7" type="r" opcode="timestamp" spec="days since 2000"/>
+    <!--cat 107-->
 <command category="107" type=" " opcode="doAsk" spec="ask %s and wait">["What's your name?"]</command>
 <command category="107" type="r" opcode="answer" spec="answer"/>
 <command/>
@@ -194,6 +202,7 @@
 <command category="107" type="r" opcode="timeAndDate" spec="current %m.timeAndDate">["minute"]</command>
 <command category="107" type="r" opcode="timestamp" spec="days since 2000"/>
 <command category="107" type="r" opcode="getUserName" spec="username"/>
+    <!--cat 8-->
 <command category="8" type="r" opcode="+" spec="%n + %n">["",""]</command>
 <command category="8" type="r" opcode="-" spec="%n - %n">["",""]</command>
 <command category="8" type="r" opcode="*" spec="%n * %n">["",""]</command>
@@ -218,10 +227,12 @@
 <command category="8" type="r" opcode="rounded" spec="round %n">[""]</command>
 <command/>
 <command category="8" type="r" opcode="computeFunction:of:" spec="%m.mathOp of %n">["sqrt",9]</command>
+    <!--cat 9-->
 <command category="9" type=" " opcode="setVar:to:" spec="set %m.var to %s"/>
 <command category="9" type=" " opcode="changeVar:by:" spec="change %m.var by %n"/>
 <command category="9" type=" " opcode="showVariable:" spec="show variable %m.var"/>
 <command category="9" type=" " opcode="hideVariable:" spec="hide variable %m.var"/>
+    <!--cat 12-->
 <command category="12" type=" " opcode="append:toList:" spec="add %s to %m.list"/>
 <command/>
 <command category="12" type=" " opcode="deleteLine:ofList:" spec="delete %d.listDeleteItem of %m.list"/>
@@ -234,6 +245,7 @@
 <command/>
 <command category="12" type=" " opcode="showList:" spec="show list %m.list"/>
 <command category="12" type=" " opcode="hideList:" spec="hide list %m.list"/>
+    <!--cat 98-->
 <command category="98" type=" " opcode="drum:duration:elapsed:from:" spec="play drum %n for %n beats">[1,0.25]</command>
 <command category="98" type=" " opcode="midiInstrument:" spec="set instrument to %n">[1]</command>
 <command category="98" type="b" opcode="isLoud" spec="loud?"/>
@@ -244,6 +256,7 @@
 <command category="98" type=" " opcode="showBackground:" spec="switch to background %m.costume">["backdrop1"]</command>
 <command category="98" type=" " opcode="nextBackground" spec="next background"/>
 <command category="98" type="cf" opcode="doForeverIf" spec="forever if %b"/>
+    <!--cat 99-->
 <command category="99" type="r" opcode="COUNT" spec="noop"/>
 <command category="99" type="r" opcode="COUNT" spec="counter"/>
 <command category="99" type=" " opcode="CLR_COUNT" spec="clear counter"/>
@@ -258,4 +271,8 @@
 <command category="99" type="r" opcode="yScroll" spec="y scroll"/>
 <command category="99" type=" " opcode="hideAll" spec="hide all sprites"/>
 <command category="99" type="r" opcode="getUserId" spec="user id"/>
+    <!--cat 20-->
+<command category="20" type="h" opcode="initWidget" spec="configure widget" />
+<command category="20" type="w" opcode="setWidgetName" spec="set name %s">["my widget 1"]</command>
+<command category="20" type="w" opcode="sendDataToWidget" spec="receive %s data to widget">["/temp"]</command>
 </xml>

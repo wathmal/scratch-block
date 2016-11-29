@@ -116,7 +116,7 @@ package cc.makeblock.mbot.uiwidgets
 				source = disable(source, sensorDict[checkBox.name]);
 			}
 			trace(source);
-			MBlock.app.scriptsPart.appendMessage(ArduinoManager.sharedManager().buildAll(source));
+//			MBlock.app.scriptsPart.appendMessage(ArduinoManager.sharedManager().buildAll(source));
 		}
 		
 		private function __onSelectAll(evt:AWEvent):void

@@ -1,0 +1,22 @@
+{
+	"objName": "node-mcu",
+	"sounds": [],
+	"costumes": [{
+			"costumeName": "node mcu",
+			"baseLayerID": -1,
+			"baseLayerMD5": "node-mcu.png",
+			"rotationCenterX": 0,
+			"rotationCenterY": 0
+		}],
+	"currentCostumeIndex": 0,
+	"scratchX": 0,
+	"scratchY": 0,
+	"scale": 0.5,
+	"direction": 90,
+	"rotationStyle": "normal",
+	"isDraggable": false,
+	"indexInLibrary": 100000,
+	"visible": true,
+	"spriteInfo": {
+	}
+}

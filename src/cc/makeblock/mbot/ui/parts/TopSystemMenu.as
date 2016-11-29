@@ -39,10 +39,10 @@ package cc.makeblock.mbot.ui.parts
 			super(stage, path);
 			
 			if(!ApplicationManager.sharedManager().isCatVersion){
-				var helpMenu:NativeMenu = getNativeMenu().getItemByName("Help").submenu;
+				/*var helpMenu:NativeMenu = getNativeMenu().getItemByName("Help").submenu;
 				helpMenu.removeItemAt(2);
 				helpMenu.removeItemAt(1);
-				helpMenu.removeItemAt(0);
+				helpMenu.removeItemAt(0);*/
 			}
 			
 			getNativeMenu().getItemByName("File").submenu.addEventListener(Event.DISPLAYING, __onInitFielMenu);
@@ -84,7 +84,7 @@ package cc.makeblock.mbot.ui.parts
 			}
 			setItemLabel(item);
 			if(item.name == "Boards"){
-				setItemLabel(item.submenu.getItemByName("Others"));
+//				setItemLabel(item.submenu.getItemByName("Others"));
 				return true;
 			}
 			if(item.name == "Language"){
@@ -148,7 +148,7 @@ package cc.makeblock.mbot.ui.parts
 				case "Turbo mode":
 					MBlock.app.toggleTurboMode();
 					break;
-				case "Arduino mode":
+				case "Code mode":
 					MBlock.app.changeToArduinoMode();
 					break;
 			}
@@ -227,7 +227,7 @@ package cc.makeblock.mbot.ui.parts
 			MenuUtil.setChecked(menu.getItemByName("Hide stage layout"), MBlock.app.stageIsHided);
 			MenuUtil.setChecked(menu.getItemByName("Small stage layout"), !MBlock.app.stageIsHided && MBlock.app.stageIsContracted);
 			MenuUtil.setChecked(menu.getItemByName("Turbo mode"), MBlock.app.interp.turboMode);
-			MenuUtil.setChecked(menu.getItemByName("Arduino mode"), MBlock.app.stageIsArduino);
+			MenuUtil.setChecked(menu.getItemByName("Code mode"), MBlock.app.stageIsArduino);
 			MBlock.app.track("/OpenEdit");
 		}
 		
@@ -249,7 +249,7 @@ package cc.makeblock.mbot.ui.parts
 			}
 			menu.getItemByName("Serial Port").submenu = subMenu;
 			
-			var bluetoothItem:NativeMenuItem = menu.getItemByName("Bluetooth");
+			/*var bluetoothItem:NativeMenuItem = menu.getItemByName("Bluetooth");
 			
 			bluetoothItem.enabled = ApplicationManager.sharedManager().system == ApplicationManager.WINDOWS && BluetoothManager.sharedManager().isSupported
 			while(bluetoothItem.submenu.numItems > 3){
@@ -295,7 +295,7 @@ package cc.makeblock.mbot.ui.parts
 			canReset = SerialManager.sharedManager().isConnected && DeviceManager.sharedManager().currentName!="PicoBoard";
 			MenuUtil.FindItem(getNativeMenu(), "Upgrade Firmware").enabled = canReset;
 			canReset = DeviceManager.sharedManager().currentName!="PicoBoard";
-			MenuUtil.FindItem(getNativeMenu(), "View Source").enabled = canReset;
+			MenuUtil.FindItem(getNativeMenu(), "View Source").enabled = canReset;*/
 		}
 		
 		private function __onSelectBoard(menuItem:NativeMenuItem):void
@@ -321,6 +321,7 @@ package cc.makeblock.mbot.ui.parts
 //			menuItem.removeEventListener(evt.type, __onInitExtMenu);
 //			menuItem.addEventListener(evt.type, __onShowExtMenu);
 			var list:Array = MBlock.app.extensionManager.extensionList;
+			trace("on init ext");
 			if(list.length==0){
 				MBlock.app.extensionManager.copyLocalFiles();
 				SharedObjectManager.sharedManager().setObject("first-launch",false);
@@ -334,6 +335,7 @@ package cc.makeblock.mbot.ui.parts
 			list = MBlock.app.extensionManager.extensionList;
 //			var subMenu:NativeMenu = menuItem;
 			for(var i:int=0;i<list.length;i++){
+				trace(list[i].extensionName);
 				var extName:String = list[i].extensionName;
 				if(!canShowExt(extName)){
 					continue;

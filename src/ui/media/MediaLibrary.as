@@ -63,7 +63,7 @@ public class MediaLibrary extends Sprite {
 	private static const backdropCategories:Array = [
 		'All', 'Indoors', 'Outdoors', 'Other', 'Favourite'];
 	private static const costumeCategories:Array = [
-		'All', 'Animals', 'Fantasy', 'People', 'Things', 'Transportation', 'Favourite'];
+		'All', 'platform', 'widgets'];
 	private static const extensionCategories:Array = [
 		'All', 'Hardware'];
 	private static const soundCategories:Array = [
@@ -276,13 +276,13 @@ public class MediaLibrary extends Sprite {
 			('backdrop' == assetType) ? backdropThemes : costumeThemes,
 			filterChanged);
 		themeFilter.currentSelection = '';
-		addChild(themeFilter);
+		//addChild(themeFilter);
 
 		imageTypeFilter = new MediaFilter('Type', imageTypes, filterChanged);
-		addChild(imageTypeFilter);
+		//addChild(imageTypeFilter);
 
 		spriteFeaturesFilter = new MediaFilter('Features', spriteFeatures, filterChanged);
-		addChild(spriteFeaturesFilter);
+		//addChild(spriteFeaturesFilter);
 
 		themeFilter.visible = (['sprite', 'costume', 'backdrop'].indexOf(assetType) > -1);
 		imageTypeFilter.visible = (['sprite', 'costume'].indexOf(assetType) > -1);

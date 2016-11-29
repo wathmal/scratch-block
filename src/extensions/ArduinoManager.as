@@ -4,11 +4,17 @@ package extensions
 	import flash.desktop.NativeProcessStartupInfo;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
+	import flash.events.IOErrorEvent;
 	import flash.events.NativeProcessExitEvent;
 	import flash.events.ProgressEvent;
 	import flash.filesystem.File;
 	import flash.filesystem.FileMode;
 	import flash.filesystem.FileStream;
+	import flash.net.URLLoader;
+	import flash.net.URLLoaderDataFormat;
+	import flash.net.URLRequest;
+	import flash.net.URLRequestMethod;
+	import flash.net.URLVariables;
 	import flash.system.Capabilities;
 	import flash.utils.getQualifiedClassName;
 	
@@ -20,6 +26,7 @@ package extensions
 	import util.ApplicationManager;
 	import util.JSON;
 	import util.LogManager;
+	import util.SharedObjectManager;
 	
 	public class ArduinoManager extends EventDispatcher
 	{
@@ -43,6 +50,7 @@ package extensions
 		private var ccode_loop:String = ""
 		private var ccode_def:String = ""
 		private var ccode_inc:String = ""
+		private var ccode_wifi:String = "";
 		private var ccode_pointer:String="setup"
 		private var ccode_func:String = "";
 		private var mathOp:Array=["+","-","*","/","%",">","=","<","&","|","!","not","rounded"];
@@ -62,12 +70,27 @@ package extensions
 		private var projectPath:String = "";
 		private var _currentDevice:String;
 		private var _extSrcPath:String = "";
+		private var leoPortMap:Array=[[null,null],["11","A8"],["13","A11"],["10","9"],["1","0"],["MISO","SCK"],["A0","A1"],["A2","A3"],["A4","A5"],["6","7"],["5","4"]]
+		private var portEnum:Object = {"Port1":1,"Port2":2,"Port3":3,"Port4":4,"Port5":5,"Port6":6,"Port7":7,"Port8":8,"M1":9,"M2":10}
+		private var portPortEnum:Object={"Port1":"PORT_1","Port2":"PORT_2","Port3":"PORT_3","Port4":"PORT_4","Port5":"PORT_5","Port6":"PORT_6","Port7":"PORT_7","Port8":"PORT_8","M1":"M1","M2":"M2"}
+		private var slotSlotEnum:Object={"Slot1":"SLOT_1","Slot2":"SLOT_2"}
+		private var slotEnum:Object = {"Slot1":0,"Slot2":1}
+		private var noteEnum:Object = {"B0":31,"C1":33,"D1":37,"E1":41,"F1":44,"G1":49,"A1":55,"B1":62,
+			"C2":65,"D2":73,"E2":82,"F2":87,"G2":98,"A2":110,"B2":123,
+			"C3":131,"D3":147,"E3":165,"F3":175,"G3":196,"A3":220,"B3":247,
+			"C4":262,"D4":294,"E4":330,"F4":349,"G4":392,"A4":440,"B4":494,
+			"C5":523,"D5":587,"E5":659,"F5":698,"G5":784,"A5":880,"B5":988,
+			"C6":1047,"D6":1175,"E6":1319,"F6":1397,"G6":1568,"A6":1760,"B6":1976,
+			"C7":2093,"D7":2349,"E7":2637,"F7":2794,"G7":3136,"A7":3520,"B7":3951,
+			"C8":4186,"D8":4699,"Half":500,"Quater":250,"Eighth":125,"Whole":1000,"Double":2000,"Zero":0};
 		private var EVENT_NATIVE_DONE:String = "EVENT_NATIVE_DONE"
 		private var EVENT_LIBCOMPILE_DONE:String = "EVENT_LIBCOMPILE_DONE"
 		private var EVENT_COMPILE_DONE:String = "EVENT_COMPILE_DONE"
 		
 		public var mainX:int = 0;
 		public var mainY:int = 0;
+
+		private var srcDocuments:Array = [];
 		
 		/**
 		 * Main code template
@@ -75,23 +98,12 @@ package extensions
 		private var codeTemplate:String = ( <![CDATA[//include
 //define
 //setup
-	
--- adc config
---if adc.force_init_mode(adc.INIT_VDD33)
---then
-  --node.restart()
-  --return -- don't bother continuing, the restart is scheduled
---end
 
--- connect to Wifi
+-- connect to wifi
 wifi.setmode(wifi.STATION)
-wifi.sta.config("DR", "Dula@0201")
-mqttClientId= "userid"
-mqttBroker="192.168.88.100"
-mqttTopic= "userid"
-
+//wifi
 -- MQTT Client configuration
-m = mqtt.Client(mqttClientId, 120, "", "")
+m = mqtt.Client("user_id", 120, "", "")
 m:on("connect", function(client) print ("connected to MQTT server!") end)
 m:on("offline", function(client) print ("mqtt offline") end)
 
@@ -104,16 +116,13 @@ function mqttcon()
         print("ip unavailable, waiting...")
     else
     tmr.stop(1)
-    m:connect(
-		mqttBroker, 1883, 0, 
-		function(client) 
-			print("connected to mqtt") 
-			tmr.alarm(2,500,1,mainloop)	
-		end, 
-		function(client, reason) 
-			print("failed on MQTT due to : "..reason) 
-		end
-	) 
+    m:connect("192.168.88.100", 1883, 0, 
+	function(client) 
+		print("connected to mqtt")
+		tmr.alarm(2,500,1,mainloop)
+	end,
+	function(client, reason) 
+		print("failed on MQTT due to : "..reason) end
 	end
 end
 
@@ -121,7 +130,12 @@ tmr.alarm(1,5000,1,mqttcon)
 //serialParser
 //function
 //serialParserCall
-]]> ).toString();
+
+function selectindx(n, ...)
+	return arg[n]
+end
+
+]]> ).toString();//delay(50);
 		
 		private var codeSerialParser:String = ( <![CDATA[
 char inputBuf[64];
@@ -190,9 +204,9 @@ void updateVar(char * varName,double * var)
 		
 		public function ArduinoManager()
 		{
-			addEventListener(EVENT_NATIVE_DONE, gotoNextNativeCmd)
-			addEventListener(EVENT_LIBCOMPILE_DONE,runToolChain,false)
-			addEventListener(EVENT_COMPILE_DONE,uploadHex,false);
+//			addEventListener(EVENT_NATIVE_DONE, gotoNextNativeCmd)
+//			addEventListener(EVENT_LIBCOMPILE_DONE,runToolChain,false)
+//			addEventListener(EVENT_COMPILE_DONE,uploadHex,false);
 		}
 		
 		public function clearTempFiles():void
@@ -210,6 +224,19 @@ void updateVar(char * varName,double * var)
 		
 		public function setScratch(scratch:MBlock):void{
 			_scratch = scratch;
+		}
+		
+		private function portMapPin(port:String,slot:String):String{
+			var pin:String = leoPortMap[portEnum[port]][slotEnum[slot]]
+			return pin
+		}
+		
+		private function portMapPort(port:String):String{
+			return portPortEnum[port]
+		}
+		
+		private function slotMapSlot(slot:String):String{
+			return slotSlotEnum[slot]
 		}
 		
 		// lua
@@ -296,7 +323,7 @@ void updateVar(char * varName,double * var)
 			var param:Object = fun[1]
 			if(paramList.indexOf(param)==-1)
 				paramList.push(param)
-			var funcode:CodeObj=new CodeObj(StringUtil.substitute("print(\"{0}=\");\nprint(\"{1}\");\n",param,param));
+			var funcode:CodeObj=new CodeObj(StringUtil.substitute("Serial.print(\"{0}=\");Serial.println(\"{1}\");\n",param,param));
 			return funcode;
 		}
 		/**
@@ -495,9 +522,6 @@ void updateVar(char * varName,double * var)
 			
 			return StringUtil.substitute("{0}({1})",getCodeBlock(blk[1]).code,cBlk.code).split("sin(").join("sin(angle_rad*").split("cos(").join("cos(angle_rad*").split("tan(").join("tan(angle_rad*");
 		}
-		/**
-		 * TODO: remove
-		 */
 		private function buildCode(modtype:String,iotype:String,modport:*,modslot:*,valuestring:*):Object{
 			var workcode:String = ""
 			var setupcode:String = ""
@@ -729,24 +753,27 @@ void updateVar(char * varName,double * var)
 				//			else if(blk[0].indexOf("Makeblock")>=0||blk[0].indexOf("Arduino")>=0||blk[0].indexOf("Communication")>=0){
 				//				code = new CodeObj(getModule(blk)["code"]["work"]);
 				//			}
-			else if(blk[0]=="Arduino.sendToServer"){
+			else if(blk[0].indexOf("sendToServer") > 0){
 				codeBlock.type= "obj";
 				var key:String = String(getCodeBlock(blk[2]).code);
 //				var skey:String = String(key).toString();
 //				trace(getCodeBlock(blk[1]).code);
 //				trace(skey);
-				codeBlock.code = new CodeObj(StringUtil.substitute("m:publish(mqttTopic,cjson.encode({ "+key.toLowerCase()+"= {0}}),0,0, \nfunction(client) \n\tprint(\"sent\".. cjson.encode({ "+key.toLowerCase()+"= {0}})) \nend)\n",getCodeBlock(blk[1]).code));
+				// TODO: format {0} as string or integer
+				codeBlock.code = new CodeObj(StringUtil.substitute("m:publish(\"user_id"+key+"\",cjson.encode({ value= {0}}),0,0, function(client) print(\"sent\") end)\n",getCodeBlock(blk[1]).code));
 				return codeBlock;
 			}
 			
 			else{
+				//trace(blk[0]);
 				var objs:Array = MBlock.app.extensionManager.specForCmd(blk[0]);
 				if(objs!=null){
 					var obj:Object = objs[objs.length-1];
 					obj = obj[obj.length-1];
+					//trace(obj.work);
 					if(typeof obj == "object"){
 						var ext:ScratchExtension = MBlock.app.extensionManager.extensionByName(blk[0].split(".")[0]);
-						var codeObj:Object = {code:{setup:substitute(obj.setup,blk as Array,ext),work:substitute(obj.work,blk as Array,ext),def:substitute(obj.def,blk as Array,ext),inc:substitute(obj.inc,blk as Array,ext),loop:substitute(obj.loop,blk as Array,ext)}};	
+						var codeObj:Object = {code:{setup:substitute(obj.setup,blk as Array,ext),work:substitute(obj.work,blk as Array,ext),def:substitute(obj.def,blk as Array,ext),inc:substitute(obj.inc,blk as Array,ext),loop:substitute(obj.loop,blk as Array,ext),wifi:substitute(obj.wifi,blk as Array,ext)}};
 						if(!availableBlock(codeObj)){
 							if(ext!=null){
 								if(srcDocuments.indexOf(ext.srcPath)==-1){
@@ -955,7 +982,7 @@ void updateVar(char * varName,double * var)
 				parseScripts(objs.scripts);
 			}
 			ccode_func+=buildFunctions();
-			retcode = codeTemplate.replace("//setup",ccode_setup).replace("//loop", ccode_loop).replace("//define", ccode_def).replace("//include", ccode_inc).replace("//function",ccode_func);
+			retcode = codeTemplate.replace("//setup",ccode_setup).replace("//loop", ccode_loop).replace("//define", ccode_def).replace("//include", ccode_inc).replace("//function",ccode_func).replace("//wifi", ccode_wifi);
 			retcode = buildSerialParser(retcode);
 			retcode = fixTabs(retcode);
 			retcode = fixVars(retcode);
@@ -998,6 +1025,7 @@ void updateVar(char * varName,double * var)
 			buildInclude();			
 			buildDefine();
 			buildSetup();
+			buildWifiConfig();
 			ccode_setup+=ccode_setup_def;
 			//buildSetup();
 			ccode_setup+=ccode_setup_fun;
@@ -1069,6 +1097,20 @@ void updateVar(char * varName,double * var)
 			}
 			return modIncudeCode;
 		}
+		private function buildWifiConfig():String{
+			var modWifiCode:String = ""
+			for(var i:int=0;i<moduleList.length;i++){
+				var m:Object = moduleList[i]
+				var code:* = m["code"]["wifi"];
+				code = code is CodeObj?code.code:code;
+				//trace(code);
+				if(code!=""){
+
+					ccode_wifi=code+"";
+				}
+			}
+			return modWifiCode;
+		}
 		
 		private function buildLoopMaintance():String{
 			var modMaintanceCode:String = ""
@@ -1117,64 +1159,64 @@ void updateVar(char * varName,double * var)
 			*/
 		}
 		
-//		public function uploadCode(code:String):void{
-//			var url:String = "http://192.168.1.251:8080/";
-//			var request:URLRequest = new URLRequest(url);
-//			var requestVars:URLVariables = new URLVariables();
-//			requestVars.code = code;
-//			requestVars.sessionTime = new Date().getTime();
-//			request.data = requestVars;
-//			request.method = URLRequestMethod.POST;
-//			
-//			var urlLoader:URLLoader = new URLLoader();
-//			urlLoader = new URLLoader();
-//			urlLoader.dataFormat = URLLoaderDataFormat.TEXT;
-//			urlLoader.addEventListener(Event.COMPLETE, uploadCompleteHandler,false,0,true);
-//			urlLoader.addEventListener(IOErrorEvent.IO_ERROR, ioErrorHandler, false, 0, true);
-//			
-//			try{
-//				urlLoader.load(request);
-//			}catch(e:Error){
-//				trace(e);
-//			}
-//			
-//		}
+		/*public function uploadCode(code:String):void{
+			var url:String = "http://192.168.1.251:8080/";
+			var request:URLRequest = new URLRequest(url);
+			var requestVars:URLVariables = new URLVariables();
+			requestVars.code = code;
+			requestVars.sessionTime = new Date().getTime();
+			request.data = requestVars;
+			request.method = URLRequestMethod.POST;
+			
+			var urlLoader:URLLoader = new URLLoader();
+			urlLoader = new URLLoader();
+			urlLoader.dataFormat = URLLoaderDataFormat.TEXT;
+			urlLoader.addEventListener(Event.COMPLETE, uploadCompleteHandler,false,0,true);
+			urlLoader.addEventListener(IOErrorEvent.IO_ERROR, ioErrorHandler, false, 0, true);
+			
+			try{
+				urlLoader.load(request);
+			}catch(e:Error){
+				trace(e);
+			}
+			
+		}
 		
-//		private function saveHexFile(token:String,hexString:String):void{
-//			var f:File = new File();
-//			f.addEventListener(Event.COMPLETE, _onRfComplete);
-//			f.save(hexString,token+".hex");
-//		}
-//		
-//		private function _onRfComplete(e:Event):void{
-//			hexPath = e.target.nativePath
-//			_scratch.dispatchEvent(new RobotEvent(RobotEvent.HEX_SAVED,hexPath));
-//		}
-//		
-//		private function uploadCompleteHandler(e:Event):void{
-//			var response:String = String(e.target.data);
-//			//trace("response:"+response);
-//			jsonObj = util.JSON.parse(response);
-//			hexCode = jsonObj["hex"]
-//			ccode = jsonObj["code"]
-//			token = jsonObj["hash"]
-//			output = jsonObj["output"]
-//			_scratch.dispatchEvent(new RobotEvent(RobotEvent.CCODE_GOT,ccode));
-//			_scratch.dispatchEvent(new RobotEvent(RobotEvent.COMPILE_OUTPUT,output));
-//			if(hexCode)
-//				saveHexFile(token,hexCode);
-//		}
-//		
-//		private function ioErrorHandler(e:Event):void{
-//			
-//		}
+		private function saveHexFile(token:String,hexString:String):void{
+			var f:File = new File();
+			f.addEventListener(Event.COMPLETE, _onRfComplete);
+			f.save(hexString,token+".hex");
+		}
 		
+		private function _onRfComplete(e:Event):void{
+			hexPath = e.target.nativePath
+			_scratch.dispatchEvent(new RobotEvent(RobotEvent.HEX_SAVED,hexPath));
+		}
 		
+		private function uploadCompleteHandler(e:Event):void{
+			var response:String = String(e.target.data);
+			//trace("response:"+response);
+			jsonObj = util.JSON.parse(response);
+			hexCode = jsonObj["hex"]
+			ccode = jsonObj["code"]
+			token = jsonObj["hash"]
+			output = jsonObj["output"]
+			_scratch.dispatchEvent(new RobotEvent(RobotEvent.CCODE_GOT,ccode));
+			_scratch.dispatchEvent(new RobotEvent(RobotEvent.COMPILE_OUTPUT,output));
+			if(hexCode)
+				saveHexFile(token,hexCode);
+		}
+		
+		private function ioErrorHandler(e:Event):void{
+			
+		}
 		
 		
-		/****** *****************************
+		
+		
+		/!****** *****************************
 		 * compiler ralated functions 
-		 * **********************************/
+		 * **********************************!/
 		
 		
 		
@@ -1206,14 +1248,14 @@ void updateVar(char * varName,double * var)
 //			if(srcdir.exists && srcdir.getDirectoryListing().length > 0){
 //				srcdir.copyTo(workdir,true);
 //			}
-			//*
+			//!*
 			for each(var path:String in srcDocuments){
 				var srcdir:File = new File(path);
 				if(srcdir.exists && srcdir.isDirectory){
 					copyCompileFiles(srcdir.getDirectoryListing(),workdir);
 				}
 			}
-			//*/
+			//!*!/
 			var projCpp:File = File.applicationStorageDirectory.resolvePath("scratchTemp/"+projectDocumentName+"/"+projectDocumentName+".ino")
 			LogManager.sharedManager().log("projCpp:"+projCpp.nativePath);
 			var outStream:FileStream = new FileStream();
@@ -1243,7 +1285,7 @@ void updateVar(char * varName,double * var)
 		}
 		
 		private var compileErr:Boolean = false;
-		//*
+		//!*
 		private function copyCompileFiles(files:Array, workdir:File):void
 		{
 			for(var i:int = 0; i < files.length; ++i){
@@ -1263,7 +1305,7 @@ void updateVar(char * varName,double * var)
 				}
 			}
 		}
-		//*/
+		//!*!/
 		public function get projectDocumentName():String{
 			var now:Date = new Date;
 			var pName:String = MBlock.app.projectName().split(" ").join("").split("(").join("").split(")").join("");
@@ -1283,7 +1325,7 @@ void updateVar(char * varName,double * var)
 			if(isUploading){
 				return "uploading";
 			}
-			/*
+			/!*
 			if(arduinoInstallPath==""){
 				var dialog:DialogBox = new DialogBox();
 				dialog.addTitle("Message");
@@ -1312,7 +1354,7 @@ void updateVar(char * varName,double * var)
 				dialog.showOnStage(MBlock.app.stage);
 				return "Arduino IDE not found.";
 			}
-			*/
+			*!/
 			_currentDevice = DeviceManager.sharedManager().currentDevice;
 			// get building direcotry ready
 			var workdir:File = File.applicationStorageDirectory.resolvePath("scratchTemp")
@@ -1330,14 +1372,14 @@ void updateVar(char * varName,double * var)
 //			if(srcdir.exists && srcdir.getDirectoryListing().length > 0){
 //				srcdir.copyTo(workdir,true);
 //			}
-			//*
+			//!*
 			for each(var path:String in srcDocuments){
 				var srcdir:File = new File(path);
 				if(srcdir.exists && srcdir.isDirectory){
 					copyCompileFiles(srcdir.getDirectoryListing(), workdir);
 				}
 			}
-			//*/
+			//!*!/
 			var projCpp:File = File.applicationStorageDirectory.resolvePath("scratchTemp/"+projectDocumentName+"/"+projectDocumentName+".ino")
 			var outStream:FileStream = new FileStream();
 			outStream.open(projCpp, FileMode.WRITE);
@@ -1363,7 +1405,7 @@ void updateVar(char * varName,double * var)
 			workdir.createDirectory()
 				
 			// yzj, don't use pre-build object any more, build from arduino libs
-			/*
+			/!*
 			// prepare build directory
 			if(boardType=="leonardo")
 			srcdir = srcdir.resolvePath("../gcc_template")
@@ -1372,7 +1414,7 @@ void updateVar(char * varName,double * var)
 			workdir = workdir.resolvePath("build")
 			//workdir.deleteDirectory(true)
 			srcdir.copyTo(workdir,true)
-			*/
+			*!/
 			// prebuild arduino lib
 			buildArduinoLib(workdir);
 			copyCompileFiles(files, workdir);
@@ -1777,11 +1819,11 @@ void updateVar(char * varName,double * var)
 		private function onOutputData(event:ProgressEvent):void 
 		{ 
 			isUploading = true;
-			/*
+			/!*
 			var output:String = process.standardOutput.readUTFBytes(process.standardOutput.bytesAvailable)
 			var date:Date = new Date;
 			MBlock.app.scriptsPart.appendMessage(""+(date.month+1)+"-"+date.date+" "+date.hours+":"+date.minutes+": Got: "+output); 
-			*/
+			*!/
 		}
 		
 		private function onErrorData(event:ProgressEvent):void
@@ -1813,5 +1855,6 @@ void updateVar(char * varName,double * var)
 		}
 		
 		private var errorText:String;
-	}
+	}*/
+}
 }
