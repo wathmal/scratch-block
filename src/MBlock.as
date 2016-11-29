@@ -161,7 +161,7 @@ package {
 				return;
 			}
 			errorFlag = true;
-			ErrorReportFrame.OpenSendWindow(errorText);
+//			ErrorReportFrame.OpenSendWindow(errorText);
 		}
 		
 		private function initStage(evt:Event):void{
