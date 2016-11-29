@@ -23,59 +23,45 @@
 // This part holds the palette and scripts pane for the current sprite (or stage).
 
 package ui.parts {
-import flash.desktop.NativeProcess;
-import flash.desktop.NativeProcessStartupInfo;
-import flash.display.Bitmap;
-import flash.display.Graphics;
-import flash.display.Shape;
-import flash.display.Sprite;
-import flash.events.Event;
-import flash.events.HTTPStatusEvent;
-import flash.events.IOErrorEvent;
-import flash.events.MouseEvent;
-import flash.events.NativeProcessExitEvent;
-import flash.events.ProgressEvent;
-import flash.events.SecurityErrorEvent;
-import flash.filesystem.File;
-import flash.filesystem.FileMode;
-import flash.filesystem.FileStream;
-import flash.net.URLLoader;
-import flash.net.URLLoaderDataFormat;
-import flash.net.URLRequest;
-import flash.net.URLRequestHeader;
-import flash.net.URLRequestMethod;
-import flash.text.TextField;
-import flash.text.TextFieldType;
-import flash.text.TextFormat;
-import flash.utils.ByteArray;
-import flash.utils.getTimer;
-
-import blocks.Block;
-
-import cc.makeblock.util.HexUtil;
-
-import extensions.ArduinoManager;
-import extensions.SerialManager;
-
-import scratch.ScratchObj;
-import scratch.ScratchSprite;
-import scratch.ScratchStage;
-
-import translation.Translator;
-
-import ui.BlockPalette;
-import ui.PaletteSelector;
-
-import uiwidgets.Button;
-import uiwidgets.DialogBox;
-import uiwidgets.IndicatorLight;
-import uiwidgets.ScriptsPane;
-import uiwidgets.ScrollFrame;
-import uiwidgets.TextPane;
-import uiwidgets.ZoomWidget;
-
-import util.JSON;
-import util.SharedObjectManager;
+	import flash.display.Bitmap;
+	import flash.display.Graphics;
+	import flash.display.Shape;
+	import flash.display.Sprite;
+	import flash.events.Event;
+	import flash.events.MouseEvent;
+	import flash.text.TextField;
+	import flash.text.TextFieldType;
+	import flash.text.TextFormat;
+	import flash.utils.ByteArray;
+	import flash.utils.getTimer;
+	
+	import blocks.Block;
+	
+	import cc.makeblock.util.HexUtil;
+	
+	import extensions.ArduinoManager;
+	import extensions.SerialManager;
+	
+	import org.aswing.error.UnsupportedError;
+	
+	import scratch.ScratchObj;
+	import scratch.ScratchSprite;
+	import scratch.ScratchStage;
+	
+	import translation.Translator;
+	
+	import ui.BlockPalette;
+	import ui.PaletteSelector;
+	
+	import uiwidgets.Button;
+	import uiwidgets.DialogBox;
+	import uiwidgets.IndicatorLight;
+	import uiwidgets.ScriptsPane;
+	import uiwidgets.ScrollFrame;
+	import uiwidgets.TextPane;
+	import uiwidgets.ZoomWidget;
+	
+	import util.JSON;
 
 public class ScriptsPart extends UIPart {
 
@@ -340,65 +326,23 @@ public class ScriptsPart extends UIPart {
 	 * Upload Button Action
 	 */
 	private function onCompileArduino(evt:MouseEvent):void{
-		
+
 		trace("code");
 		var code:String = arduinoTextPane.textField.text.toString();
 		var a:Array= code.split('\r');
 		trace(code);
-		
 		// TODO: send widget configurations to cloud API
-		var widgetJson:Object= new Object();
-		widgetJson.widgets= util.JSON.parse(util.JSON.stringify(app.stagePane)).children;
-		
-		var size:int= widgetJson.widget.size();
-		widgetJson.username= SharedObjectManager.sharedManager().getObject("username");
-		widgetJson.password= SharedObjectManager.sharedManager().getObject("password");
-		
-//		TODO: post request		
-		var request:URLRequest = new URLRequest();
-		request.url = "http://localhost:3000/publish";
-		request.contentType = "multipart/form-data";
-		request.method = URLRequestMethod.POST;
-		request.data = util.JSON.stringify(widgetJson);
-		
-		var contentTypeHeader:URLRequestHeader = new URLRequestHeader("Content-Type", "application/json");
-		var acceptHeader:URLRequestHeader = new URLRequestHeader("Accept", "application/json");
-		var formDataHeader:URLRequestHeader = new URLRequestHeader("Content-Type", "application/json");
-		
-		request.requestHeaders = [acceptHeader, formDataHeader];
-		
-		var postLoader:URLLoader = new URLLoader();
-		postLoader.dataFormat = URLLoaderDataFormat.BINARY;
-		postLoader.addEventListener(Event.COMPLETE, function(e:Event):void{
-			trace("Send data successfully!"+ e);
-		});
-		
-		postLoader.addEventListener(HTTPStatusEvent.HTTP_STATUS, function(e:Event):void{
-			trace("HTTP_STATUS: "+e);
-		});
-		postLoader.addEventListener(SecurityErrorEvent.SECURITY_ERROR, function(e:Event):void{
-			trace("SECURITY_ERROR: "+e);
-		});
-		postLoader.addEventListener(IOErrorEvent.IO_ERROR, function(e:Event):void{
-			trace("IO_ERROR: "+e);
-		});
-		
-		try
-		{
-			postLoader.load(request);
-		}
-		catch (error:Error)
-		{
-			trace("Unable to POST widgets");
-		}
+		var stageJSON:String = util.JSON.stringify(app.stagePane);
+		//trace(stageJSON);
+		trace(util.JSON.stringify(util.JSON.parse(stageJSON).children));
+
 
 		if(SerialManager.sharedManager().isConnected){
-
-        /**
-         * Upload code using serial com
-         */
-//		writeToNodeMCU(arduinoTextPane.textField.text.toString().split("\t").join("").split("\n").join("").split("\r").join("\r\n"));
-
+			
+			/**
+			 * Upload code using serial com 
+			 */
+			// TODO: dulajs serial send method
 		}else{
 			var dialog:DialogBox = new DialogBox();
 			dialog.addTitle("Message");
@@ -409,66 +353,6 @@ public class ScriptsPart extends UIPart {
 			dialog.addButton("OK",onCancel);
 			dialog.showOnStage(app.stage);
 		}
-    }
-
-	/**
-	 * upload using luatool
-	 */
-	private function writeToNodeMCU(code:String):void
-	{
-		var port:String= SerialManager.sharedManager().currentPort;
-		SerialManager.sharedManager().close();
-		trace("write code to file :" + code);
-		var codeFile:File = new File(File.applicationDirectory.resolvePath("luatool").nativePath+File.separator+"app.lua");
-		var stream:FileStream = new FileStream();
-		stream.open(codeFile, FileMode.WRITE);
-		stream.writeUTFBytes(code);
-		stream.close();
-
-		var nativeProcessStartupInfo:NativeProcessStartupInfo =new NativeProcessStartupInfo();
-//		TODO: Python path
-		var python:File = new File(File.applicationDirectory.resolvePath("Python").nativePath+File.separator+"python.exe");
-		nativeProcessStartupInfo.executable = python;
-		nativeProcessStartupInfo.workingDirectory= File.applicationDirectory.resolvePath("luatool");
-
-		var processArgs:Vector.<String> = new Vector.<String>();
-		processArgs.push("luatool.py")
-		processArgs.push("--port");
-		processArgs.push(port);
-		processArgs.push("--src");
-		processArgs.push("app.lua");
-		processArgs.push("--dest");
-		processArgs.push("app.lua");
-		processArgs.push("--dofile");
-		processArgs.push("--verbose");
-//		processArgs.push("--baud");
-//		processArgs.push("115200");
-
-		nativeProcessStartupInfo.arguments = processArgs;
-		var process:NativeProcess = new NativeProcess();
-		trace("write To NodeMCU started as \n"+nativeProcessStartupInfo.executable.nativePath+" " +processArgs);
-
-		process.addEventListener(ProgressEvent.STANDARD_OUTPUT_DATA, function (e:ProgressEvent):void{
-			trace( ">"+process.standardOutput.readUTFBytes(process.standardOutput.bytesAvailable));
-			messageTextPane.append(">: "+process.standardOutput.readUTFBytes(process.standardOutput.bytesAvailable));
-		});
-		process.addEventListener(ProgressEvent.STANDARD_ERROR_DATA,function (event:ProgressEvent):void{
-			trace( ">"+process.standardError.readUTFBytes(process.standardError.bytesAvailable));
-			messageTextPane.append(">"+process.standardError.readUTFBytes(process.standardError.bytesAvailable));
-		});
-		process.addEventListener(NativeProcessExitEvent.EXIT,function (event:NativeProcessExitEvent):void{
-			trace( "LUATOOL: Process exited with ", event.exitCode);
-			var dialog:DialogBox = new DialogBox();
-			dialog.addTitle("NodeMCU");
-			dialog.addText("Done Uploading!");
-			dialog.addButton("OK",function onCancel():void{
-				dialog.cancel();
-			});
-			dialog.showOnStage(app.stage);
-			SerialManager.sharedManager().open(port);
-		});
-		process.start(nativeProcessStartupInfo);
-
 	}
 	private function onHideArduino(evt:MouseEvent):void{
 		app.toggleArduinoMode();

@@ -10,19 +10,12 @@ package {
 	import flash.display.StageScaleMode;
 	import flash.events.ErrorEvent;
 	import flash.events.Event;
-	import flash.events.HTTPStatusEvent;
-	import flash.events.IOErrorEvent;
 	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
-	import flash.events.SecurityErrorEvent;
 	import flash.events.UncaughtErrorEvent;
 	import flash.filesystem.File;
 	import flash.geom.Point;
-	import flash.net.URLLoader;
-	import flash.net.URLLoaderDataFormat;
 	import flash.net.URLRequest;
-	import flash.net.URLRequestHeader;
-	import flash.net.URLRequestMethod;
 	import flash.system.System;
 	import flash.ui.Keyboard;
 	import flash.utils.ByteArray;
@@ -36,6 +29,7 @@ package {
 	import cc.makeblock.mbot.util.AppTitleMgr;
 	import cc.makeblock.mbot.util.PopupUtil;
 	import cc.makeblock.menu.MenuBuilder;
+	import cc.makeblock.updater.AppUpdater;
 	import cc.makeblock.util.FileUtil;
 	import cc.makeblock.util.FlashSprite;
 	import cc.makeblock.util.InvokeMgr;
@@ -86,7 +80,6 @@ package {
 	
 	import util.ApplicationManager;
 	import util.GestureHandler;
-	import util.JSON;
 	import util.LogManager;
 	import util.ProjectIO;
 	import util.Server;
@@ -149,13 +142,12 @@ package {
 		private var tabsPart:TabsPart;
 		private var _welcomeView:Loader;
 		private var _currentVer:String = "01.05.001";
-		
-	public function MBlock(){
+		public function MBlock(){
 			app = this;
 			addEventListener(Event.ADDED_TO_STAGE,initStage);
 			loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, __onError);
 			
-	}
+		}
 		static private var errorFlag:Boolean;
 		private function __onError(evt:UncaughtErrorEvent):void
 		{
@@ -169,7 +161,7 @@ package {
 				return;
 			}
 			errorFlag = true;
-//			ErrorReportFrame.OpenSendWindow(errorText);
+			ErrorReportFrame.OpenSendWindow(errorText);
 		}
 		
 		private function initStage(evt:Event):void{
@@ -265,16 +257,16 @@ package {
 				dBox.addField("username", 100, "user");
 				dBox.addField("password", 100, "pass");
 
-				dBox.addButton("login", function():void{
+				function loginUser():void{
 					trace("logging in: "+ dBox.getField("username"));
-					
-//					logging in
-//					login();
-					
 					SharedObjectManager.sharedManager().setObject("isUserNotSet",false);
 					SharedObjectManager.sharedManager().setObject("username",dBox.getField("username"));
 					SharedObjectManager.sharedManager().setObject("password",dBox.getField("password"));
-				});
+//					dBox.setTitle("login failed");
+//					dBox.showOnStage(app.stage);
+
+				}
+				dBox.addButton("login",loginUser);
 				dBox.showOnStage(app.stage);
 				dBox.fixLayout();
 			}
@@ -308,51 +300,6 @@ package {
 			ga.trackPageview(
 				(ApplicationManager.sharedManager().isCatVersion?"/myh/":"/") + MBlock.versionString + msg
 			);
-		}
-		
-		private function login():void
-		{
-			var data:Object= new Object();
-			data.username= SharedObjectManager.sharedManager().getObject("username");
-			data.password= SharedObjectManager.sharedManager().getObject("password");
-			
-			var request:URLRequest = new URLRequest();
-			request.url = "http://192.168.88.100:3000/login";
-			request.contentType = "application/json";
-			request.method = URLRequestMethod.POST;
-			request.data = data;
-			
-			var contentTypeHeader:URLRequestHeader = new URLRequestHeader("Content-Type", "application/json");
-			var acceptHeader:URLRequestHeader = new URLRequestHeader("Accept", "application/json");
-			var formDataHeader:URLRequestHeader = new URLRequestHeader("Content-Type", "application/json");
-			
-			request.requestHeaders = [acceptHeader, formDataHeader];
-			
-			var postLoader:URLLoader = new URLLoader();
-			postLoader.dataFormat = URLLoaderDataFormat.BINARY;
-			postLoader.addEventListener(Event.COMPLETE, function(e:Event):void{
-				trace("Send data successfully!"+ e);
-				
-			});
-			
-			postLoader.addEventListener(HTTPStatusEvent.HTTP_STATUS, function(e:Event):void{
-				trace("HTTP_STATUS: "+e);
-			});
-			postLoader.addEventListener(SecurityErrorEvent.SECURITY_ERROR, function(e:Event):void{
-				trace("SECURITY_ERROR: "+e);
-			});
-			postLoader.addEventListener(IOErrorEvent.IO_ERROR, function(e:Event):void{
-				trace("IO_ERROR: "+e);
-			});
-			
-			try
-			{
-				postLoader.load(request);
-			}
-			catch (error:Error)
-			{
-				trace("Unable to POST widgets");
-			}	
 		}
 		
 		protected function initTopBarPart():void {
