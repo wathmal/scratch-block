@@ -1,21 +1,8 @@
 package extensions
 {
 	import flash.desktop.NativeProcess;
-	import flash.desktop.NativeProcessStartupInfo;
-	import flash.events.Event;
 	import flash.events.EventDispatcher;
-	import flash.events.IOErrorEvent;
-	import flash.events.NativeProcessExitEvent;
-	import flash.events.ProgressEvent;
 	import flash.filesystem.File;
-	import flash.filesystem.FileMode;
-	import flash.filesystem.FileStream;
-	import flash.net.URLLoader;
-	import flash.net.URLLoaderDataFormat;
-	import flash.net.URLRequest;
-	import flash.net.URLRequestMethod;
-	import flash.net.URLVariables;
-	import flash.system.Capabilities;
 	import flash.utils.getQualifiedClassName;
 	
 	import blocks.Block;
@@ -23,9 +10,7 @@ package extensions
 	
 	import cc.makeblock.mbot.util.StringUtil;
 	
-	import util.ApplicationManager;
 	import util.JSON;
-	import util.LogManager;
 	import util.SharedObjectManager;
 	
 	public class ArduinoManager extends EventDispatcher
@@ -103,7 +88,8 @@ package extensions
 wifi.setmode(wifi.STATION)
 //wifi
 -- MQTT Client configuration
-m = mqtt.Client("user_id", 120, "", "")
+//mqtt
+m = mqtt.Client("user_id", 120, mqtt_username, mqtt_password)
 m:on("connect", function(client) print ("connected to MQTT server!") end)
 m:on("offline", function(client) print ("mqtt offline") end)
 
@@ -116,7 +102,7 @@ function mqttcon()
         print("ip unavailable, waiting...")
     else
     tmr.stop(1)
-    m:connect("192.168.88.100", 1883, 0, 
+    m:connect("wireme.projects.mrt.ac.lk", 8883, 0,
 	function(client) 
 		print("connected to mqtt")
 		tmr.alarm(2,500,1,mainloop)
@@ -982,7 +968,13 @@ void updateVar(char * varName,double * var)
 				parseScripts(objs.scripts);
 			}
 			ccode_func+=buildFunctions();
-			retcode = codeTemplate.replace("//setup",ccode_setup).replace("//loop", ccode_loop).replace("//define", ccode_def).replace("//include", ccode_inc).replace("//function",ccode_func).replace("//wifi", ccode_wifi);
+			retcode = codeTemplate.replace("//setup",ccode_setup)
+				.replace("//loop", ccode_loop)
+				.replace("//define", ccode_def)
+				.replace("//include", ccode_inc)
+				.replace("//function",ccode_func)
+				.replace("//wifi", ccode_wifi)
+				.replace("//mqtt","mqtt_username=\""+SharedObjectManager.sharedManager().getObject("username")+"\";\nmqtt_password=\""+SharedObjectManager.sharedManager().getObject("password")+"\";\n");
 			retcode = buildSerialParser(retcode);
 			retcode = fixTabs(retcode);
 			retcode = fixVars(retcode);

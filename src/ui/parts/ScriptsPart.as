@@ -23,13 +23,6 @@
 // This part holds the palette and scripts pane for the current sprite (or stage).
 
 package ui.parts {
-import blocks.Block;
-
-import cc.makeblock.util.HexUtil;
-
-import extensions.ArduinoManager;
-import extensions.SerialManager;
-
 import flash.desktop.NativeProcess;
 import flash.desktop.NativeProcessStartupInfo;
 import flash.display.Bitmap;
@@ -56,6 +49,13 @@ import flash.text.TextFieldType;
 import flash.text.TextFormat;
 import flash.utils.ByteArray;
 import flash.utils.getTimer;
+
+import blocks.Block;
+
+import cc.makeblock.util.HexUtil;
+
+import extensions.ArduinoManager;
+import extensions.SerialManager;
 
 import scratch.ScratchObj;
 import scratch.ScratchSprite;
@@ -367,7 +367,17 @@ public class ScriptsPart extends UIPart {
         //      send widget configurations to cloud API
         var widgetJson:Object = new Object();
         widgetJson.widgets = util.JSON.parse(util.JSON.stringify(app.stagePane)).children;
-//        var size:int = widgetJson.widget.size();
+		var widgetArray:Array = new Array();
+		var widget:Object;
+		for (var i:uint = 0; i < util.JSON.parse(util.JSON.stringify(app.stagePane)).children.length; i++) {
+			if(util.JSON.parse(util.JSON.stringify(app.stagePane)).children[i].objName.indexOf("node-mcu") < 0){
+				widget= new Object();
+				widget.title= util.JSON.parse(util.JSON.stringify(app.stagePane)).children[i].objName;
+				widget.data= util.JSON.parse(util.JSON.stringify(app.stagePane)).children[i].scripts[0][2];
+				widgetArray.push(widget);
+			}
+		}
+		widgetJson.widgets= widgetArray;
         widgetJson.username = SharedObjectManager.sharedManager().getObject("username");
         widgetJson.password = SharedObjectManager.sharedManager().getObject("password");
 
@@ -376,6 +386,7 @@ public class ScriptsPart extends UIPart {
         request.url = "http://localhost:3000/publish";
         request.contentType = "multipart/form-data";
         request.method = URLRequestMethod.POST;
+		trace(util.JSON.stringify(widgetJson));
         request.data = util.JSON.stringify(widgetJson);
 
         request.requestHeaders = [new URLRequestHeader("Accept", "application/json"),
