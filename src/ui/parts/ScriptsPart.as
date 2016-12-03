@@ -378,12 +378,11 @@ public class ScriptsPart extends UIPart {
 			}
 		}
 		widgetJson.widgets= widgetArray;
-        widgetJson.username = SharedObjectManager.sharedManager().getObject("username");
-        widgetJson.password = SharedObjectManager.sharedManager().getObject("password");
+        widgetJson.token = SharedObjectManager.sharedManager().getObject("token");
 
 //		post request
         var request:URLRequest = new URLRequest();
-        request.url = "http://localhost:3000/publish";
+        request.url = "http://192.168.88.107:4000/publish";
         request.contentType = "multipart/form-data";
         request.method = URLRequestMethod.POST;
 		trace(util.JSON.stringify(widgetJson));

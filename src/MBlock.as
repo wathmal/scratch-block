@@ -25,11 +25,9 @@ package {
 	
 	import cc.makeblock.mbot.lookandfeel.MyLookAndFeel;
 	import cc.makeblock.mbot.ui.parts.TopSystemMenu;
-	import cc.makeblock.mbot.uiwidgets.errorreport.ErrorReportFrame;
 	import cc.makeblock.mbot.util.AppTitleMgr;
 	import cc.makeblock.mbot.util.PopupUtil;
 	import cc.makeblock.menu.MenuBuilder;
-	import cc.makeblock.updater.AppUpdater;
 	import cc.makeblock.util.FileUtil;
 	import cc.makeblock.util.FlashSprite;
 	import cc.makeblock.util.InvokeMgr;
@@ -253,23 +251,37 @@ package {
 				// login user
 				trace("user not set");
 				var dBox:DialogBox = new DialogBox();
-				dBox.addTitle("please login");
-				dBox.addField("username", 100, "user");
-				dBox.addField("password", 100, "pass");
 
-				function loginUser():void{
+				
+				
+				dBox.addTitle("please login");
+				dBox.addField("username", 100, "");
+				dBox.addPasswordField("password", 100, "");
+
+				
+				dBox.addButton("login",function(): void{
 					trace("logging in: "+ dBox.getField("username"));
 					SharedObjectManager.sharedManager().setObject("isUserNotSet",false);
 					SharedObjectManager.sharedManager().setObject("username",dBox.getField("username"));
 					SharedObjectManager.sharedManager().setObject("password",dBox.getField("password"));
-//					dBox.setTitle("login failed");
-//					dBox.showOnStage(app.stage);
-
-				}
-				dBox.addButton("login",loginUser);
+					
+					SharedObjectManager.sharedManager().setObject("token",getJwt(dBox.getField("username"),dBox.getField("password")));
+					
+					//					dBox.setTitle("login failed");
+					//					dBox.showOnStage(app.stage);
+					
+				});
 				dBox.showOnStage(app.stage);
 				dBox.fixLayout();
 			}
+		}
+		
+		/**
+		 * Login API call
+		 */
+		private function getJwt(username:String, password:String):String
+		{
+			return "";
 		}
 		private function initExtension():void{
 //			ClickerManager.sharedManager().update();

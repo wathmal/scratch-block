@@ -144,6 +144,19 @@ public class DialogBox extends Sprite {
 		fields[fieldName] = f;
 		labelsAndFields.push([l, f]);
 	}
+	
+	public function addPasswordField(fieldName:String, width:int, defaultValue:* = null, showLabel:Boolean = true):void {
+		var l:TextField = null;
+		if (showLabel) {
+			l = makeLabel(Translator.map(fieldName) + ':');
+			addChild(l);
+		}
+		var f:TextField = makePasswordField(width);
+		if (defaultValue != null) f.text = defaultValue;
+		addChild(f);
+		fields[fieldName] = f;
+		labelsAndFields.push([l, f]);
+	}
 
 	public function addBoolean(fieldName:String, defaultValue:Boolean = false, isRadioButton:Boolean = false):void {
 		var l:TextField = makeLabel(Translator.map(fieldName) + ':');
@@ -297,6 +310,23 @@ private function getCheckMark(b:Boolean):Sprite{
 		result.backgroundColor = 0xFFFFFF;
 		result.borderColor = CSS.borderColor;
 
+		return result;
+	}
+	
+	private function makePasswordField(width:int):TextField {
+		var result:TextField = new TextField();
+		result.selectable = true;
+		result.type = TextFieldType.INPUT;
+		result.displayAsPassword = true;
+		result.background = true;
+		result.border = true;
+		result.defaultTextFormat = CSS.normalTextFormat;
+		result.width = width;
+		result.height = result.defaultTextFormat.size + 8;
+		
+		result.backgroundColor = 0xFFFFFF;
+		result.borderColor = CSS.borderColor;
+		
 		return result;
 	}
 

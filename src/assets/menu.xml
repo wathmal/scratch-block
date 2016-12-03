@@ -11,6 +11,8 @@
 		<item isSeparator="true" />
 		<item name="Undo Revert" label="取消转换" keyEquivalent="" />
 		<item name="Revert" label="转换" keyEquivalent="" />
+		<item name="Log Out" label="logout"/>
+		<item name="Log In" label="login"/>
 	</subMenu>
 	<subMenu name="Edit" label="编辑">
 		<item name="Undelete" label="撤销删除" />
