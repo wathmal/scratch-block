@@ -82,10 +82,8 @@ package extensions
 		/**
 		 * Main code template
 		 */	
-		private var codeTemplate:String = ( <![CDATA[//include
+		private var codeTemplate:String = ( <![CDATA[//setup
 //define
-//setup
-
 -- connect to wifi
 wifi.setmode(wifi.STATION)
 //wifi
@@ -111,12 +109,12 @@ function mqttcon()
     m:connect("wireme.projects.mrt.ac.lk", 1883, 0,
 	function(client) 
 		print("connected to mqtt")
+		//include
 		tmr.alarm(2,500,1,mainloop)
 	end,
 	function(client, reason) 
 		print("failed on MQTT due to : "..reason) 
 	end)
-	
 	end
 end
 
