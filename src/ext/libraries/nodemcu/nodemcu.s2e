@@ -7,26 +7,32 @@
 		["h","start","runArduino"],
 
         ["w", "configure wifi %s and %s","configWifi","name","password",
-		{"encode":"{d0}","setup":"","inc":"","def":"","work":"","loop":"","wifi":"wifi.sta.config({0}, {1})\n"}],
+		{"encode":"{d0}","setup":"","inc":"","def":"","work":"","loop":"","wifi":"wifi.sta.config({0}, {1})\n", "mqtt":""}],
 
 		["R", "get temperature from socket %d.inputs","getDHT","1",
-		{"encode":"{d0}","setup":"","inc":"","def":"","work":"selectindx(2, dht.read({0}))","loop":"", "wifi":""}],
+		{"encode":"{d0}","setup":"","inc":"","def":"","work":"selectindx(2, dht.read({0}))","loop":"", "wifi":"", "mqtt":""}],
 
 		["R", "get humidity from socket %d.inputs","getDHT","1",
-        {"encode":"{d0}","setup":"","inc":"","def":"","work":"selectindx(3, dht.read({0}))","loop":"", "wifi":""}],
+        {"encode":"{d0}","setup":"","inc":"","def":"","work":"selectindx(3, dht.read({0}))","loop":"", "wifi":"", "mqtt":""}],
 
         ["w", "switch %d.state device at socket %d.pins","switchDigital", "ON", "1",
-        {"encode":"{d0}{d1}","setup":"gpio.mode({1},gpio.OUTPUT)\n","inc":"","def":"","work":"gpio.write({1},{0})\n","loop":"","wifi":""}],
+        {"encode":"{d0}{d1}","setup":"gpio.mode({1},gpio.OUTPUT)\n","inc":"","def":"","work":"gpio.write({1},{0})\n","loop":"","wifi":"", "mqtt":""}],
 
         ["w", "switch LED %d.state on socket %d.pins","switchDigital", "ON", "1",
-        {"encode":"{d0}{d1}","setup":"gpio.mode({1},gpio.OUTPUT)\n","inc":"","def":"","work":"gpio.write({1},{0})\n","loop":"","wifi":""}],
+        {"encode":"{d0}{d1}","setup":"gpio.mode({1},gpio.OUTPUT)\n","inc":"","def":"","work":"gpio.write({1},{0})\n","loop":"","wifi":"", "mqtt":""}],
 
         ["w", "set %d.state  buzzer on socket %d.pins","switchDigital", "ON", "1",
-        {"encode":"{d0}{d1}","setup":"gpio.mode({1},gpio.OUTPUT)\n","inc":"","def":"","work":"gpio.write({1},{0})\n","loop":"","wifi":""}],
+        {"encode":"{d0}{d1}","setup":"gpio.mode({1},gpio.OUTPUT)\n","inc":"","def":"","work":"gpio.write({1},{0})\n","loop":"","wifi":"", "mqtt":""}],
 
         ["w", "send value : %s as %s","sendToServer", "","/temp",
-        {"encode":"{s0}{d1}","setup":"","inc":"","def":"","work":"","loop":""}]
-
+        {"encode":"{s0}{d1}","setup":"","inc":"","def":"","work":"","loop":"","wifi":"", "mqtt":""}],
+        
+        ["w", "control device at %d.pins by cloud switch %s ","mqttSubSwitch","2","/switch",
+        {"encode":"{d0}","setup":"gpio.mode({0},gpio.OUTPUT)\n","inc":"","def":"","work":"","loop":"","wifi":"", "mqtt":"if topic == mqtt_username..{1} then\n\tif data == \"{switch: \\\"ON\\\"}\" then gpio.write({0},1) end \nelse gpio.write({0},0) end \nend\n"}],
+        
+        ["w", "control device at %d.pins by cloud dimmer %s ","mqttSubDimmer","1","/dimmer",
+        {"encode":"{d0}","setup":"gpio.mode({0},gpio.OUTPUT)\n","inc":"","def":"","work":"","loop":"", "mqtt":""}]
+        
 	],
 	"menus": {
 

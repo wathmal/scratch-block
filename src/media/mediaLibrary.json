@@ -1,4 +1,5 @@
 [
 {"name": "node-mcu", "md5": "nodemcu.json", "type": "sprite", "tags": ["platform"], "info": [0, 1, 1]},
+{"name": "line-chart", "md5": "line-chart.json", "type": "sprite", "tags": ["widgets"], "info": [0, 1, 1]},
 {"name": "Amon", "md5": "02ea712d4ede8ec2c7eb408e3931d8c4.json", "type": "sprite", "tags": ["people", "flying", "photo", "bitmap"], "info": [0, 1, 1]}
 ]

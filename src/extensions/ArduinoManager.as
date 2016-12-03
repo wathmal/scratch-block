@@ -32,10 +32,12 @@ package extensions
 		private var ccode_setup:String = "";
 		private var ccode_setup_fun:String = "";
 		private var ccode_setup_def:String = "";
+		private var ccode_setup_mqtt:String = "";
 		private var ccode_loop:String = ""
 		private var ccode_def:String = ""
 		private var ccode_inc:String = ""
 		private var ccode_wifi:String = "";
+		private var ccode_mqtt:String = "";
 		private var ccode_pointer:String="setup"
 		private var ccode_func:String = "";
 		private var mathOp:Array=["+","-","*","/","%",">","=","<","&","|","!","not","rounded"];
@@ -88,10 +90,14 @@ package extensions
 wifi.setmode(wifi.STATION)
 //wifi
 -- MQTT Client configuration
-//mqtt
-m = mqtt.Client("user_id", 120, mqtt_username, mqtt_password)
+//mqttConfig
+m = mqtt.Client(mqtt_username, 120, mqtt_username, mqtt_password)
 m:on("connect", function(client) print ("connected to MQTT server!") end)
 m:on("offline", function(client) print ("mqtt offline") end)
+m:on("message", function(conn, topic, data)
+	print ("mqtt message received :".. topic .. data)
+	//mqtt
+end)
 
 function mainloop()
 	//loop
@@ -102,13 +108,15 @@ function mqttcon()
         print("ip unavailable, waiting...")
     else
     tmr.stop(1)
-    m:connect("wireme.projects.mrt.ac.lk", 8883, 0,
+    m:connect("wireme.projects.mrt.ac.lk", 1883, 0,
 	function(client) 
 		print("connected to mqtt")
 		tmr.alarm(2,500,1,mainloop)
 	end,
 	function(client, reason) 
-		print("failed on MQTT due to : "..reason) end
+		print("failed on MQTT due to : "..reason) 
+	end)
+	
 	end
 end
 
@@ -625,6 +633,9 @@ void updateVar(char * varName,double * var)
 			else if(ccode_pointer=="loop"){
 				ccode_loop+=funcode;
 			}
+//			else if (ccode_pointer=="mqtt"){
+//				ccode_mqtt+=funcode;
+//			}
 		}
 		
 		private function getCodeBlock(blk:Object,params:Array=null):CodeBlock{
@@ -746,9 +757,22 @@ void updateVar(char * varName,double * var)
 //				trace(getCodeBlock(blk[1]).code);
 //				trace(skey);
 				// TODO: format {0} as string or integer
-				codeBlock.code = new CodeObj(StringUtil.substitute("m:publish(\"user_id"+key+"\",cjson.encode({ value= {0}}),0,0, function(client) print(\"sent\") end)\n",getCodeBlock(blk[1]).code));
+				codeBlock.code = new CodeObj(StringUtil.substitute("m:publish(mqtt_username..\""+key+"\",cjson.encode({ value= {0}}),0,0, function(client) print(\"sent\") end)\n",getCodeBlock(blk[1]).code));
 				return codeBlock;
 			}
+			
+//			else if(blk[0].indexOf("receiveDataFromWidget") > 0){
+//				codeBlock.type= "obj";
+//				codeBlock.code = new CodeObj(StringUtil.substitute("m:publish(\"user_id"+key+"\",cjson.encode({ value= {0}}),0,0, function(client) print(\"sent\") end)\n",getCodeBlock(blk[1]).code));
+//				return codeBlock;
+//			}
+			
+//			else if(blk[0].indexOf("mqttSubSwitch") > 0){
+//				codeBlock.type= "string";
+//				codeBlock.code = parseMqttSwitch(blk);
+//				return codeBlock;
+//			}
+			
 			
 			else{
 				//trace(blk[0]);
@@ -759,7 +783,15 @@ void updateVar(char * varName,double * var)
 					//trace(obj.work);
 					if(typeof obj == "object"){
 						var ext:ScratchExtension = MBlock.app.extensionManager.extensionByName(blk[0].split(".")[0]);
-						var codeObj:Object = {code:{setup:substitute(obj.setup,blk as Array,ext),work:substitute(obj.work,blk as Array,ext),def:substitute(obj.def,blk as Array,ext),inc:substitute(obj.inc,blk as Array,ext),loop:substitute(obj.loop,blk as Array,ext),wifi:substitute(obj.wifi,blk as Array,ext)}};
+						var codeObj:Object = {code:{
+							setup:substitute(obj.setup,blk as Array,ext)
+							,work:substitute(obj.work,blk as Array,ext)
+							,def:substitute(obj.def,blk as Array,ext)
+							,inc:substitute(obj.inc,blk as Array,ext)
+							,loop:substitute(obj.loop,blk as Array,ext)
+							,wifi:substitute(obj.wifi,blk as Array,ext)
+							,mqtt:substitute(obj.mqtt,blk as Array,ext)
+						}};
 						if(!availableBlock(codeObj)){
 							if(ext!=null){
 								if(srcDocuments.indexOf(ext.srcPath)==-1){
@@ -886,7 +918,13 @@ void updateVar(char * varName,double * var)
 				}else if(b[0]=="doForever"){
 					ccode_pointer="loop";
 					parseLoop(b[1]);
-				}else{
+				}
+//				else if(b[0]=="node-mcu.mqttSubSwitch"){
+//					ccode_pointer="mqtt";
+//					var cBlk:CodeBlock = getCodeBlock(b);
+//					appendFun(cBlk.code);
+//				}
+				else{
 					var cBlk:CodeBlock = getCodeBlock(b);
 					appendFun(cBlk.code);
 				}
@@ -946,6 +984,7 @@ void updateVar(char * varName,double * var)
 			ccode_inc=""
 			ccode_def=""
 			ccode_func="";
+			ccode_mqtt="";
 			hasUnknownCode = false;
 			// reset arrays
 			varList=[];
@@ -974,7 +1013,9 @@ void updateVar(char * varName,double * var)
 				.replace("//include", ccode_inc)
 				.replace("//function",ccode_func)
 				.replace("//wifi", ccode_wifi)
-				.replace("//mqtt","mqtt_username=\""+SharedObjectManager.sharedManager().getObject("username")+"\";\nmqtt_password=\""+SharedObjectManager.sharedManager().getObject("password")+"\";\n");
+				.replace("//mqttConfig","mqtt_username=\""+SharedObjectManager.sharedManager().getObject("username")
+					+"\";\nmqtt_password=\""+SharedObjectManager.sharedManager().getObject("password")+"\";\n")
+				.replace("//mqtt",ccode_mqtt);
 			retcode = buildSerialParser(retcode);
 			retcode = fixTabs(retcode);
 			retcode = fixVars(retcode);
@@ -1018,10 +1059,15 @@ void updateVar(char * varName,double * var)
 			buildDefine();
 			buildSetup();
 			buildWifiConfig();
+			
+			bulidMqttSub();
+			
 			ccode_setup+=ccode_setup_def;
 			//buildSetup();
 			ccode_setup+=ccode_setup_fun;
+			ccode_mqtt+=ccode_setup_mqtt;
 			ccode_setup_fun = "";
+			ccode_setup_mqtt="";
 			ccode_loop+=buildLoopMaintance();
 		}
 		private function buildSetup():String{
@@ -1103,6 +1149,31 @@ void updateVar(char * varName,double * var)
 			}
 			return modWifiCode;
 		}
+		
+		private function bulidMqttSub():String
+		{
+			var modMqttCode:String = ""
+			for(var i:int=0;i<moduleList.length;i++){
+				var m:Object = moduleList[i]
+				var code:* = m["code"]["mqtt"];
+				code = code is CodeObj?code.code:code;
+				if(code!=""){
+					if(ccode_mqtt.indexOf(code)==-1&&ccode_setup_mqtt.indexOf(code)==-1){
+						ccode_mqtt+=code+"";
+					}
+				}
+			}
+			return modMqttCode;
+		}
+		
+//		private function parseMqttSwitch(blk:Object):String{
+//			var codeMqttSwitch:String = ""
+//			var logiccode:String = getCodeBlock(blk[1]).code;
+//			codeMqttSwitch+=StringUtil.substitute("if topic == \"{1}\" then\nif data == \"{switch: \"ON\"}\" then gpio.write({0},1)\nend \nelse \ngpio.write({0},0) \nend",logiccode,getCodeBlock(blk[2]).code)
+//			codeMqttSwitch+="end \n"
+//			return codeMqttSwitch
+//		}
+		
 		
 		private function buildLoopMaintance():String{
 			var modMaintanceCode:String = ""
