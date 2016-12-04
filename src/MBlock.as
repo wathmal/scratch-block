@@ -54,6 +54,8 @@ package {
 	import scratch.ScratchSprite;
 	import scratch.ScratchStage;
 	
+	import services.WebService;
+	
 	import translation.Translator;
 	
 	import ui.BlockPalette;
@@ -78,6 +80,7 @@ package {
 	
 	import util.ApplicationManager;
 	import util.GestureHandler;
+	import util.JSON;
 	import util.LogManager;
 	import util.ProjectIO;
 	import util.Server;
@@ -249,40 +252,11 @@ package {
 			// check if user account is set.
 			if(SharedObjectManager.sharedManager().getObject("isUserNotSet",true)){
 				// login user
-				trace("user not set");
-				var dBox:DialogBox = new DialogBox();
-
-				
-				
-				dBox.addTitle("please login");
-				dBox.addField("username", 100, "");
-				dBox.addPasswordField("password", 100, "");
-
-				
-				dBox.addButton("login",function(): void{
-					trace("logging in: "+ dBox.getField("username"));
-					SharedObjectManager.sharedManager().setObject("isUserNotSet",false);
-					SharedObjectManager.sharedManager().setObject("username",dBox.getField("username"));
-					SharedObjectManager.sharedManager().setObject("password",dBox.getField("password"));
-					
-					SharedObjectManager.sharedManager().setObject("token",getJwt(dBox.getField("username"),dBox.getField("password")));
-					
-					//					dBox.setTitle("login failed");
-					//					dBox.showOnStage(app.stage);
-					
-				});
-				dBox.showOnStage(app.stage);
-				dBox.fixLayout();
+				WebService.getInstance().login();
 			}
 		}
 		
-		/**
-		 * Login API call
-		 */
-		private function getJwt(username:String, password:String):String
-		{
-			return "";
-		}
+		
 		private function initExtension():void{
 //			ClickerManager.sharedManager().update();
 			SerialManager.sharedManager().setMBlock(this);

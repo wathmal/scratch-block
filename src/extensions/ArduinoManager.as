@@ -751,11 +751,7 @@ void updateVar(char * varName,double * var)
 			else if(blk[0].indexOf("sendToServer") > 0){
 				codeBlock.type= "obj";
 				var key:String = String(getCodeBlock(blk[2]).code);
-//				var skey:String = String(key).toString();
-//				trace(getCodeBlock(blk[1]).code);
-//				trace(skey);
-				// TODO: format {0} as string or integer
-				codeBlock.code = new CodeObj(StringUtil.substitute("m:publish(mqtt_username..\""+key+"\",cjson.encode({ value= {0}}),0,0, function(client) print(\"sent\") end)\n",getCodeBlock(blk[1]).code));
+				codeBlock.code = new CodeObj(StringUtil.substitute("m:publish(mqtt_username..\"\/\"..\""+key+"\",cjson.encode({ value= {0}}),0,0, function(client) print(\"sent\") end)\n",getCodeBlock(blk[1]).code));
 				return codeBlock;
 			}
 			

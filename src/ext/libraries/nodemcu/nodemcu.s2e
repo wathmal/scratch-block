@@ -24,20 +24,20 @@
         ["w", "set %d.state  buzzer on socket %d.pins","switchDigital", "ON", "1",
         {"encode":"{d0}{d1}","setup":"gpio.mode({1},gpio.OUTPUT)\n","inc":"","def":"","work":"gpio.write({1},{0})\n","loop":"","wifi":"", "mqtt":""}],
 
-        ["w", "send value : %s as %s","sendToServer", "","/temp",
+        ["w", "send value : %s as %s","sendToServer", "","temp",
         {"encode":"{s0}{d1}","setup":"","inc":"","def":"","work":"","loop":"","wifi":"", "mqtt":""}],
         
-        ["w", "control device at %d.pins by cloud switch %s ","mqttSubSwitch","2","/switch",
+        ["w", "control device at %d.pins by cloud switch %s ","mqttSubSwitch","2","switch",
         {"encode":"{d0}","setup":"gpio.mode({0},gpio.OUTPUT)\n"
-        ,"inc":"m:subscribe(mqtt_username..{1},0, function(client) print({1}..\" subscribe success\") end)\n"
+        ,"inc":"m:subscribe(mqtt_username..\"\/\"..{1},0, function(client) print({1}..\" subscribe success\") end)\n"
         ,"def":"","work":"","loop":"","wifi":""
-        ,"mqtt":"if topic == mqtt_username..{1} then\n\tif cjson.decode(data).value == true then gpio.write({0},1) \nelse gpio.write({0},0) end \nend\n"}],
+        ,"mqtt":"if topic == mqtt_username..\"\/\"..{1} then\n\tif cjson.decode(data).value == true then gpio.write({0},1) \nelse gpio.write({0},0) end \nend\n"}],
         
-        ["w", "control device at %d.pins by cloud dimmer %s ","mqttSubDimmer","1","/dimmer",
+        ["w", "control device at %d.pins by cloud dimmer %s ","mqttSubDimmer","1","dimmer",
         {"encode":"{d0}","setup":""
         ,"inc":"m:subscribe(mqtt_username..{1},0, function(client) print({1}..\" subscribe success\") end)\n"
         ,"def":"","work":"","loop":"","wifi":""
-        ,"mqtt":"if topic == mqtt_username..{1} then\n\tif cjson.decode(data).value > 0 then pwm.setup({0},500,cjson.decode(data).value*10)\n pwm.start({0})\nelse pwm.stop({0}) end \nend\n"}]
+        ,"mqtt":"if topic == mqtt_username..\"\/\"..{1} then\n\tif cjson.decode(data).value > 0 then pwm.setup({0},500,cjson.decode(data).value*10)\n pwm.start({0})\nelse pwm.stop({0}) end \nend\n"}]
         
 	],
 	"menus": {
