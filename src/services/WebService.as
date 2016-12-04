@@ -52,7 +52,7 @@ package services
 			user.pass = password;
 			
 			var request:URLRequest = new URLRequest();
-			request.url = "http://localhost:3000/api/login";
+			request.url = "http://wireme.projects.mrt.ac.lk/api/login";
 			request.contentType = "multipart/form-data";
 			request.method = URLRequestMethod.POST;
 			
