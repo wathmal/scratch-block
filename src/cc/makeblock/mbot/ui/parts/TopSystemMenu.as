@@ -6,7 +6,6 @@ package cc.makeblock.mbot.ui.parts
 	import flash.events.Event;
 	import flash.net.URLRequest;
 	import flash.net.navigateToURL;
-	import flash.text.engine.BreakOpportunity;
 	
 	import cc.makeblock.mbot.uiwidgets.DynamicCompiler;
 	import cc.makeblock.mbot.uiwidgets.errorreport.ErrorReportFrame;
@@ -17,7 +16,6 @@ package cc.makeblock.mbot.ui.parts
 	import cc.makeblock.updater.AppUpdater;
 	
 	import extensions.ArduinoManager;
-	import extensions.BluetoothManager;
 	import extensions.ConnectionManager;
 	import extensions.DeviceManager;
 	import extensions.ExtensionManager;
