@@ -80,7 +80,6 @@ package {
 	
 	import util.ApplicationManager;
 	import util.GestureHandler;
-	import util.JSON;
 	import util.LogManager;
 	import util.ProjectIO;
 	import util.Server;

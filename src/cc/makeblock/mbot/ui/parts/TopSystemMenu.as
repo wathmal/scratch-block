@@ -6,6 +6,7 @@ package cc.makeblock.mbot.ui.parts
 	import flash.events.Event;
 	import flash.net.URLRequest;
 	import flash.net.navigateToURL;
+	import flash.text.engine.BreakOpportunity;
 	
 	import cc.makeblock.mbot.uiwidgets.DynamicCompiler;
 	import cc.makeblock.mbot.uiwidgets.errorreport.ErrorReportFrame;
@@ -26,6 +27,8 @@ package cc.makeblock.mbot.ui.parts
 	import extensions.SocketManager;
 	
 	import org.aswing.AsWingUtils;
+	
+	import services.WebService;
 	
 	import translation.Translator;
 	
@@ -129,6 +132,12 @@ package cc.makeblock.mbot.ui.parts
 					break;
 				case "Export Image":
 					MediaManager.getInstance().exportImage();
+					break;
+				case "Log Out":
+					SharedObjectManager.sharedManager().setObject("isUserNotSet",true);
+					break;
+				case "Log In":
+					WebService.getInstance().login();
 					break;
 			}
 		}

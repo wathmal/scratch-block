@@ -36,7 +36,6 @@ import flash.events.ProgressEvent;
 import flash.filesystem.File;
 import flash.filesystem.FileMode;
 import flash.filesystem.FileStream;
-import flash.text.ReturnKeyLabel;
 import flash.text.TextField;
 import flash.text.TextFieldType;
 import flash.text.TextFormat;
