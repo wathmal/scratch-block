@@ -4,14 +4,14 @@
 	"costumes": [{
 			"costumeName": "gauge",
 			"baseLayerID": -1,
-			"baseLayerMD5": "gauge.png",
+			"baseLayerMD5": "gauge.svg",
 			"rotationCenterX": 0,
 			"rotationCenterY": 0
 		}],
 	"currentCostumeIndex": 0,
 	"scratchX": 0,
 	"scratchY": 0,
-	"scale":0.2,
+	"scale":0.08,
 	"direction": 90,
 	"rotationStyle": "normal",
 	"isDraggable": false,

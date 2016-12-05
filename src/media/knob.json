@@ -4,7 +4,7 @@
 	"costumes": [{
 			"costumeName": "knob",
 			"baseLayerID": -1,
-			"baseLayerMD5": "knob.png",
+			"baseLayerMD5": "knob.svg",
 			"rotationCenterX": 0,
 			"rotationCenterY": 0
 		}],
