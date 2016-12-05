@@ -146,7 +146,7 @@ package {
 		public function WireMe(){
 			app = this;
 			addEventListener(Event.ADDED_TO_STAGE,initStage);
-			loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, __onError);
+//			loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, __onError);
 			
 		}
 		static private var errorFlag:Boolean;

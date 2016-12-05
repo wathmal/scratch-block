@@ -1,7 +1,7 @@
 Team WireMe : IoT Hub
 ===================
 ---
-> This is a Scratch based *****
+> This is a Scratch based Visual programming tool which facilitate users to program NodeMcu Based devices as well as Deploy a web interface using Sprites of the visual programming interface
 
 ToDo
 ===================
