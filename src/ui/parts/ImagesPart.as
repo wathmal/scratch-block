@@ -64,7 +64,7 @@ public class ImagesPart extends UIPart {
 	private var importButton:IconButton;
 	private var cameraButton:IconButton;
 
-	public function ImagesPart(app:MBlock) {
+	public function ImagesPart(app:WireMe) {
 		this.app = app;
 		addChild(shape = new Shape());
 
@@ -468,8 +468,8 @@ public class ImagesPart extends UIPart {
 	public function handleTool(tool:String, evt:MouseEvent):void {
 		var localP:Point = globalToLocal(new Point(stage.mouseX, stage.mouseY));
 		if (tool == 'help') {
-			if (localP.x > columnWidth) MBlock.app.showTip('paint');
-			else MBlock.app.showTip('scratchUI');
+			if (localP.x > columnWidth) WireMe.app.showTip('paint');
+			else WireMe.app.showTip('scratchUI');
 		}
 	}
 

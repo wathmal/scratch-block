@@ -50,7 +50,7 @@ package cc.makeblock.interpreter
 					mbotTimer = getTimer();
 					return;
 			}
-			var ext:ScratchExtension = MBlock.app.extensionManager.extensionByName(extName);
+			var ext:ScratchExtension = WireMe.app.extensionManager.extensionByName(extName);
 			if(null == ext){
 				thread.interrupt();
 				return;

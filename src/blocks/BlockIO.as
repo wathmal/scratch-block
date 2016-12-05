@@ -100,7 +100,7 @@ public class BlockIO {
 	private static function arrayToBlock(cmd:Array, undefinedBlockType:String, forStage:Boolean = false):Block {
 		// Make a block from an array of form: <op><arg>*
 
-		if (cmd[0] == 'getUserName') MBlock.app.usesUserNameBlock = true;
+		if (cmd[0] == 'getUserName') WireMe.app.usesUserNameBlock = true;
 
 		var special:Block = specialCmd(cmd, forStage);
 		if (special) { special.fixArgLayout(); return special }
@@ -164,7 +164,7 @@ public class BlockIO {
 		for each (var entry:Array in Specs.commands) {
 			if (entry[3] == op) return entry;
 		}
-		var extensionSpec:Array = MBlock.app.extensionManager.specForCmd(op);
+		var extensionSpec:Array = WireMe.app.extensionManager.specForCmd(op);
 		if (extensionSpec) return extensionSpec;
 
 		var spec:String = 'undefined';
@@ -238,7 +238,7 @@ public class BlockIO {
 			b.setArg(1, arg);
 			return b;
 		case 'EventHatMorph':
-			if (cmd[1] == 'MBlock-StartClicked') {
+			if (cmd[1] == 'WireMe-StartClicked') {
 				return new Block('when @greenFlag clicked', 'h', controlColor, 'whenGreenFlag');
 			}else if (cmd[1] == 'Scratch-StartClicked') {
 				return new Block('when @greenFlag clicked', 'h', controlColor, 'whenGreenFlag');

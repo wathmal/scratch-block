@@ -125,7 +125,7 @@ public class Scrollbar extends Sprite implements DragClient {
 	}
 
 	private function mouseDown(evt:MouseEvent):void {
-		MBlock.app.gh.setDragClient(this, evt);
+		WireMe.app.gh.setDragClient(this, evt);
 	}
 
 	public function dragBegin(evt:MouseEvent):void {

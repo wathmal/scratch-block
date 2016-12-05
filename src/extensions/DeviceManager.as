@@ -36,30 +36,30 @@ package extensions
 			var oldBoard:String = SharedObjectManager.sharedManager().getObject("board");
 			SharedObjectManager.sharedManager().setObject("board",_board);
 			if(_board=="picoboard_unknown"){
-				MBlock.app.extensionManager.singleSelectExtension("PicoBoard");
+				WireMe.app.extensionManager.singleSelectExtension("PicoBoard");
 			}else{
 				if(_board=="node-mcu"){
 					trace("nodemcu selected");
-					MBlock.app.extensionManager.singleSelectExtension("node-mcu");
+					WireMe.app.extensionManager.singleSelectExtension("node-mcu");
 				}
 				else if(_board=="mbot_uno"){
-					MBlock.app.extensionManager.singleSelectExtension("mBot");
+					WireMe.app.extensionManager.singleSelectExtension("mBot");
 				}else if(_board.indexOf("arduino")>-1){
-					MBlock.app.extensionManager.singleSelectExtension("Arduino");
+					WireMe.app.extensionManager.singleSelectExtension("Arduino");
 				}else if(_board.indexOf("me/orion_uno")>-1){
 					if(oldBoard.indexOf("me/orion_uno") < 0){
-						MBlock.app.openOrion();
+						WireMe.app.openOrion();
 					}
-					MBlock.app.extensionManager.singleSelectExtension("Makeblock");
+					WireMe.app.extensionManager.singleSelectExtension("Makeblock");
 				}else if(_board.indexOf("me/baseboard")>-1){
-					MBlock.app.extensionManager.singleSelectExtension("BaseBoard");
+					WireMe.app.extensionManager.singleSelectExtension("BaseBoard");
 				}else if(_board.indexOf("me/uno_shield")>-1){
-					MBlock.app.extensionManager.singleSelectExtension("UNO Shield");
+					WireMe.app.extensionManager.singleSelectExtension("UNO Shield");
 				}else{
-					MBlock.app.extensionManager.singleSelectExtension("PicoBoard");
+					WireMe.app.extensionManager.singleSelectExtension("PicoBoard");
 				}
 			}
-			MBlock.app.topBarPart.setBoardTitle();
+			WireMe.app.topBarPart.setBoardTitle();
 		}
 		public function checkCurrentBoard(board:String):Boolean{
 			return _board==board;

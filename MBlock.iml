@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="Flex" version="4">
-  <component name="FlexBuildConfigurationManager" active="MBlock">
+  <component name="FlexBuildConfigurationManager" active="WireMe">
     <configurations>
-      <configuration name="MBlock" target-platform="Desktop" pure-as="true" main-class="MBlock" output-file="MBlock.swf" output-folder="$MODULE_DIR$/bin-debug">
+      <configuration name="WireMe" target-platform="Desktop" pure-as="true" main-class="WireMe" output-file="WireMe.swf" output-folder="$MODULE_DIR$/bin-debug">
         <dependencies>
           <entries>
             <entry library-id="e2a08b3e-ea3e-40d0-b56a-9b7a230fe00b">
@@ -25,7 +25,7 @@
             <entry key="compiler.locale" value="en_US" />
           </map>
         </compiler-options>
-        <packaging-air-desktop use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/src/MBlock-app.xml" package-file-name="MBlock">
+        <packaging-air-desktop use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/src/WireMe-app.xml" package-file-name="WireMe">
           <files-to-package>
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/src/tools" path-in-package="tools" />
           </files-to-package>

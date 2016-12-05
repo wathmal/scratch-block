@@ -89,13 +89,13 @@ package {
 	import watchers.ListWatcher;
 
 	[SWF(frameRate="30")]
-	public class MBlock extends Sprite {
+	public class WireMe extends Sprite {
 		// Version
 		private static var vxml:XML = NativeApplication.nativeApplication.applicationDescriptor; 
 		private static var xmlns:Namespace = new Namespace(vxml.namespace());
 	
 		public static const versionString:String = 'v'+vxml.xmlns::versionNumber;
-		public static var app:MBlock; // static reference to the app, used for debugging
+		public static var app:WireMe; // static reference to the app, used for debugging
 	
 		// Display modes
 		public var editMode:Boolean; // true when project editor showing, false when only the player is showing
@@ -143,7 +143,7 @@ package {
 		private var tabsPart:TabsPart;
 		private var _welcomeView:Loader;
 		private var _currentVer:String = "01.05.001";
-		public function MBlock(){
+		public function WireMe(){
 			app = this;
 			addEventListener(Event.ADDED_TO_STAGE,initStage);
 			loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, __onError);
@@ -287,7 +287,7 @@ package {
 		
 		public function track(msg:String):void{
 			ga.trackPageview(
-				(ApplicationManager.sharedManager().isCatVersion?"/myh/":"/") + MBlock.versionString + msg
+				(ApplicationManager.sharedManager().isCatVersion?"/myh/":"/") + WireMe.versionString + msg
 			);
 		}
 		
@@ -307,11 +307,11 @@ package {
 		public function closeTips():void {}
 		public function reopenTips():void {}
 	
-		public function getMediaLibrary(app:MBlock, type:String, whenDone:Function):MediaLibrary {
+		public function getMediaLibrary(app:WireMe, type:String, whenDone:Function):MediaLibrary {
 			return new MediaLibrary(app, type, whenDone);
 		}
 	
-		public function getMediaPane(app:MBlock, type:String):MediaPane {
+		public function getMediaPane(app:WireMe, type:String):MediaPane {
 			return new MediaPane(app, type);
 		}
 	
@@ -328,7 +328,7 @@ package {
 				evt.preventDefault();
 				saveProjectAndThen(quitApp);
 			}
-			MBlock.app.gh.mouseUp(new MouseEvent(MouseEvent.MOUSE_UP));
+			WireMe.app.gh.mouseUp(new MouseEvent(MouseEvent.MOUSE_UP));
 			SerialManager.sharedManager().disconnect();
 			HIDManager.sharedManager().disconnect();
 		}
@@ -925,7 +925,7 @@ package {
 		}
 		
 		private function preDoRevert():void {
-			revertUndo = new ProjectIO(MBlock.app).encodeProjectAsZipFile(stagePane);
+			revertUndo = new ProjectIO(WireMe.app).encodeProjectAsZipFile(stagePane);
 			doRevert();
 		}
 	

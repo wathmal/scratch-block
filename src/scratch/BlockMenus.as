@@ -58,7 +58,7 @@ package scratch {
 
 public class BlockMenus implements DragClient {
 
-	private var app:MBlock;
+	private var app:WireMe;
 	private var startX:Number;
 	private var startY:Number;
 	private var block:Block;
@@ -190,7 +190,7 @@ public class BlockMenus implements DragClient {
 	}
 
 	public function BlockMenus(block:Block, blockArg:BlockArg) {
-		app = MBlock.app;
+		app = WireMe.app;
 		this.startX = app.mouseX;
 		this.startY = app.mouseY;
 		this.blockArg = blockArg;
@@ -259,8 +259,8 @@ public class BlockMenus implements DragClient {
 
 	private function setBlockArg(selection:*):void {
 		if (blockArg != null) blockArg.setArgValue(selection);
-		MBlock.app.setSaveNeeded();
-//		MBlock.app.runtime.checkForGraphicEffects();
+		WireMe.app.setSaveNeeded();
+//		WireMe.app.runtime.checkForGraphicEffects();
 	}
 
 	private function attributeMenu(evt:MouseEvent):void {
@@ -506,7 +506,7 @@ public class BlockMenus implements DragClient {
 		else if (s == 'Stage') blockArg.setArgValue('_stage_', Translator.map('Stage'));
 		else blockArg.setArgValue(s);
 		*/
-		MBlock.app.setSaveNeeded();
+		WireMe.app.setSaveNeeded();
 	}
 	
 	private function spriteMenu(evt:MouseEvent, includeMouse:Boolean, includeEdge:Boolean, includeStage:Boolean, includeSelf:Boolean):Menu {
@@ -539,7 +539,7 @@ public class BlockMenus implements DragClient {
 		blockArg.setArgValue(selection);
 		block.setTerminal((selection == 'all') || (selection == 'this script'));
 		block.type = block.isTerminal ? 'f' : ' ';
-		MBlock.app.setSaveNeeded();
+		WireMe.app.setSaveNeeded();
 	}
 	private function stopMenu(evt:MouseEvent):void {
 		var m:Menu = new Menu(setStopType, 'stop');
@@ -935,7 +935,7 @@ public class BlockMenus implements DragClient {
 		if (block != null) {
 			if (block.op == Specs.GET_VAR) block.setSpec(newName);
 		}
-		MBlock.app.setSaveNeeded();
+		WireMe.app.setSaveNeeded();
 		app.updatePalette();
 	}
 
@@ -957,7 +957,7 @@ public class BlockMenus implements DragClient {
 	public function dragMove(evt:MouseEvent):void {
 		if (pickingColor) {
 			blockArg.setArgValue(pixelColorAt(evt.stageX, evt.stageY));
-			MBlock.app.setSaveNeeded();
+			WireMe.app.setSaveNeeded();
 		}
 	}
 

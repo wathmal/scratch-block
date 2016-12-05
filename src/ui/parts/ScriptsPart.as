@@ -108,7 +108,7 @@ public class ScriptsPart extends UIPart {
     private var isByteInputMode:Boolean = false;
     private var inputModeBtn:Button = new Button(Translator.map("char mode"));
 
-    public function ScriptsPart(app:MBlock) {
+    public function ScriptsPart(app:WireMe) {
         this.app = app;
 
         addChild(shape = new Shape());
@@ -261,7 +261,7 @@ public class ScriptsPart extends UIPart {
     }
 
     public function onSerialSend(bytes:ByteArray):void {
-        if (!MBlock.app.stageIsArduino) {
+        if (!WireMe.app.stageIsArduino) {
             return;
         }
         if (isByteDisplayMode) {
@@ -691,7 +691,7 @@ public class ScriptsPart extends UIPart {
 
     public function updatePalette():void {
         selector.updateTranslation();
-        if (!MBlock.app.stageIsArduino && MBlock.app.viewedObj() is ScratchStage) {
+        if (!WireMe.app.stageIsArduino && WireMe.app.viewedObj() is ScratchStage) {
             if (selector.selectedCategory == Specs.motionCategory) {
                 selector.selectedCategory = Specs.looksCategory;
             }

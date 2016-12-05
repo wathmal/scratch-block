@@ -26,11 +26,11 @@ package cc.makeblock.interpreter
 			value = value.replace(/^\s+|\s+$/g, "");
 			recvMsgList.push(value);
 			
-			MBlock.app.runtime.allStacksAndOwnersDo(function(stack:Block, target:ScratchObj):void{
+			WireMe.app.runtime.allStacksAndOwnersDo(function(stack:Block, target:ScratchObj):void{
 				if(stack.op != "Communication.whenReceived"){
 					return;
 				}
-				MBlock.app.interp.runThread(stack, target);
+				WireMe.app.interp.runThread(stack, target);
 			});
 		}
 		

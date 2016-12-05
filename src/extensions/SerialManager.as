@@ -30,7 +30,7 @@ package extensions
 		private static var _instance:SerialManager;
 		public var currentPort:String = "";
 		private var _selectPort:String = "";
-		public var _mBlock:MBlock;
+		public var _mBlock:WireMe;
 		private var _board:String = "uno";
 		private var _device:String = "uno";
 		private var _upgradeBytesLoaded:Number = 0;
@@ -69,7 +69,7 @@ package extensions
 				}
 			}
 		}
-		public function setMBlock(mBlock:MBlock):void{
+		public function setMBlock(mBlock:WireMe):void{
 			_mBlock = mBlock;
 		}
 		public var asciiString:String = "";
@@ -122,10 +122,10 @@ package extensions
 		}
 		public function update():void{
 			if(!_serial.isConnected){
-				MBlock.app.topBarPart.setDisconnectedTitle();
+				WireMe.app.topBarPart.setDisconnectedTitle();
 				return;
 			}else{
-				MBlock.app.topBarPart.setConnectedTitle("Serial Port");
+				WireMe.app.topBarPart.setConnectedTitle("Serial Port");
 			}
 		}
 		
@@ -174,7 +174,7 @@ package extensions
 			_selectPort = port;
 			if(r==0){
 				ArduinoManager.sharedManager().isUploading = false;
-				MBlock.app.topBarPart.setConnectedTitle("Serial Port "+currentPort);
+				WireMe.app.topBarPart.setConnectedTitle("Serial Port "+currentPort);
 			}
 			return r == 0;
 		}
@@ -201,10 +201,10 @@ package extensions
 			if(!isConnected){
 				return;
 			}
-			MBlock.app.track("/OpenSerial/Upgrade");
+			WireMe.app.track("/OpenSerial/Upgrade");
 			executeUpgrade();
 			_hexToDownload = hexFile;
-			MBlock.app.topBarPart.setDisconnectedTitle();
+			WireMe.app.topBarPart.setDisconnectedTitle();
 			ArduinoManager.sharedManager().isUploading = false;
 			if(DeviceManager.sharedManager().currentDevice.indexOf("leonardo")>-1){
 				_serial.close();
@@ -233,7 +233,7 @@ package extensions
 			}
 		}
 		public function openSource():void{
-			MBlock.app.track("/OpenSerial/ViewSource");
+			WireMe.app.track("/OpenSerial/ViewSource");
 			var file:File = ApplicationManager.sharedManager().documents.resolvePath("mBlock/firmware/" + getFirmwareName());
 			if(file.exists && file.isDirectory){
 				file.openWithDefaultApplication();
@@ -258,8 +258,8 @@ package extensions
 		}
 		public function disconnect():void{
 			currentPort = "";
-			MBlock.app.topBarPart.setDisconnectedTitle();
-//			MBlock.app.topBarPart.setBluetoothTitle(false);
+			WireMe.app.topBarPart.setDisconnectedTitle();
+//			WireMe.app.topBarPart.setBluetoothTitle(false);
 			ArduinoManager.sharedManager().isUploading = false;
 			_serial.close();
 			_serial.removeEventListener(Event.CHANGE,onChanged);
@@ -310,7 +310,7 @@ package extensions
 		}
 		
 		public function upgradeFirmware(hexfile:String=""):void{
-			MBlock.app.topBarPart.setDisconnectedTitle();
+			WireMe.app.topBarPart.setDisconnectedTitle();
 			var file:File = getAvrDude();//外部程序名
 			if(!file.exists){
 				trace("upgrade fail!");
@@ -494,7 +494,7 @@ package extensions
 			if(event.exitCode > 0){
 				_dialog.setText(Translator.map('Upload Failed'));
 				LogManager.sharedManager().log(errorText);
-				MBlock.app.scriptsPart.appendMsgWithTimestamp(errorText, true);
+				WireMe.app.scriptsPart.appendMsgWithTimestamp(errorText, true);
 			}else{
 				_dialog.setText(Translator.map('Upload Finish'));
 			}

@@ -107,22 +107,22 @@ package cc.makeblock.mbot.ui.parts
 			switch(item.name)
 			{
 				case "New":
-					MBlock.app.createNewProject();
+					WireMe.app.createNewProject();
 					break;
 				case "Load Project":
-					MBlock.app.runtime.selectProjectFile();
+					WireMe.app.runtime.selectProjectFile();
 					break;
 				case "Save Project":
-					MBlock.app.saveFile();
+					WireMe.app.saveFile();
 					break;
 				case "Save Project As":
-					MBlock.app.exportProjectToFile();
+					WireMe.app.exportProjectToFile();
 					break;
 				case "Undo Revert":
-					MBlock.app.undoRevert();
+					WireMe.app.undoRevert();
 					break;
 				case "Revert":
-					MBlock.app.revertToOriginalProject();
+					WireMe.app.revertToOriginalProject();
 					break;
 				case "Import Image":
 					MediaManager.getInstance().importImage();
@@ -137,22 +137,22 @@ package cc.makeblock.mbot.ui.parts
 		{
 			switch(item.name){
 				case "Undelete":
-					MBlock.app.runtime.undelete();
+					WireMe.app.runtime.undelete();
 					break;
 				case "Hide stage layout":
-					MBlock.app.toggleHideStage();
+					WireMe.app.toggleHideStage();
 					break;
 				case "Small stage layout":
-					MBlock.app.toggleSmallStage();
+					WireMe.app.toggleSmallStage();
 					break;
 				case "Turbo mode":
-					MBlock.app.toggleTurboMode();
+					WireMe.app.toggleTurboMode();
 					break;
 				case "Code mode":
-					MBlock.app.changeToArduinoMode();
+					WireMe.app.changeToArduinoMode();
 					break;
 			}
-			MBlock.app.track("/OpenEdit");
+			WireMe.app.track("/OpenEdit");
 		}
 		
 		private function __onConnect(menuItem:NativeMenuItem):void
@@ -214,21 +214,21 @@ package cc.makeblock.mbot.ui.parts
 		{
 			var menu:NativeMenu = evt.target as NativeMenu;
 			
-			MenuUtil.setEnable(menu.getItemByName("Undo Revert"), MBlock.app.canUndoRevert());
-			MenuUtil.setEnable(menu.getItemByName("Revert"), MBlock.app.canRevert());
+			MenuUtil.setEnable(menu.getItemByName("Undo Revert"), WireMe.app.canUndoRevert());
+			MenuUtil.setEnable(menu.getItemByName("Revert"), WireMe.app.canRevert());
 			
-			MBlock.app.track("/OpenFile");
+			WireMe.app.track("/OpenFile");
 		}
 		
 		private function __onInitEditMenu(evt:Event):void
 		{
 			var menu:NativeMenu = evt.target as NativeMenu;
-			MenuUtil.setEnable(menu.getItemByName("Undelete"), MBlock.app.runtime.canUndelete());
-			MenuUtil.setChecked(menu.getItemByName("Hide stage layout"), MBlock.app.stageIsHided);
-			MenuUtil.setChecked(menu.getItemByName("Small stage layout"), !MBlock.app.stageIsHided && MBlock.app.stageIsContracted);
-			MenuUtil.setChecked(menu.getItemByName("Turbo mode"), MBlock.app.interp.turboMode);
-			MenuUtil.setChecked(menu.getItemByName("Code mode"), MBlock.app.stageIsArduino);
-			MBlock.app.track("/OpenEdit");
+			MenuUtil.setEnable(menu.getItemByName("Undelete"), WireMe.app.runtime.canUndelete());
+			MenuUtil.setChecked(menu.getItemByName("Hide stage layout"), WireMe.app.stageIsHided);
+			MenuUtil.setChecked(menu.getItemByName("Small stage layout"), !WireMe.app.stageIsHided && WireMe.app.stageIsContracted);
+			MenuUtil.setChecked(menu.getItemByName("Turbo mode"), WireMe.app.interp.turboMode);
+			MenuUtil.setChecked(menu.getItemByName("Code mode"), WireMe.app.stageIsArduino);
+			WireMe.app.track("/OpenEdit");
 		}
 		
 		private function __onShowConnect(evt:Event):void
@@ -239,7 +239,7 @@ package cc.makeblock.mbot.ui.parts
 			var menu:NativeMenu = evt.target as NativeMenu;
 			var subMenu:NativeMenu = new NativeMenu();
 			
-			var enabled:Boolean = MBlock.app.extensionManager.checkExtensionEnabled();
+			var enabled:Boolean = WireMe.app.extensionManager.checkExtensionEnabled();
 			var arr:Array = SerialManager.sharedManager().list;
 			for(var i:int=0;i<arr.length;i++){
 				var item:NativeMenuItem = subMenu.addItem(new NativeMenuItem(arr[i]));
@@ -320,10 +320,10 @@ package cc.makeblock.mbot.ui.parts
 			var menuItem:NativeMenu = evt.target as NativeMenu;
 //			menuItem.removeEventListener(evt.type, __onInitExtMenu);
 //			menuItem.addEventListener(evt.type, __onShowExtMenu);
-			var list:Array = MBlock.app.extensionManager.extensionList;
+			var list:Array = WireMe.app.extensionManager.extensionList;
 			trace("on init ext");
 			if(list.length==0){
-				MBlock.app.extensionManager.copyLocalFiles();
+				WireMe.app.extensionManager.copyLocalFiles();
 				SharedObjectManager.sharedManager().setObject("first-launch",false);
 			}
 			if(initExtMenuItemCount < 0){
@@ -332,7 +332,7 @@ package cc.makeblock.mbot.ui.parts
 			while(menuItem.numItems > initExtMenuItemCount){
 				menuItem.removeItemAt(menuItem.numItems-1);
 			}
-			list = MBlock.app.extensionManager.extensionList;
+			list = WireMe.app.extensionManager.extensionList;
 //			var subMenu:NativeMenu = menuItem;
 			for(var i:int=0;i<list.length;i++){
 				trace(list[i].extensionName);
@@ -343,7 +343,7 @@ package cc.makeblock.mbot.ui.parts
 				var subMenuItem:NativeMenuItem = menuItem.addItem(new NativeMenuItem(Translator.map(extName)));
 				subMenuItem.name = extName;
 				subMenuItem.label = ExtensionManager.isMekeBlockExt(extName) ? "Makeblock" : extName;
-				subMenuItem.checked = MBlock.app.extensionManager.checkExtensionSelected(extName);
+				subMenuItem.checked = WireMe.app.extensionManager.checkExtensionSelected(extName);
 				register(extName, __onExtensions);
 			}
 		}
@@ -376,17 +376,17 @@ package cc.makeblock.mbot.ui.parts
 		private function __onShowExtMenu(evt:Event):void
 		{
 			var menuItem:NativeMenu = evt.target as NativeMenu;
-			var list:Array = MBlock.app.extensionManager.extensionList;
+			var list:Array = WireMe.app.extensionManager.extensionList;
 			for(var i:int=0;i<list.length;i++){
 				var extName:String = list[i].extensionName;
 				var subMenuItem:NativeMenuItem = menuItem.getItemAt(i+2);
-				subMenuItem.checked = MBlock.app.extensionManager.checkExtensionSelected(extName);
+				subMenuItem.checked = WireMe.app.extensionManager.checkExtensionSelected(extName);
 			}
 		}
 		*/
 		private function __onExtensions(menuItem:NativeMenuItem):void
 		{
-			MBlock.app.extensionManager.onSelectExtension(menuItem.name);
+			WireMe.app.extensionManager.onSelectExtension(menuItem.name);
 		}
 		
 		private function __onHelp(menuItem:NativeMenuItem):void
@@ -402,13 +402,13 @@ package cc.makeblock.mbot.ui.parts
 			switch(menuItem.name)
 			{
 				case "Share Your Project":
-					MBlock.app.track("/OpenShare/");
+					WireMe.app.track("/OpenShare/");
 					break;
 				case "FAQ":
-					MBlock.app.track("/OpenFaq/");
+					WireMe.app.track("/OpenFaq/");
 					break;
 				default:
-					MBlock.app.track("/OpenHelp/"+menuItem.data.@key);
+					WireMe.app.track("/OpenHelp/"+menuItem.data.@key);
 			}
 			
 			switch(menuItem.data.@key.toString()){

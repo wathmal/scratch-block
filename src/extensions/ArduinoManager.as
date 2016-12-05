@@ -17,7 +17,7 @@ package extensions
 	{
 		
 		private static var _instance:ArduinoManager;
-		public var _scratch:MBlock;
+		public var _scratch:WireMe;
 		public var jsonObj:Object;
 		
 		public var hexCode:String;
@@ -214,7 +214,7 @@ void updateVar(char * varName,double * var)
 			}
 		}
 		
-		public function setScratch(scratch:MBlock):void{
+		public function setScratch(scratch:WireMe):void{
 			_scratch = scratch;
 		}
 		
@@ -770,13 +770,13 @@ void updateVar(char * varName,double * var)
 			
 			else{
 				//trace(blk[0]);
-				var objs:Array = MBlock.app.extensionManager.specForCmd(blk[0]);
+				var objs:Array = WireMe.app.extensionManager.specForCmd(blk[0]);
 				if(objs!=null){
 					var obj:Object = objs[objs.length-1];
 					obj = obj[obj.length-1];
 					//trace(obj.work);
 					if(typeof obj == "object"){
-						var ext:ScratchExtension = MBlock.app.extensionManager.extensionByName(blk[0].split(".")[0]);
+						var ext:ScratchExtension = WireMe.app.extensionManager.extensionByName(blk[0].split(".")[0]);
 						var codeObj:Object = {code:{
 							setup:substitute(obj.setup,blk as Array,ext)
 							,work:substitute(obj.work,blk as Array,ext)
@@ -874,7 +874,7 @@ void updateVar(char * varName,double * var)
 			var isArduinoCode:Boolean = false;
 			for(var i:int;i<blks.length;i++){
 				var b:Object = blks[i];
-				var objs:Array = MBlock.app.extensionManager.specForCmd(blks[0]);
+				var objs:Array = WireMe.app.extensionManager.specForCmd(blks[0]);
 				if(objs!=null){
 					var obj:Object = objs[objs.length-1];
 					obj = obj[obj.length-1];
@@ -893,9 +893,9 @@ void updateVar(char * varName,double * var)
 					ccode_pointer="setup";
 					isArduinoCode = true;
 					
-					var objs:Array = MBlock.app.extensionManager.specForCmd(blks[0]);
+					var objs:Array = WireMe.app.extensionManager.specForCmd(blks[0]);
 					var n:String = blks[0];
-					var ext:ScratchExtension = MBlock.app.extensionManager.extensionByName(n.split(".")[0]);
+					var ext:ScratchExtension = WireMe.app.extensionManager.extensionByName(n.split(".")[0]);
 					if(ext!=null){
 						if(srcDocuments.indexOf(ext.srcPath)==-1){
 							srcDocuments.push(ext.srcPath);
@@ -1365,7 +1365,7 @@ void updateVar(char * varName,double * var)
 		//!*!/
 		public function get projectDocumentName():String{
 			var now:Date = new Date;
-			var pName:String = MBlock.app.projectName().split(" ").join("").split("(").join("").split(")").join("");
+			var pName:String = WireMe.app.projectName().split(" ").join("").split("(").join("").split(")").join("");
 			for(var i:uint=0;i<pName.length;i++){
 				if(pName.charCodeAt(i)>100){
 					pName = pName.split(pName.charAt(i)).join("_");
@@ -1408,7 +1408,7 @@ void updateVar(char * varName,double * var)
 				dialog.addButton("Cancel",onCancel);
 				dialog.addButton("Set Path",onSetPath);
 				dialog.addButton("Download",onDownload);
-				dialog.showOnStage(MBlock.app.stage);
+				dialog.showOnStage(WireMe.app.stage);
 				return "Arduino IDE not found.";
 			}
 			*!/
@@ -1862,8 +1862,8 @@ void updateVar(char * varName,double * var)
 			process.addEventListener(NativeProcessExitEvent.EXIT, onExit);
 			if(nativeWorkList.length>0 && compileErr==false){
 				var nativeProcessStartupInfo:NativeProcessStartupInfo = nativeWorkList.shift()
-				MBlock.app.scriptsPart.appendMessage(nativeProcessStartupInfo.executable.nativePath)
-				MBlock.app.scriptsPart.appendMessage(nativeProcessStartupInfo.arguments.toString())
+				WireMe.app.scriptsPart.appendMessage(nativeProcessStartupInfo.executable.nativePath)
+				WireMe.app.scriptsPart.appendMessage(nativeProcessStartupInfo.arguments.toString())
 				process.start(nativeProcessStartupInfo); 
 			}else if(nativeWorkList.length==0){
 				// todo: is there a better way to check success of make??
@@ -1879,7 +1879,7 @@ void updateVar(char * varName,double * var)
 			/!*
 			var output:String = process.standardOutput.readUTFBytes(process.standardOutput.bytesAvailable)
 			var date:Date = new Date;
-			MBlock.app.scriptsPart.appendMessage(""+(date.month+1)+"-"+date.date+" "+date.hours+":"+date.minutes+": Got: "+output); 
+			WireMe.app.scriptsPart.appendMessage(""+(date.month+1)+"-"+date.date+" "+date.hours+":"+date.minutes+": Got: "+output); 
 			*!/
 		}
 		
@@ -1900,10 +1900,10 @@ void updateVar(char * varName,double * var)
 			isUploading = false;
 			var date:Date = new Date;
 			
-			MBlock.app.scriptsPart.appendMessage(""+(date.month+1)+"-"+date.date+" "+date.hours+":"+date.minutes+": Process exited with "+event.exitCode);
+			WireMe.app.scriptsPart.appendMessage(""+(date.month+1)+"-"+date.date+" "+date.hours+":"+date.minutes+": Process exited with "+event.exitCode);
 			numOfSuccess++;
 			if(event.exitCode > 0){
-				MBlock.app.scriptsPart.appendMsgWithTimestamp(errorText, true);
+				WireMe.app.scriptsPart.appendMsgWithTimestamp(errorText, true);
 				errorText = null;
 			}
 			if(compileErr == false){

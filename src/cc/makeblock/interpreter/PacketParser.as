@@ -93,7 +93,7 @@ package cc.makeblock.interpreter
 						return;
 				}
 				if(index == 0x80){//button pressed
-					MBlock.app.runtime.mbotButtonPressed.notify(Boolean(value));
+					WireMe.app.runtime.mbotButtonPressed.notify(Boolean(value));
 				}else{
 					callback(value);
 				}

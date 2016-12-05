@@ -40,17 +40,17 @@ package cc.makeblock.interpreter
 		
 		static private function changeTempoBy(thread:Thread, argList:Array):void
 		{
-			MBlock.app.stagePane.setTempo(MBlock.app.stagePane.tempoBPM + argList[0]);
+			WireMe.app.stagePane.setTempo(WireMe.app.stagePane.tempoBPM + argList[0]);
 		}
 		
 		static private function setTempoTo(thread:Thread, argList:Array):void
 		{
-			MBlock.app.stagePane.setTempo(argList[0]);
+			WireMe.app.stagePane.setTempo(argList[0]);
 		}
 		
 		static private function getTempo(thread:Thread, argList:Array):void
 		{
-			thread.push(MBlock.app.stagePane.tempoBPM);
+			thread.push(WireMe.app.stagePane.tempoBPM);
 		}
 		
 		static private function changeVolumeBy(thread:Thread, argList:Array):void
@@ -188,7 +188,7 @@ package cc.makeblock.interpreter
 		}
 		
 		static private function beatsToSeconds(beats:Number):Number {
-			return (beats * 60) / MBlock.app.stagePane.tempoBPM;
+			return (beats * 60) / WireMe.app.stagePane.tempoBPM;
 		}
 		
 		static private function _playNote(instrument:int, midiKey:Number, secs:Number, client:ScratchObj):ScratchSoundPlayer {

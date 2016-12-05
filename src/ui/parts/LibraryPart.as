@@ -65,7 +65,7 @@ public class LibraryPart extends UIPart {
 	
 	
 
-	public function LibraryPart(app:MBlock) {
+	public function LibraryPart(app:WireMe) {
 		this.app = app;
 		shape = new Shape();
 		addChild(shape);

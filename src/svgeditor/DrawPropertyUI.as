@@ -341,7 +341,7 @@ package svgeditor {
 				for each( s in fonts){
 					m.addItem(s);
 				}
-				m.showOnStage(MBlock.app.stage);
+				m.showOnStage(WireMe.app.stage);
 			}
 			function fontSelected(fontName:String):void {
 				updateFontUI(fontName);

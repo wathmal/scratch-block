@@ -85,12 +85,12 @@ package util.version
 		private function onReqError(evt:Event):void{
 			LogManager.sharedManager().log("req error!");
 			if(_isFirst){
-				MBlock.app.extensionManager.copyLocalFiles();
+				WireMe.app.extensionManager.copyLocalFiles();
 				SharedObjectManager.sharedManager().setObject("first-launch",false);
 			}
 			setTimeout(DeviceManager.sharedManager().onSelectBoard,1000,DeviceManager.sharedManager().currentBoard);
-			MBlock.app.extensionManager.clearImportedExtensions();
-			MBlock.app.extensionManager.importExtension();
+			WireMe.app.extensionManager.clearImportedExtensions();
+			WireMe.app.extensionManager.importExtension();
 		}
 		private function startRequest():void{
 			if(_requestIndex<_list.length){
@@ -100,7 +100,7 @@ package util.version
 				FileUtil.WriteString(localVersionFile, remoteVersionXml);
 				LogManager.sharedManager().log("finish");
 				setTimeout(DeviceManager.sharedManager().onSelectBoard,1000,DeviceManager.sharedManager().currentBoard);
-				MBlock.app.extensionManager.importExtension();
+				WireMe.app.extensionManager.importExtension();
 			}
 		}
 		private function onComplete(evt:Event):void{

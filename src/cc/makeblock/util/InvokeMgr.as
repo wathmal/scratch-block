@@ -17,8 +17,8 @@ package cc.makeblock.util
 		{
 			NativeApplication.nativeApplication.addEventListener(InvokeEvent.INVOKE, __onInvoked);
 			
-			MBlock.app.stage.addEventListener(NativeDragEvent.NATIVE_DRAG_ENTER, __onDragEnter);
-			MBlock.app.stage.addEventListener(NativeDragEvent.NATIVE_DRAG_DROP, __onDragDrop);
+			WireMe.app.stage.addEventListener(NativeDragEvent.NATIVE_DRAG_ENTER, __onDragEnter);
+			WireMe.app.stage.addEventListener(NativeDragEvent.NATIVE_DRAG_DROP, __onDragDrop);
 		}
 		
 		private function __onDragEnter(evt:NativeDragEvent):void
@@ -33,7 +33,7 @@ package cc.makeblock.util
 			if(file.extension != "sb2"){
 				return;
 			}
-			MBlock.app.runtime.selectedProjectFile(file);
+			WireMe.app.runtime.selectedProjectFile(file);
 		}
 		
 		private function __onInvoked(evt:InvokeEvent):void
@@ -43,7 +43,7 @@ package cc.makeblock.util
 			}
 			var arg:String = evt.arguments[0];
 			if(Boolean(arg)){
-				MBlock.app.runtime.selectedProjectFile(new File(arg));
+				WireMe.app.runtime.selectedProjectFile(new File(arg));
 			}
 		}
 	}

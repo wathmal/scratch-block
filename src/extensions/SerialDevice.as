@@ -69,7 +69,7 @@ package extensions
 			for(var i:int=0;i<bytes.length;i++){
 				buffer[i] = bytes[i];
 			}
-			MBlock.app.scriptsPart.onSerialSend(buffer);
+			WireMe.app.scriptsPart.onSerialSend(buffer);
 			ConnectionManager.sharedManager().sendBytes(buffer);
 		}
 		

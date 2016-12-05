@@ -54,7 +54,7 @@ package extensions
 					break;
 				}
 				case "driver":{
-					MBlock.app.track("/OpenSerial/InstallDriver");
+					WireMe.app.track("/OpenSerial/InstallDriver");
 					if(ApplicationManager.sharedManager().system==ApplicationManager.MAC_OS){
 						navigateToURL(new URLRequest("https://github.com/Makeblock-official/Makeblock-USB-Driver"));
 					}else{
@@ -102,12 +102,12 @@ package extensions
 		public function onClose(port:String):void{
 			SerialDevice.sharedDevice().clear(port);
 			if(!SerialDevice.sharedDevice().connected){
-				MBlock.app.topBarPart.setDisconnectedTitle();
+				WireMe.app.topBarPart.setDisconnectedTitle();
 			}else{
 				if(SerialManager.sharedManager().isConnected||HIDManager.sharedManager().isConnected||BluetoothManager.sharedManager().isConnected){
-					MBlock.app.topBarPart.setConnectedTitle("Serial Port");
+					WireMe.app.topBarPart.setConnectedTitle("Serial Port");
 				}else{
-					MBlock.app.topBarPart.setConnectedTitle("Network");
+					WireMe.app.topBarPart.setConnectedTitle("Network");
 				}
 			}
 			this.dispatchEvent(new Event(Event.CLOSE));
@@ -129,7 +129,7 @@ package extensions
 		
 		public function onReceived(bytes:ByteArray):void{
 			_bytes = bytes;
-			MBlock.app.scriptsPart.onSerialDataReceived(bytes);
+			WireMe.app.scriptsPart.onSerialDataReceived(bytes);
 			this.dispatchEvent(new Event(Event.CHANGE));
 		}
 		public function sendBytes(bytes:ByteArray):void{

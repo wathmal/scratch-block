@@ -71,7 +71,7 @@ package scratch {
 
 	public class ScratchRuntime {
 	
-		public var app:MBlock;
+		public var app:WireMe;
 		public var interp:Interpreter;
 		public var motionDetector:FunctionVideoMotion;
 		public var keyIsDown:Array = new Array(128); // records key up/down state
@@ -88,7 +88,7 @@ package scratch {
 		
 		public const mbotButtonPressed:Signal = new Signal(Boolean);
 	
-		public function ScratchRuntime(app:MBlock, interp:Interpreter) {
+		public function ScratchRuntime(app:WireMe, interp:Interpreter) {
 			this.app = app;
 			this.interp = interp;
 			timerBase = interp.currentMSecs;
@@ -521,7 +521,7 @@ package scratch {
 	
 			for each (var obj:ScratchObj in project.allObjects()) {
 				obj.showCostume(obj.currentCostumeIndex);
-//				if(MBlock.app.isIn3D) obj.updateCostume();
+//				if(WireMe.app.isIn3D) obj.updateCostume();
 				var spr:ScratchSprite = obj as ScratchSprite;
 				if (spr) spr.setDirection(spr.direction);
 			}

@@ -359,15 +359,15 @@ public class ScratchSprite extends ScratchObj {
 		var m:Matrix = new Matrix();
 		m.rotate((Math.PI * rotation) / 180);
 		m.scale(scaleX, scaleY);
-//		var b:Rectangle = (!MBlock.app.render3D || currentCostume().bitmap) ? img.getChildAt(0).getBounds(this) : getVisibleBounds(this);
+//		var b:Rectangle = (!WireMe.app.render3D || currentCostume().bitmap) ? img.getChildAt(0).getBounds(this) : getVisibleBounds(this);
 		var b:Rectangle = img.getChildAt(0).getBounds(this);
 		var r:Rectangle = transformedBounds(b, m);
 		/*
-		if(MBlock.app.isIn3D) {
+		if(WireMe.app.isIn3D) {
 			var oldGhost:Number = filterPack.getFilterSetting('ghost');
 			filterPack.setFilter('ghost', 0);
 			updateEffects();
-			var bm:BitmapData = MBlock.app.render3D.getRenderedChild(this, b.width*scaleX, b.height*scaleY);
+			var bm:BitmapData = WireMe.app.render3D.getRenderedChild(this, b.width*scaleX, b.height*scaleY);
 			filterPack.setFilter('ghost', oldGhost);
 			updateEffects();
 //			if(objName == 'Tank 2 down bumper ') {
@@ -521,11 +521,11 @@ public class ScratchSprite extends ScratchObj {
 		if (tool == 'cut') deleteSprite();
 		if (tool == 'grow') growSprite();
 		if (tool == 'shrink') shrinkSprite();
-		//if (tool == 'help') MBlock.app.showTip('scratchUI');
+		//if (tool == 'help') WireMe.app.showTip('scratchUI');
 	}
 
-	private function growSprite():void { setSize(getSize() + 5); MBlock.app.updatePalette() }
-	private function shrinkSprite():void { setSize(getSize() - 5); MBlock.app.updatePalette() }
+	private function growSprite():void { setSize(getSize() + 5); WireMe.app.updatePalette() }
+	private function shrinkSprite():void { setSize(getSize() - 5); WireMe.app.updatePalette() }
 
 	public function duplicateSprite(grab:Boolean = false):void {
 		var dup:ScratchSprite = duplicate();
@@ -537,7 +537,7 @@ public class ScratchSprite extends ScratchObj {
 		}
 		if (parent != null) {
 			parent.addChild(dup);
-			var app:MBlock = root as MBlock;
+			var app:WireMe = root as WireMe;
 			if (app) {
 				app.setSaveNeeded();
 				app.updateSpriteLibrary();
@@ -547,7 +547,7 @@ public class ScratchSprite extends ScratchObj {
 	}
 
 	public function showDetails():void {
-		var app:MBlock = MBlock.app;
+		var app:WireMe = WireMe.app;
 		app.selectSprite(this);
 		app.libraryPart.showSpriteDetails(true);
 	}
@@ -559,12 +559,12 @@ public class ScratchSprite extends ScratchObj {
 
 	public function deleteSprite():void {
 		if (parent != null) {
-			var app:MBlock = MBlock.app;
+			var app:WireMe = WireMe.app;
 			app.runtime.recordForUndelete(this, scratchX, scratchY, 0, app.stagePane);
 			hideBubble();
 
 			// Force redisplay (workaround for flash display update bug)
-//			if(!MBlock.app.isIn3D) {
+//			if(!WireMe.app.isIn3D) {
 				parent.visible = false;
 				parent.visible = true;
 //			}
@@ -594,9 +594,9 @@ public class ScratchSprite extends ScratchObj {
 
 	private function saveToLocalFile():void {
 		function success():void {
-			MBlock.app.log('sprite saved to file: ' + file.name);
+			WireMe.app.log('sprite saved to file: ' + file.name);
 		}
-		var zipData:ByteArray = new ProjectIO(MBlock.app).encodeSpriteAsZipFile(copyToShare());
+		var zipData:ByteArray = new ProjectIO(WireMe.app).encodeSpriteAsZipFile(copyToShare());
 		var defaultName:String = objName + '.sprite2';
 		var file:FileReference = new FileReference();
 		file.addEventListener(Event.COMPLETE, success);
@@ -677,7 +677,7 @@ public class ScratchSprite extends ScratchObj {
 		var h:int = 8; // strip height
 
 		// compute bounds
-		var p:Point = MBlock.app.stagePane.globalToLocal(localToGlobal(new Point(0, 0)));
+		var p:Point = WireMe.app.stagePane.globalToLocal(localToGlobal(new Point(0, 0)));
 		if (cachedBounds == null) bitmap(); // computes cached bounds
 		var myBounds:Rectangle = cachedBounds.clone();
 		myBounds.offset(p.x, p.y);

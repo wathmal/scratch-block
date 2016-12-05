@@ -38,10 +38,10 @@ package primitives {
 
 	internal class MotionAndPenPrims {
 
-	private var app:MBlock;
+	private var app:WireMe;
 	private var interp:Interpreter;
 
-	public function MotionAndPenPrims(app:MBlock, interpreter:Interpreter) {
+	public function MotionAndPenPrims(app:WireMe, interpreter:Interpreter) {
 		this.app = app;
 		this.interp = interpreter;
 	}

@@ -39,7 +39,7 @@ package services
 				trace("logging in: "+ dBox.getField("username"));
 				getJwt(dBox.getField("username"),dBox.getField("password"));
 			});
-			dBox.showOnStage(MBlock.app.stage);
+			dBox.showOnStage(WireMe.app.stage);
 			dBox.fixLayout();
 		}
 		
@@ -105,7 +105,7 @@ package services
 				dialog.addButton("OK", function onCancel():void {
 					dialog.cancel();
 				});
-				dialog.showOnStage(MBlock.app.stage);
+				dialog.showOnStage(WireMe.app.stage);
 			}
 			else{
 //			login failed
@@ -117,7 +117,7 @@ package services
 				dialog.addButton("OK", function onCancel():void {
 					dialog.cancel();
 				});
-				dialog.showOnStage(MBlock.app.stage);
+				dialog.showOnStage(WireMe.app.stage);
 				
 			}	
 		}

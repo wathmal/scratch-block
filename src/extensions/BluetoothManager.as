@@ -104,7 +104,7 @@ package extensions
 					close();
 				}
 				if(!_bt.isDiscovering){
-					MBlock.app.track("/OpenBluetooth");
+					WireMe.app.track("/OpenBluetooth");
 					function cancel():void{
 						removeDiscoverDialogbox(d);
 						d.cancel();
@@ -112,7 +112,7 @@ package extensions
 					var d:DialogBox = new DialogBox();
 					d.addTitle(Translator.map('Discovering Bluetooth') + '...');
 					d.addButton('Cancel', cancel);
-					d.showOnStage(MBlock.app.stage);
+					d.showOnStage(WireMe.app.stage);
 					addDiscoverDialogbox(d);
 					_bt.beginDiscover();
 				}
@@ -217,14 +217,14 @@ package extensions
 			var d:DialogBox = new DialogBox();
 			d.addTitle(Translator.map('Connecting Bluetooth') + '...');
 			d.addButton('Close', cancel);
-			d.showOnStage(MBlock.app.stage);
+			d.showOnStage(WireMe.app.stage);
 			addDiscoverDialogbox(d);
 			function checkName():void{
 				if(_bt.connected){
 					LogManager.sharedManager().log("bt opened:"+btAddr);
 					_isBusy = false;
 					addBluetoothHistory();
-					MBlock.app.topBarPart.setConnectedTitle("Bluetooth");
+					WireMe.app.topBarPart.setConnectedTitle("Bluetooth");
 					d.setTitle(Translator.map("Bluetooth Connected"));
 				}else{
 					LogManager.sharedManager().log("bt checking:"+btAddr);

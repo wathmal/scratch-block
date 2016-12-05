@@ -168,7 +168,7 @@ public class MediaInfo extends Sprite {
 	}
 
 	public function stopLoading():void {
-		var app:MBlock = root as MBlock;
+		var app:WireMe = root as WireMe;
 		for each (var loader:URLLoader in loaders) if (loader) loader.close(); // loader can be nil when offline
 		loaders = [];
 	}
@@ -273,15 +273,15 @@ public class MediaInfo extends Sprite {
 	//------------------------------
 
 	public function objToGrab(evt:MouseEvent):* {
-		var result:MediaInfo = MBlock.app.createMediaInfo({
+		var result:MediaInfo = WireMe.app.createMediaInfo({
 			type: objType,
 			name: objName,
 			md5: md5
 		});
-		if (mycostume) result = MBlock.app.createMediaInfo(mycostume, owner);
-		if (mysound) result = MBlock.app.createMediaInfo(mysound, owner);
-		if (mysprite) result = MBlock.app.createMediaInfo(mysprite);
-		if (scripts) result = MBlock.app.createMediaInfo(scripts);
+		if (mycostume) result = WireMe.app.createMediaInfo(mycostume, owner);
+		if (mysound) result = WireMe.app.createMediaInfo(mysound, owner);
+		if (mysprite) result = WireMe.app.createMediaInfo(mysprite);
+		if (scripts) result = WireMe.app.createMediaInfo(scripts);
 
 		result.removeDeleteButton();
 		if (thumbnail.bitmapData) result.thumbnail.bitmapData = thumbnail.bitmapData;
@@ -378,7 +378,7 @@ public class MediaInfo extends Sprite {
 	//------------------------------
 
 	public function click(evt:MouseEvent):void {
-		var app:MBlock = MBlock.app;
+		var app:WireMe = WireMe.app;
 		if (mycostume) {
 			app.viewedObj().showCostumeNamed(mycostume.costumeName);
 			app.selectCostume();
@@ -389,7 +389,7 @@ public class MediaInfo extends Sprite {
 	public function handleTool(tool:String, evt:MouseEvent):void {
 		if (tool == 'copy') duplicateMe();
 		if (tool == 'cut') deleteMe();
-		if (tool == 'help') MBlock.app.showTip('scratchUI');	}
+		if (tool == 'help') WireMe.app.showTip('scratchUI');	}
 
 	public function menu(evt:MouseEvent):Menu {
 		var m:Menu = new Menu();
@@ -411,21 +411,21 @@ public class MediaInfo extends Sprite {
 
 	protected function duplicateMe():void {
 		if (owner) {
-			if (mycostume) MBlock.app.addCostume(mycostume.duplicate());
-			if (mysound) MBlock.app.addSound(mysound.duplicate());
+			if (mycostume) WireMe.app.addCostume(mycostume.duplicate());
+			if (mysound) WireMe.app.addSound(mysound.duplicate());
 		}
 	}
 
 	protected function deleteMe(ignore:* = null):void {
 		if (owner) {
-			MBlock.app.runtime.recordForUndelete(this, 0, 0, 0, owner);
+			WireMe.app.runtime.recordForUndelete(this, 0, 0, 0, owner);
 			if (mycostume) {
 				owner.deleteCostume(mycostume);
-				MBlock.app.refreshImageTab(false);
+				WireMe.app.refreshImageTab(false);
 			}
 			if (mysound) {
 				owner.deleteSound(mysound);
-				MBlock.app.refreshSoundTab()
+				WireMe.app.refreshSoundTab()
 			}
 		}
 	}

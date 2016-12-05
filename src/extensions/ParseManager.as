@@ -61,7 +61,7 @@ package extensions
 //			trace("query version");
 		}
 		private function onQueryComplete(evt:TimerEvent):void{
-//			MBlock.app.topBarPart.updateVersion();
+//			WireMe.app.topBarPart.updateVersion();
 		}
 		public function parseEncode(url:String,encode:String,nextID:int,args:*,ext:ScratchExtension):void{
 			SerialManager.sharedManager().update();
@@ -270,12 +270,12 @@ package extensions
 							}
 							if(extId==versionIndex){
 								firmVersion = value;
-//								MBlock.app.topBarPart.updateVersion();
+//								WireMe.app.topBarPart.updateVersion();
 								_queryTimer.stop();
 							}else{
-								MBlock.app.extensionManager.reporterCompleted(extNames[extId],extId,value);
+								WireMe.app.extensionManager.reporterCompleted(extNames[extId],extId,value);
 							}
-							MBlock.app.runtime.exitRequest();
+							WireMe.app.runtime.exitRequest();
 							_rxBuf.clear();
 						}
 					} //end of parser

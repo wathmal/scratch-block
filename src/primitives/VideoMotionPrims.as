@@ -41,7 +41,7 @@ internal class VideoMotionPrims {
 	private const THRESHOLD:int = 10;
 	private const WINSIZE:int = 8;
 
-	private var app:MBlock;
+	private var app:WireMe;
 	private var interp:Interpreter;
 
 	private var gradA2Array:Vector.<Number> = new Vector.<Number>(WIDTH*HEIGHT,true);
@@ -59,7 +59,7 @@ internal class VideoMotionPrims {
 	private var curr:Vector.<uint>;
 	private var prev:Vector.<uint>;
 
-	public function VideoMotionPrims(app:MBlock, interpreter:Interpreter) {
+	public function VideoMotionPrims(app:WireMe, interpreter:Interpreter) {
 		this.app = app;
 		this.interp = interpreter;
 		frameBuffer = new BitmapData(WIDTH, HEIGHT);

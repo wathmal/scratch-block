@@ -129,7 +129,7 @@ package extensions
 			ConnectionManager.sharedManager().addEventListener(Event.CLOSE,onClosed);
 		}
 		private function responseValue(extId:uint,value:*):void{
-			MBlock.app.extensionManager.reporterCompleted(_name,extId,value);
+			WireMe.app.extensionManager.reporterCompleted(_name,extId,value);
 		}
 		
 		static private function readFloat(bytes:Array):Number{

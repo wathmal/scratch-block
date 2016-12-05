@@ -11,7 +11,7 @@ package extensions
 	public class HIDManager extends EventDispatcher
 	{
 		private static var _instance:HIDManager;
-		private var _mBlock:MBlock;
+		private var _mBlock:WireMe;
 		public static function sharedManager():HIDManager{
 			if(_instance==null){
 				_instance = new HIDManager;
@@ -24,7 +24,7 @@ package extensions
 			_hid = new AirHID();
 		}
 		
-		public function setMBlock(mBlock:MBlock):void{
+		public function setMBlock(mBlock:WireMe):void{
 			_mBlock = mBlock;
 		}
 		public function get isConnected():Boolean{
@@ -105,7 +105,7 @@ package extensions
 		}
 		private function onError(evt:Event):void{
 			trace(evt);
-			MBlock.app.topBarPart.setDisconnectedTitle();
+			WireMe.app.topBarPart.setDisconnectedTitle();
 			_hid.removeEventListener(AirHID.EVENT_RXDATA,hidRx);  
 			_hid.removeEventListener(AirHID.EVENT_RXERROR,onError);
 			ConnectionManager.sharedManager().onClose("HID");
@@ -126,7 +126,7 @@ package extensions
 				if(res==0){
 					trace("hid opened");
 					_isConnected = true;
-					MBlock.app.topBarPart.setConnectedTitle("2.4G Serial");
+					WireMe.app.topBarPart.setConnectedTitle("2.4G Serial");
 					//				ParseManager.sharedManager().queryVersion();
 					_hid.removeEventListener(AirHID.EVENT_RXDATA,hidRx);  
 					_hid.removeEventListener(AirHID.EVENT_RXERROR,onError);

@@ -153,22 +153,22 @@ package cc.makeblock.interpreter {
 	}
 
 	private function primSceneIndex(thread:Thread, argList:Array):void {
-		thread.push( MBlock.app.stagePane.costumeNumber());
+		thread.push( WireMe.app.stagePane.costumeNumber());
 	}
 
 	private function primSceneName(thread:Thread, argList:Array):void {
-		thread.push( MBlock.app.stagePane.currentCostume().costumeName);
+		thread.push( WireMe.app.stagePane.currentCostume().costumeName);
 	}
 
 	private function startScene(s:String):Array {
-		if ('next backdrop' == s) s = backdropNameAt(MBlock.app.stagePane.currentCostumeIndex + 1);
-		else if ('previous backdrop' == s) s = backdropNameAt(MBlock.app.stagePane.currentCostumeIndex - 1);
+		if ('next backdrop' == s) s = backdropNameAt(WireMe.app.stagePane.currentCostumeIndex + 1);
+		else if ('previous backdrop' == s) s = backdropNameAt(WireMe.app.stagePane.currentCostumeIndex - 1);
 		else {
 			var n:Number = Interpreter.asNumber(s);
 			if (!isNaN(n)) {
-				n = (Math.round(n) - 1) % MBlock.app.stagePane.costumes.length;
-				if (n < 0) n += MBlock.app.stagePane.costumes.length;
-				s = MBlock.app.stagePane.costumes[n].costumeName;
+				n = (Math.round(n) - 1) % WireMe.app.stagePane.costumes.length;
+				if (n < 0) n += WireMe.app.stagePane.costumes.length;
+				s = WireMe.app.stagePane.costumes[n].costumeName;
 			}
 		}
 		function findSceneHats(stack:Block, target:ScratchObj):void {
@@ -177,11 +177,11 @@ package cc.makeblock.interpreter {
 			}
 		}
 		var receivers:Array = [];
-		MBlock.app.stagePane.showCostumeNamed(s);
-		MBlock.app.runtime.allStacksAndOwnersDo(findSceneHats);
+		WireMe.app.stagePane.showCostumeNamed(s);
+		WireMe.app.runtime.allStacksAndOwnersDo(findSceneHats);
 		var threadList:Array = [];
 		for each(var item:Array in receivers){
-			threadList.push(MBlock.app.interp.toggleThread(item[0], item[1]));
+			threadList.push(WireMe.app.interp.toggleThread(item[0], item[1]));
 		}
 		return threadList;
 //		startAllReceivers(receivers, waitFlag);
@@ -189,7 +189,7 @@ package cc.makeblock.interpreter {
 	}
 
 	private function backdropNameAt(i:int):String {
-		var costumes:Array = MBlock.app.stagePane.costumes;
+		var costumes:Array = WireMe.app.stagePane.costumes;
 		return costumes[(i + costumes.length) % costumes.length].costumeName;
 	}
 
@@ -297,17 +297,17 @@ package cc.makeblock.interpreter {
 
 	private function minSpriteLayer():int {
 		// Return the lowest sprite layer.
-		var stg:ScratchStage = MBlock.app.stagePane;
+		var stg:ScratchStage = WireMe.app.stagePane;
 		return stg.getChildIndex(stg.videoImage ? stg.videoImage : stg.penLayer) + 1;
 	}
 
 	private function primSetVideoState(thread:Thread, argList:Array):void {
-		MBlock.app.stagePane.setVideoState(argList[0]);
+		WireMe.app.stagePane.setVideoState(argList[0]);
 	}
 
 	private function primSetVideoTransparency(thread:Thread, argList:Array):void {
-		MBlock.app.stagePane.setVideoTransparency(Number(argList[0]));
-		MBlock.app.stagePane.setVideoState('on');
+		WireMe.app.stagePane.setVideoTransparency(Number(argList[0]));
+		WireMe.app.stagePane.setVideoState('on');
 	}
 
 }}

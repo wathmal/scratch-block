@@ -111,7 +111,7 @@ package cc.makeblock.mbot.uiwidgets.extensionMgr
 		static private function getExtNameList():Array
 		{
 			var result:Array = [];
-			for each(var ext:Object in MBlock.app.extensionManager.extensionList){
+			for each(var ext:Object in WireMe.app.extensionManager.extensionList){
 				result.push(ext.extensionName);
 			}
 			return result;

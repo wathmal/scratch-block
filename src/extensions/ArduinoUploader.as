@@ -96,7 +96,7 @@ package extensions
 				SerialManager.sharedManager().reconnectSerial();
 				setTimeout(loadHex,150,url);
 				dialogbox.setText("Waiting Reset Board");
-				dialogbox.showOnStage(MBlock.app.stage);
+				dialogbox.showOnStage(WireMe.app.stage);
 		}
 		public function get state():uint{
 			return mState;

@@ -81,7 +81,7 @@ package ui.parts {
 //		private var mcNotice:Sprite = new Sprite;
 //		private const offlineNoticeFormat:TextFormat = new TextFormat(CSS.font, 12, CSS.white, true,null,null,null,null,"right");
 	
-		public function TopBarPart(app:MBlock) {
+		public function TopBarPart(app:WireMe) {
 			this.app = app;
 			addButtons();
 			refresh();
@@ -99,11 +99,11 @@ package ui.parts {
 		}
 	
 		public static function strings():Array {
-			if (MBlock.app) {
-//				MBlock.app.showFileMenu(Menu.dummyButton());
-//				MBlock.app.showEditMenu(Menu.dummyButton());
-				//MBlock.app.showSerialMenu(Menu.dummyButton());
-//				MBlock.app.showExamplesMenu(Menu.dummyButton());
+			if (WireMe.app) {
+//				WireMe.app.showFileMenu(Menu.dummyButton());
+//				WireMe.app.showEditMenu(Menu.dummyButton());
+				//WireMe.app.showSerialMenu(Menu.dummyButton());
+//				WireMe.app.showExamplesMenu(Menu.dummyButton());
 			}
 			return ['File', 'Edit', 'Tips', 'Duplicate', 'Delete', 'Grow', 'Shrink', 'Block help', 'Offline Editor'];
 		}

@@ -57,11 +57,11 @@ import uiwidgets.DialogBox;
 
 public class ProjectIO {
 
-	protected var app:MBlock;
+	protected var app:WireMe;
 	protected var images:Array = [];
 	protected var sounds:Array = [];
 
-	public function ProjectIO(app:MBlock):void {
+	public function ProjectIO(app:WireMe):void {
 		this.app = app;
 	}
 
@@ -168,12 +168,12 @@ public class ProjectIO {
 		if(jsonData.indexOf("PicoBoard")>-1){
 			DeviceManager.sharedManager().onSelectBoard("picoboard_unknown");
 		}else if(jsonData.indexOf("Makeblock")>-1){
-			if(!MBlock.app.extensionManager.checkExtensionSelected("Makeblock")){
-				MBlock.app.extensionManager.onSelectExtension("Makeblock");
+			if(!WireMe.app.extensionManager.checkExtensionSelected("Makeblock")){
+				WireMe.app.extensionManager.onSelectExtension("Makeblock");
 			}
 		}else if(jsonData.indexOf("Arduino.")>-1){
-			if(!MBlock.app.extensionManager.checkExtensionSelected("Arduino")){
-				MBlock.app.extensionManager.onSelectExtension("Arduino");
+			if(!WireMe.app.extensionManager.checkExtensionSelected("Arduino")){
+				WireMe.app.extensionManager.onSelectExtension("Arduino");
 			}
 		}
 		var jsonObj:Object = util.JSON.parse(jsonData);

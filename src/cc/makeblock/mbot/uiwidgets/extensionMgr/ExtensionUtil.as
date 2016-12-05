@@ -26,15 +26,15 @@ package cc.makeblock.mbot.uiwidgets.extensionMgr
 		
 		static public function OnLoadExtension():void
 		{
-			MBlock.app.extensionManager.copyLocalFiles();
-			MBlock.app.extensionManager.importExtension();
+			WireMe.app.extensionManager.copyLocalFiles();
+			WireMe.app.extensionManager.importExtension();
 			var d:DialogBox = new DialogBox;
 			function closeHandle():void{
 				d.cancel();
 			}
 			d.addTitle(Translator.map('Extension Files Updated'));
 			d.addButton('Close', closeHandle);
-			d.showOnStage(MBlock.app.stage);
+			d.showOnStage(WireMe.app.stage);
 		}
 		
 		static public function OnManagerExtension():void
@@ -50,7 +50,7 @@ package cc.makeblock.mbot.uiwidgets.extensionMgr
 			if(file.extension == "json"){
 				var fileName:String = file.name.slice(0, file.name.lastIndexOf("."));
 				file.copyTo(libPath.resolvePath(fileName + "/" + file.name), true);
-				MBlock.app.extensionManager.importExtension();
+				WireMe.app.extensionManager.importExtension();
 				return;
 			}
 			
@@ -73,7 +73,7 @@ package cc.makeblock.mbot.uiwidgets.extensionMgr
 					return;
 				}
 				if(delExt(extName)){
-					MBlock.app.extensionManager.importExtension();
+					WireMe.app.extensionManager.importExtension();
 					callback();
 				}
 			});
@@ -97,7 +97,7 @@ package cc.makeblock.mbot.uiwidgets.extensionMgr
 					delExt(extensionName);
 				}
 				copyFileToDocuments(fzip);
-				MBlock.app.extensionManager.importExtension();
+				WireMe.app.extensionManager.importExtension();
 			}else{
 				showErrorAlert();
 			}
@@ -164,7 +164,7 @@ package cc.makeblock.mbot.uiwidgets.extensionMgr
 		
 		static private function isExtNameExist(extName:String):Boolean
 		{
-			return MBlock.app.extensionManager.findExtensionByName(extName) != null;
+			return WireMe.app.extensionManager.findExtensionByName(extName) != null;
 		}
 		
 		static private function delExt(extName:String):Boolean

@@ -103,8 +103,8 @@ package cc.makeblock.mbot.uiwidgets
 			if(null == fileName){
 				return;
 			}
-			if(!MBlock.app.stageIsArduino){
-				MBlock.app.changeToArduinoMode();
+			if(!WireMe.app.stageIsArduino){
+				WireMe.app.changeToArduinoMode();
 				show();
 			}
 			var source:String = FileUtil.ReadString(File.applicationDirectory.resolvePath(fileName));
@@ -116,7 +116,7 @@ package cc.makeblock.mbot.uiwidgets
 				source = disable(source, sensorDict[checkBox.name]);
 			}
 			trace(source);
-//			MBlock.app.scriptsPart.appendMessage(ArduinoManager.sharedManager().buildAll(source));
+//			WireMe.app.scriptsPart.appendMessage(ArduinoManager.sharedManager().buildAll(source));
 		}
 		
 		private function __onSelectAll(evt:AWEvent):void

@@ -65,9 +65,9 @@ public class PaletteSelector extends Sprite {
 		'Operators', 'Robots']; // column 2
 
 	public var selectedCategory:int = 0;
-	private var app:MBlock;
+	private var app:WireMe;
 
-	public function PaletteSelector(app:MBlock) {
+	public function PaletteSelector(app:WireMe) {
 		this.app = app;
 		initCategories();
 	}
