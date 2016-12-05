@@ -10,6 +10,7 @@ ToDo
  - Refactoring the App name.
  - Project save does not work.
  - Line Chart Widget Not Touchable : replace with chart has background filling
+ - Logout action assignment
 
 Bugs
 ===================

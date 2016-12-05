@@ -254,6 +254,9 @@ package {
 				// login user
 				WebService.getInstance().login();
 			}
+			else if(WebService.getInstance().sendGetRequest("http://wireme.projects.mrt.ac.lk/api?token="+SharedObjectManager.sharedManager().getObject("token"))!=null){
+				WebService.getInstance().login();					
+			}
 		}
 		
 		

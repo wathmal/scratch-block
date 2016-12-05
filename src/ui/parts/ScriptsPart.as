@@ -375,8 +375,7 @@ public class ScriptsPart extends UIPart {
 		widgetJson.widgets = widgetArray;
         widgetJson.token = SharedObjectManager.sharedManager().getObject("token");
 		var dialog:DialogBox;
-		var reponseData:Object = WebService.getInstance().sendPostRequst("http://wireme.projects.mrt.ac.lk/api/"
-			+SharedObjectManager.sharedManager().getObject("username")+"/widgets"
+		var reponseData:Object = WebService.getInstance().sendPostRequst("http://wireme.projects.mrt.ac.lk/api/widgets"
 			,util.JSON.stringify(widgetJson));
 		if(reponseData!=null){
 			dialog= new DialogBox();

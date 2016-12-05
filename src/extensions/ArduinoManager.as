@@ -110,7 +110,7 @@ function mqttcon()
 	function(client) 
 		print("connected to mqtt")
 		//include
-		tmr.alarm(2,500,1,mainloop)
+		tmr.alarm(2,1000,1,mainloop)
 	end,
 	function(client, reason) 
 		print("failed on MQTT due to : "..reason) 
