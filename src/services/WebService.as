@@ -8,6 +8,7 @@ package services
 	import flash.net.URLRequest;
 	import flash.net.URLRequestHeader;
 	import flash.net.URLRequestMethod;
+	import flash.net.URLVariables;
 	
 	import uiwidgets.DialogBox;
 	
@@ -64,7 +65,6 @@ package services
 			postLoader.dataFormat = URLLoaderDataFormat.BINARY;
 			
 			postLoader.addEventListener(Event.COMPLETE, function (e:Event):void {
-				trace("Send data successfully! " + e);
 				reponseData = util.JSON.parse(URLLoader(e.target).data.toString());
 				auth(reponseData,username, password);
 			});
@@ -84,7 +84,7 @@ package services
 				postLoader.load(request);
 			}
 			catch (e:Error) {
-				trace("Unable to POST widgets: " +e);
+				trace("Unable to Log in: " +e);
 			}
 			
 		}
@@ -161,9 +161,47 @@ package services
 				return reponseData;
 			}
 			catch (e:Error) {
-				trace("Unable to POST widgets: " +e);
+				trace("Unable to POST : " +e);
 				return null;
 			}
+		}
+		
+		public function sendGetRequest(url:String):Object
+		{
+			var request:URLRequest = new URLRequest();
+			request.url = url;
+			request.method = URLRequestMethod.GET;
+			var data:URLVariables = new URLVariables();
+			data.token=SharedObjectManager.sharedManager().getObject("token");
+			request.data = data;			
+			var reponseData:Object;
+			
+			var loader:URLLoader = new URLLoader();
+			
+			loader.addEventListener(Event.COMPLETE, function (e:Event):void {
+				trace("Send data successfully! " + e);
+				reponseData = util.JSON.parse(URLLoader(e.target).data.toString());
+			});
+			
+			loader.addEventListener(SecurityErrorEvent.SECURITY_ERROR, function (e:Event):void {
+				trace("SECURITY_ERROR: " + e);
+				reponseData=null;
+			});
+			loader.addEventListener(IOErrorEvent.IO_ERROR, function (e:Event):void {
+				trace("IO_ERROR: " + e);
+				reponseData=null;
+			});
+			
+			try {
+				
+				loader.load(request);
+				return reponseData;
+			}
+			catch (e:Error) {
+				trace("Unable to GET: " +e);
+				return null;
+			}
+			
 		}
 		
 	}
