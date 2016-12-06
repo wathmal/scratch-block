@@ -57,7 +57,7 @@ package cc.makeblock.mbot.ui.parts
 			register("Edit", __onEdit);
 			register("Connect", __onConnect);
 			register("Boards", __onSelectBoard);
-			register("Help", __onHelp);
+//			register("Help", __onHelp);
 			register("Manage Extensions", ExtensionUtil.OnManagerExtension);
 			register("Restore Extensions", ExtensionUtil.OnLoadExtension);
 			register("Clear Cache", ArduinoManager.sharedManager().clearTempFiles);
@@ -256,53 +256,6 @@ package cc.makeblock.mbot.ui.parts
 			}
 			menu.getItemByName("Serial Port").submenu = subMenu;
 			
-			/*var bluetoothItem:NativeMenuItem = menu.getItemByName("Bluetooth");
-			
-			bluetoothItem.enabled = ApplicationManager.sharedManager().system == ApplicationManager.WINDOWS && BluetoothManager.sharedManager().isSupported
-			while(bluetoothItem.submenu.numItems > 3){
-				bluetoothItem.submenu.removeItemAt(3);
-			}
-			if(bluetoothItem.submenu.numItems>2){
-				bluetoothItem.submenu.items[0].enabled = enabled;
-				bluetoothItem.submenu.items[1].enabled = enabled;
-				bluetoothItem.submenu.items[2].enabled = enabled;
-			}
-			arr = BluetoothManager.sharedManager().history;
-			for(i=0;i<arr.length;i++){
-				item = bluetoothItem.submenu.addItem(new NativeMenuItem(Translator.map(arr[i])));
-				item.name = "bt_"+arr[i];
-				item.enabled = enabled;
-				item.checked = arr[i]==BluetoothManager.sharedManager().currentBluetooth && BluetoothManager.sharedManager().isConnected;
-			}
-			
-			var tempItem:NativeMenuItem = menu.getItemByName("2.4G Serial").submenu.getItemAt(0);
-			tempItem.enabled = enabled;
-			tempItem.checked = HIDManager.sharedManager().isConnected;
-			
-			var netWorkMenuItem:NativeMenuItem = MenuUtil.FindItem(getNativeMenu(), "Network");
-			subMenu = netWorkMenuItem.submenu;
-			arr = SocketManager.sharedManager().list;
-			while(subMenu.numItems > 1){
-				subMenu.removeItemAt(1);
-			}
-			for(i=0;i<arr.length;i++){
-				var ips:Array = arr[i].split(":");
-				if(ips.length<3){
-					continue;
-				}
-				var label:String = Translator.map(ips[0]+" - "+ips[2]);
-				item = subMenu.addItem(new NativeMenuItem(label));
-				item.name = "net_" + arr[i];
-				item.enabled = enabled;
-				item.checked = SocketManager.sharedManager().connected(ips[0]);
-			}
-			netWorkMenuItem.submenu = subMenu;
-			var canReset:Boolean = SerialManager.sharedManager().isConnected && DeviceManager.sharedManager().currentName=="mBot";
-			MenuUtil.FindItem(getNativeMenu(), "Reset Default Program").enabled = canReset;
-			canReset = SerialManager.sharedManager().isConnected && DeviceManager.sharedManager().currentName!="PicoBoard";
-			MenuUtil.FindItem(getNativeMenu(), "Upgrade Firmware").enabled = canReset;
-			canReset = DeviceManager.sharedManager().currentName!="PicoBoard";
-			MenuUtil.FindItem(getNativeMenu(), "View Source").enabled = canReset;*/
 		}
 		
 		private function __onSelectBoard(menuItem:NativeMenuItem):void
@@ -396,36 +349,5 @@ package cc.makeblock.mbot.ui.parts
 			WireMe.app.extensionManager.onSelectExtension(menuItem.name);
 		}
 		
-		private function __onHelp(menuItem:NativeMenuItem):void
-		{
-			var path:String = menuItem.data.@url;
-			if("Forum" == menuItem.name){
-				path = Translator.map(path);
-			}
-			if(path){
-				navigateToURL(new URLRequest(path),"_blank");
-			}
-			
-			switch(menuItem.name)
-			{
-				case "Share Your Project":
-					WireMe.app.track("/OpenShare/");
-					break;
-				case "FAQ":
-					WireMe.app.track("/OpenFaq/");
-					break;
-				default:
-					WireMe.app.track("/OpenHelp/"+menuItem.data.@key);
-			}
-			
-			switch(menuItem.data.@key.toString()){
-				case "check_app_update":
-					AppUpdater.getInstance().start(true);
-					break;
-				case "upload_bug":
-					ErrorReportFrame.OpenSendWindow("");
-					break;
-			}
-		}
 	}
 }
