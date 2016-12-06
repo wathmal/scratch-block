@@ -8,7 +8,6 @@ package cc.makeblock.mbot.ui.parts
 	import flash.net.navigateToURL;
 	
 	import cc.makeblock.mbot.uiwidgets.DynamicCompiler;
-	import cc.makeblock.mbot.uiwidgets.errorreport.ErrorReportFrame;
 	import cc.makeblock.mbot.uiwidgets.extensionMgr.ExtensionUtil;
 	import cc.makeblock.media.MediaManager;
 	import cc.makeblock.menu.MenuUtil;
