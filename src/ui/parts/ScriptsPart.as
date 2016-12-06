@@ -457,12 +457,12 @@ public class ScriptsPart extends UIPart {
 
         var nativeProcessStartupInfo:NativeProcessStartupInfo = new NativeProcessStartupInfo();
 //		TODO: Python path
-        var python:File = new File(File.applicationDirectory.resolvePath("Python").nativePath + File.separator + "python.exe");
+        var python:File = new File(File.applicationDirectory.resolvePath("luatool").nativePath + File.separator + "luatool.exe");
         nativeProcessStartupInfo.executable = python;
         nativeProcessStartupInfo.workingDirectory = File.applicationDirectory.resolvePath("luatool");
 
         var processArgs:Vector.<String> = new Vector.<String>();
-        processArgs.push("luatool.py")
+//        processArgs.push("luatool.py")
         processArgs.push("--port");
         processArgs.push(port);
         processArgs.push("--src");
