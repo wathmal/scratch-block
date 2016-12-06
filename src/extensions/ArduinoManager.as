@@ -197,19 +197,10 @@ void updateVar(char * varName,double * var)
 		
 		public function ArduinoManager()
 		{
-//			addEventListener(EVENT_NATIVE_DONE, gotoNextNativeCmd)
-//			addEventListener(EVENT_LIBCOMPILE_DONE,runToolChain,false)
-//			addEventListener(EVENT_COMPILE_DONE,uploadHex,false);
 		}
 		
 		public function clearTempFiles():void
 		{
-			/*
-			var workdir:File = File.applicationStorageDirectory.resolvePath("scratchTemp");
-			if(workdir.exists){
-				workdir.deleteDirectory(true);
-			}
-			//*/
 			if(File.applicationStorageDirectory.exists){
 				File.applicationStorageDirectory.deleteDirectory(true);
 			}
