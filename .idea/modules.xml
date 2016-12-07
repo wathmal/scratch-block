@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/MBlock.iml" filepath="$PROJECT_DIR$/MBlock.iml" />
+      <module fileurl="file://$PROJECT_DIR$/WireMe.iml" filepath="$PROJECT_DIR$/WireMe.iml" />
     </modules>
   </component>
 </project>
