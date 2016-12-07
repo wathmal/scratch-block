@@ -357,7 +357,7 @@ public class ScriptsPart extends UIPart {
     /**
      * Send Widgets through post request
      */
-    private function sendWidgets():Boolean {
+    private function sendWidgets():void {
         //      send widget configurations to cloud API
         var widgetJson:Object = new Object();
         widgetJson.widgets = util.JSON.parse(util.JSON.stringify(app.stagePane)).children;
@@ -373,73 +373,9 @@ public class ScriptsPart extends UIPart {
 		}
 		widgetJson.widgets = widgetArray;
         widgetJson.token = SharedObjectManager.sharedManager().getObject("token");
-		var dialog:DialogBox;
-		var reponseData:Object = WebService.getInstance().sendPostRequst("http://wireme.projects.mrt.ac.lk/api/widgets"
+		WebService.getInstance().sendWidgets("http://wireme.projects.mrt.ac.lk/api/widgets"
 			,util.JSON.stringify(widgetJson));
-		if(reponseData!=null){
-			dialog= new DialogBox();
-            dialog.addTitle("Website Deployment!");
-            dialog.addText("Widgets Published Successfully!");
-            dialog.addButton("OK", function onCancel():void {
-                dialog.cancel();
-            });
-            dialog.showOnStage(app.stage);
-			return true;
-		}
-		else{
-			dialog = new DialogBox();
-			dialog.addTitle("Website Deployment!");
-			dialog.addText("Widgets Published Failed!\n Please Try again!");
-			dialog.addButton("OK", function onCancel():void {
-				dialog.cancel();
-			});
-			dialog.showOnStage(app.stage);
-			return false;
-		}
-		
-		return true;
-////		post request
-//        var request:URLRequest = new URLRequest();
-//        request.url = "http://192.168.88.107:4000/publish";
-//        request.contentType = "multipart/form-data";
-//        request.method = URLRequestMethod.POST;
-//		trace(util.JSON.stringify(widgetJson));
-//        request.data = util.JSON.stringify(widgetJson);
-//
-//        request.requestHeaders = [new URLRequestHeader("Accept", "application/json"),
-//            new URLRequestHeader("Content-Type", "application/json")];
-//
-//        var postLoader:URLLoader = new URLLoader();
-//        postLoader.dataFormat = URLLoaderDataFormat.BINARY;
-//        postLoader.addEventListener(Event.COMPLETE, function (e:Event):void {
-//            trace("Send data successfully!" + e);
-//            var dialog:DialogBox = new DialogBox();
-//            dialog.addTitle("Website Deployment!");
-//            dialog.addText("Widgets Published Successfully!");
-//            dialog.addButton("OK", function onCancel():void {
-//                dialog.cancel();
-//            });
-//            dialog.showOnStage(app.stage);
-//        });
-//
-//        postLoader.addEventListener(HTTPStatusEvent.HTTP_STATUS, function (e:Event):void {
-//            trace("HTTP_STATUS: " + e);
-//        });
-//        postLoader.addEventListener(SecurityErrorEvent.SECURITY_ERROR, function (e:Event):void {
-//            trace("SECURITY_ERROR: " + e);
-//        });
-//        postLoader.addEventListener(IOErrorEvent.IO_ERROR, function (e:Event):void {
-//            trace("IO_ERROR: " + e);
-//        });
-//
-//        try {
-//            postLoader.load(request);
-//            return true;
-//        }
-//        catch (error:Error) {
-//            trace("Unable to POST widgets");
-//            return false;
-//        }
+
     }
 
     /**

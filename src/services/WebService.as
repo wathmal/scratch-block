@@ -95,6 +95,7 @@ package services
 			if(returnData!=null && returnData.code == 200){
 				
 				SharedObjectManager.sharedManager().setObject("token",returnData.token);
+				trace("In logging in, token=: "+returnData.token);
 				SharedObjectManager.sharedManager().setObject("isUserNotSet",false);
 				SharedObjectManager.sharedManager().setObject("username",username);
 				SharedObjectManager.sharedManager().setObject("password",password);
@@ -124,7 +125,7 @@ package services
 			}	
 		}
 		
-		public function sendPostRequst(url:String,data:String):Object
+		public function sendWidgets(url:String,data:String):void
 		{
 			//		post request
 			var request:URLRequest = new URLRequest();
@@ -140,31 +141,41 @@ package services
 			
 			var postLoader:URLLoader = new URLLoader();
 			postLoader.dataFormat = URLLoaderDataFormat.BINARY;
-			
+			var dialog:DialogBox;
 			postLoader.addEventListener(Event.COMPLETE, function (e:Event):void {
 				trace("Send data successfully! " + e);
 				reponseData = util.JSON.parse(URLLoader(e.target).data.toString());
+				dialog= new DialogBox();
+				dialog.addTitle("Website Deployment!");
+				dialog.addText("Widgets Published Successfully!");
+				dialog.addButton("OK", function onCancel():void {
+					dialog.cancel();
+				});
+				dialog.showOnStage(WireMe.app.stage);
 			});
 			
 			postLoader.addEventListener(SecurityErrorEvent.SECURITY_ERROR, function (e:Event):void {
 				trace("SECURITY_ERROR: " + e);
-				reponseData=null;
 				//					throw new Error(e);
 			});
 			postLoader.addEventListener(IOErrorEvent.IO_ERROR, function (e:Event):void {
 				trace("IO_ERROR: " + e);
 				reponseData=null;
+				dialog = new DialogBox();
+				dialog.addTitle("Website Deployment!");
+				dialog.addText("Widgets Published Failed!\n Please Try again!");
+				dialog.addButton("OK", function onCancel():void {
+					dialog.cancel();
+				});
+				dialog.showOnStage(WireMe.app.stage);
 				//					throw new Error(e);
 			});
 			
 			try {
-				
 				postLoader.load(request);
-				return reponseData;
 			}
 			catch (e:Error) {
-				trace("Unable to POST : " +e);
-				return null;
+				trace("Unable to POST Widgets: " +e);
 			}
 		}
 		

@@ -253,9 +253,11 @@ package {
 				// login user
 				WebService.getInstance().login();
 			}
-			else if(WebService.getInstance().sendGetRequest("http://wireme.projects.mrt.ac.lk/api?token="+SharedObjectManager.sharedManager().getObject("token"))!=null){
-				WebService.getInstance().login();					
-			}
+			//check whether the token is expired or not
+//			else if(WebService.getInstance().sendGetRequest("http://wireme.projects.mrt.ac.lk/api?token="+SharedObjectManager.sharedManager().getObject("token"))==null){
+//				trace("token=: "+SharedObjectManager.sharedManager().getObject("token"));
+//				WebService.getInstance().login();					
+//			}
 		}
 		
 		
