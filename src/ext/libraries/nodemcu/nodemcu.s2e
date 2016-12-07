@@ -36,7 +36,7 @@
         ["w", "control device at %d.pins by cloud dimmer %s ","mqttSubDimmer","1","dimmer",
         {"encode":"{d0}","setup":""
         ,"inc":""
-        ,"def":"m:subscribe(mqtt_username..\"\/\"{1},0, function(client) print({1}..\" subscribe success\") end)\n","work":"","loop":"","wifi":""
+        ,"def":"m:subscribe(mqtt_username..\"\/\"..{1},0, function(client) print({1}..\" subscribe success\") end)\n","work":"","loop":"","wifi":""
         ,"mqtt":"if topic == mqtt_username..\"\/\"..{1} then\n\tif cjson.decode(data).value > 0 then pwm.setup({0},500,cjson.decode(data).value*10)\n pwm.start({0})\nelse pwm.stop({0}) end \nend\n"}]
         
 	],
