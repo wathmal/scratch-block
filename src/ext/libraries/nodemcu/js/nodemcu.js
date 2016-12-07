@@ -1,4 +1,4 @@
-// arduino.js
+// nodemcu.js
 
 (function(ext) {
     var device = null;

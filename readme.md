@@ -5,11 +5,9 @@ Team WireMe : IoT Hub
 
 ToDo
 ===================
- - Update user credentials in the code for the first run.
  - Make widget configuration in one place.
  - Project save does not work.
 
 Bugs
 ===================
- - First launch does not set the user credentials in the code.
  - Project save does not work.

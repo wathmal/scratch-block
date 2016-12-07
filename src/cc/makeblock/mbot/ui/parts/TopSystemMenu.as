@@ -132,6 +132,10 @@ package cc.makeblock.mbot.ui.parts
 					break;
 				case "Log Out":
 					SharedObjectManager.sharedManager().setObject("isUserNotSet",true);
+					SharedObjectManager.sharedManager().setObject("username","");
+					SharedObjectManager.sharedManager().setObject("password","");
+					SharedObjectManager.sharedManager().setObject("token","");
+					WireMe.app.scriptsPart.showArduinoCode();
 					break;
 				case "Log In":
 					WebService.getInstance().login();

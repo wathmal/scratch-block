@@ -99,6 +99,8 @@ package services
 				SharedObjectManager.sharedManager().setObject("username",username);
 				SharedObjectManager.sharedManager().setObject("password",password);
 				
+				WireMe.app.scriptsPart.showArduinoCode();
+				
 				dialog= new DialogBox();
 				dialog.addTitle("Login");
 				dialog.addText("User Logged in Successfully!");
