@@ -29,6 +29,8 @@ package cc.makeblock.mbot.ui.parts
 	
 	import translation.Translator;
 	
+	import uiwidgets.DialogBox;
+	
 	import util.ApplicationManager;
 	import util.SharedObjectManager;
 	
@@ -136,6 +138,15 @@ package cc.makeblock.mbot.ui.parts
 					SharedObjectManager.sharedManager().setObject("password","");
 					SharedObjectManager.sharedManager().setObject("token","");
 					WireMe.app.scriptsPart.showArduinoCode();
+					
+//					show logout dialog
+					var dialog:DialogBox= new DialogBox();
+					dialog.addTitle("Log Out");
+					dialog.addText("User Log Out Successfully!");
+					dialog.addButton("OK", function onCancel():void {
+						dialog.cancel();
+					});
+					dialog.showOnStage(WireMe.app.stage);
 					break;
 				case "Log In":
 					WebService.getInstance().login();
