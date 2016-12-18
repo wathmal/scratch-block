@@ -85,6 +85,7 @@ package extensions
 		 */	
 		private var codeTemplate:String = ( <![CDATA[//setup
 //include
+t = require("ds18b20")
 -- connect to wifi
 wifi.setmode(wifi.STATION)
 //wifi
@@ -480,6 +481,26 @@ void updateVar(char * varName,double * var)
 			return codeIf
 		}
 		
+		private function parseMqttIf(blk:Object):String{
+			var codeIf:String = ""
+			var logiccode:String = getCodeBlock(blk[1]).code;
+			codeIf+=StringUtil.substitute("if {0} then \n",logiccode)
+//			if topic == mqtt_username..\"\/\"..{1} then\n\tif cjson.decode(data).value > 0 then pwm.setup({0},500,cjson.decode(data).value*10)\n pwm.start({0})\nelse pwm.stop({0}) end \nend\n
+			if(blk is Array){
+				if(blk.length>2){
+					if(blk[2]!=null){
+						for(var i:int=0;i<blk[2].length;i++){
+							var b:CodeBlock = getCodeBlock(blk[2][i]);
+							var ifcode:String=(b.type=="obj"?b.code.code:b.code)+"";
+							codeIf+=ifcode;
+						}
+					}
+				}
+			}
+			codeIf+="end \n"
+			return codeIf
+		}
+		
 		private function parseVarWrite(blk:Object):String{
 			var varName:String = blk[2]
 			if (varList.indexOf(varName)==-1){
@@ -747,15 +768,9 @@ void updateVar(char * varName,double * var)
 				return codeBlock;
 			}
 			
-//			else if(blk[0].indexOf("receiveDataFromWidget") > 0){
-//				codeBlock.type= "obj";
-//				codeBlock.code = new CodeObj(StringUtil.substitute("m:publish(\"user_id"+key+"\",cjson.encode({ value= {0}}),0,0, function(client) print(\"sent\") end)\n",getCodeBlock(blk[1]).code));
-//				return codeBlock;
-//			}
-			
-//			else if(blk[0].indexOf("mqttSubSwitch") > 0){
+//			else if(blk[0].indexOf("mqttIf") > 0){
 //				codeBlock.type= "string";
-//				codeBlock.code = parseMqttSwitch(blk);
+//				codeBlock.code = parseMqttIf(blk);
 //				return codeBlock;
 //			}
 			
