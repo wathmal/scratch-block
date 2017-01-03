@@ -7,6 +7,7 @@ ToDo
 ===================
  - Make widget configuration in one place.
  - Project save does not work.
+ - Move functions to another lua file.
 
 Bugs
 ===================
