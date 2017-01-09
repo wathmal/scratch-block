@@ -6,9 +6,10 @@ Team WireMe : IoT Hub
 ToDo
 ===================
  - Make widget configuration in one place.
- - Project save does not work.
  - Move functions to another lua file.
+ - state user loged in state in titlebar
+ - remove boards from the menu
 
 Bugs
 ===================
- - Project save does not work.
+- Update the serial connection state on the title after upload the code to lua

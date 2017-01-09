@@ -392,9 +392,8 @@ public class ScriptsPart extends UIPart {
         stream.close();
 
         var nativeProcessStartupInfo:NativeProcessStartupInfo = new NativeProcessStartupInfo();
-//		TODO: Python path
-        var python:File = new File(File.applicationDirectory.resolvePath("luatool").nativePath + File.separator + "luatool.exe");
-        nativeProcessStartupInfo.executable = python;
+        var luatoolProcess:File = new File(File.applicationDirectory.resolvePath("luatool").nativePath + File.separator + "luatool.exe");
+        nativeProcessStartupInfo.executable = luatoolProcess;
         nativeProcessStartupInfo.workingDirectory = File.applicationDirectory.resolvePath("luatool");
 
         var processArgs:Vector.<String> = new Vector.<String>();
@@ -424,14 +423,25 @@ public class ScriptsPart extends UIPart {
         });
         process.addEventListener(NativeProcessExitEvent.EXIT, function (event:NativeProcessExitEvent):void {
             trace("LUATOOL: Process exited with ", event.exitCode);
-            var dialog:DialogBox = new DialogBox();
-            dialog.addTitle("NodeMCU");
-            dialog.addText("Done Uploading!");
-            dialog.addButton("OK", function onCancel():void {
-                dialog.cancel();
-            });
-            dialog.showOnStage(app.stage);
+			var dialog:DialogBox = new DialogBox();
+			dialog.addTitle("NodeMCU");
+			if(event.exitCode==0){
+				dialog.addText("Done Uploading!");
+				dialog.addButton("OK", function onCancel():void {
+					dialog.cancel();
+				});
+				dialog.showOnStage(app.stage);	
+			}
+			else{
+				dialog.addText("Done Error in Uoloading firmware");
+				dialog.addButton("OK", function onCancel():void {
+					dialog.cancel();
+				});
+				dialog.showOnStage(app.stage);
+			}
+            
             SerialManager.sharedManager().open(port);
+			SerialManager.sharedManager().update();
         });
         process.start(nativeProcessStartupInfo);
 
