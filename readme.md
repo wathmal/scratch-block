@@ -7,7 +7,6 @@ ToDo
 ===================
  - Make widget configuration in one place.
  - Move functions to another lua file.
- - state user loged in state in titlebar
  - remove boards from the menu
 
 Bugs
