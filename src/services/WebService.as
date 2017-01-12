@@ -41,6 +41,9 @@ package services
 				trace("logging in: "+ dBox.getField("username"));
 				getJwt(dBox.getField("username"),dBox.getField("password"));
 			});
+			dBox.addButton("Cancel", function onCancel():void {
+				dBox.cancel();
+			});
 			dBox.showOnStage(WireMe.app.stage);
 			dBox.fixLayout();
 		}
