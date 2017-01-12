@@ -425,8 +425,8 @@ public class ObjReader {
 					if (cache[sndData] != null) {
 						snd.soundData = cache[sndData]; // use cached sound data
 					} else {
-						snd.soundData = WAVFile.encode(reverseBytes(sndData), snd.sampleCount, snd.rate, false);
-						cache[sndData] = snd.soundData;
+//						snd.soundData = WAVFile.encode(reverseBytes(sndData), snd.sampleCount, snd.rate, false);
+//						cache[sndData] = snd.soundData;
 					}
 				} else {
 					sndData = entry[9];

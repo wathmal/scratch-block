@@ -37,10 +37,6 @@ package ui.media {
 	import assets.Resources;
 	
 	import scratch.ScratchCostume;
-	import scratch.ScratchSound;
-	
-	import sound.ScratchSoundPlayer;
-	import sound.mp3.MP3SoundPlayer;
 	
 	import svgutils.SVGImporter;
 	
@@ -74,7 +70,6 @@ public class MediaLibraryItem extends Sprite {
 	private var playButton:IconButton;
 
 	private var sndData:ByteArray;
-	private var sndPlayer:ScratchSoundPlayer;
 
 	public function MediaLibraryItem(dbObject:Object = null) {
 		this.dbObj = dbObject;
@@ -90,7 +85,6 @@ public class MediaLibraryItem extends Sprite {
 		addLabel();
 		addInfo();
 		unhighlight();
-		if (isSound) addPlayButton();
 	}
 
 	public static function strings():Array { return ['Costumes:', 'Scripts:'] }
@@ -236,12 +230,12 @@ public class MediaLibraryItem extends Sprite {
 		addChild(info);
 	}
 	
-	private function addPlayButton():void {
-		playButton = new IconButton(toggleSoundPlay, 'play');
-		playButton.x = 75;
-		playButton.y = 28;
-		addChild(playButton);
-	}
+//	private function addPlayButton():void {
+//		playButton = new IconButton(toggleSoundPlay, 'play');
+//		playButton.x = 75;
+//		playButton.y = 28;
+//		addChild(playButton);
+//	}
 
 	private function setText(tf:TextField, s:String):void {
 		// Set the text of the given TextField, truncating if necessary.
@@ -304,39 +298,39 @@ public class MediaLibraryItem extends Sprite {
 	// Play Sound
 	//------------------------------
 
-	private function toggleSoundPlay(b:IconButton):void {
-		if (sndPlayer) stopPlayingSound(null);
-		else startPlayingSound();
-	}
+//	private function toggleSoundPlay(b:IconButton):void {
+//		if (sndPlayer) stopPlayingSound(null);
+//		else startPlayingSound();
+//	}
+//
+//	private function stopPlayingSound(ignore:*):void {
+//		if (sndPlayer) sndPlayer.stopPlaying();
+//		sndPlayer = null;
+//		playButton.turnOff();
+//	}
+//
+//	private function startPlayingSound():void {
+//		if (sndData) {
+//			if (ScratchSound.isWAV(sndData)) {
+//				sndPlayer = new ScratchSoundPlayer(sndData);
+//			} else {
+//				sndPlayer = new MP3SoundPlayer(sndData);
+//			}
+//		}
+//		if (sndPlayer) {
+//			sndPlayer.startPlaying(stopPlayingSound);
+//			playButton.turnOn();
+//		} else {
+//			downloadAndPlay();
+//		}
+//	}
 
-	private function stopPlayingSound(ignore:*):void {
-		if (sndPlayer) sndPlayer.stopPlaying();
-		sndPlayer = null;
-		playButton.turnOff();
-	}
-
-	private function startPlayingSound():void {
-		if (sndData) {
-			if (ScratchSound.isWAV(sndData)) {
-				sndPlayer = new ScratchSoundPlayer(sndData);
-			} else {
-				sndPlayer = new MP3SoundPlayer(sndData);
-			}
-		}
-		if (sndPlayer) {
-			sndPlayer.startPlaying(stopPlayingSound);
-			playButton.turnOn();
-		} else {
-			downloadAndPlay();
-		}
-	}
-
-	private function downloadAndPlay():void {
-		// Download and play a library sound.
-		var wavData:ByteArray = WireMe.app.server.getAsset(dbObj.md5);
-		if (!wavData) return;
-		sndData = wavData;
-		startPlayingSound();
-	}
+//	private function downloadAndPlay():void {
+//		// Download and play a library sound.
+//		var wavData:ByteArray = WireMe.app.server.getAsset(dbObj.md5);
+//		if (!wavData) return;
+//		sndData = wavData;
+//		startPlayingSound();
+//	}
 
 }}

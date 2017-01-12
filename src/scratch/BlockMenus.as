@@ -43,8 +43,6 @@ package scratch {
 	
 	import org.aswing.event.AWEvent;
 	
-	import sound.SoundBank;
-	
 	import translation.Translator;
 	
 	import ui.ProcedureSpecEditor;
@@ -52,7 +50,6 @@ package scratch {
 	import uiwidgets.CursorTool;
 	import uiwidgets.DialogBox;
 	import uiwidgets.Menu;
-	import uiwidgets.Piano;
 	
 	import util.DragClient;
 
@@ -97,9 +94,9 @@ public class BlockMenus implements DragClient {
 		if (menuName == 'colorPicker') menuHandler.colorPicker(evt);
 		if (menuName == 'costume') menuHandler.costumeMenu(evt);
 		if (menuName == 'direction') menuHandler.dirMenu(evt);
-		if (menuName == 'drum') menuHandler.drumMenu(evt);
+//		if (menuName == 'drum') menuHandler.drumMenu(evt);
 		if (menuName == 'effect') menuHandler.effectMenu(evt);
-		if (menuName == 'instrument') menuHandler.instrumentMenu(evt);
+//		if (menuName == 'instrument') menuHandler.instrumentMenu(evt);
 		if (menuName == 'key') menuHandler.keyMenu(evt);
 		if (menuName == 'list') menuHandler.listMenu(evt);
 		if (menuName == 'listDeleteItem') menuHandler.listItem(evt, true);
@@ -107,7 +104,7 @@ public class BlockMenus implements DragClient {
 		if (menuName == 'mathOp') menuHandler.mathOpMenu(evt);
 		if (menuName == 'motorDirection') menuHandler.motorDirectionMenu(evt);
 		//if (menuName == 'note') menuHandler.noteMenu(evt);
-		if (menuName == 'note') menuHandler.notePicker(evt);
+//		if (menuName == 'note') menuHandler.notePicker(evt);
 		if (menuName == 'procMenu') menuHandler.procMenu(evt);
 		if (menuName == 'rotationStyle') menuHandler.rotationStyleMenu(evt);
 		if (menuName == 'scrollAlign') menuHandler.scrollAlignMenu(evt);
@@ -154,10 +151,10 @@ public class BlockMenus implements DragClient {
 			handler.broadcastInfoMenu(evt);
 			handler.costumeMenu(evt);
 			handler.dirMenu(evt);
-			handler.drumMenu(evt);
+//			handler.drumMenu(evt);
 			handler.effectMenu(evt);
 			handler.genericBlockMenu(evt);
-			handler.instrumentMenu(evt);
+//			handler.instrumentMenu(evt);
 			handler.listMenu(evt);
 			handler.listItem(evt, true);
 			handler.listItem(evt, false);
@@ -322,13 +319,6 @@ public class BlockMenus implements DragClient {
 		showMenu(m);
 	}
 
-	private function drumMenu(evt:MouseEvent):void {
-		var m:Menu = new Menu(setBlockArg, 'drum');
-		for (var i:int = 1; i <= SoundBank.drumNames.length; i++) {
-			m.addItem('(' + i + ') ' + Translator.map(SoundBank.drumNames[i - 1]), i);
-		}
-		showMenu(m);
-	}
 
 	private function effectMenu(evt:MouseEvent):void {
 		var m:Menu = new Menu(setBlockArg, 'effect');
@@ -345,13 +335,6 @@ public class BlockMenus implements DragClient {
 		showMenu(m);
 	}
 
-	private function instrumentMenu(evt:MouseEvent):void {
-		var m:Menu = new Menu(setBlockArg, 'instrument');
-		for (var i:int = 1; i <= SoundBank.instrumentNames.length; i++) {
-			m.addItem('(' + i + ') ' + Translator.map(SoundBank.instrumentNames[i - 1]), i);
-		}
-		showMenu(m);
-	}
 
 	static private const namedKeys:Array = ['up arrow', 'down arrow', 'right arrow', 'left arrow', 'space'];
 	private function keyMenu(evt:MouseEvent):void {
@@ -388,14 +371,6 @@ public class BlockMenus implements DragClient {
 		var m:Menu = new Menu(setBlockArg, 'motorDirection');
 		for each (var s:String in motorDirectionMenu_ops) m.addItem(s);
 		showMenu(m);
-	}
-	private function notePicker(evt:MouseEvent):void {
-		var piano:Piano = new Piano(block.base.color, app.viewedObj().instrument, setBlockArg);
-		if (!isNaN(blockArg.argValue)) {
-			piano.selectNote(int(blockArg.argValue));
-		}
-		var p:Point = blockArg.localToGlobal(new Point(blockArg.width, blockArg.height));
-		piano.showOnStage(app.stage, int(p.x - piano.width / 2), p.y);
 	}
 	static private const notes:Array = [
 			['Low C', 48],

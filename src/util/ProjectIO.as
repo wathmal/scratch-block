@@ -429,7 +429,7 @@ public class ProjectIO {
 			snd.md5 = id;
 			whenDone(snd);
 		} else { // try to read data as an MP3 file
-			MP3Loader.convertToScratchSound(sndName, sndData, whenDone);
+//			MP3Loader.convertToScratchSound(sndName, sndData, whenDone);
 		}
 		
 	}
@@ -505,7 +505,7 @@ public class ProjectIO {
 					snd.soundData = data;
 					snd.convertMP3IfNeeded();
 				} else {
-					snd.soundData = WAVFile.empty();
+//					snd.soundData = WAVFile.empty();
 				}
 			}
 		}

@@ -270,7 +270,6 @@ public class SoundsPart extends UIPart {
 
 	public function recordSound(b:* = null):void {
 		var newName:String = app.viewedObj().unusedSoundName(Translator.map('recording1'));
-		app.addSound(new ScratchSound(newName, WAVFile.empty()));
 	}
 
 }}

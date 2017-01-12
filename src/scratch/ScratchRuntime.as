@@ -53,8 +53,6 @@ package scratch {
 	import interpreter.RobotHelper;
 	import interpreter.Variable;
 	
-	import sound.ScratchSoundPlayer;
-	
 	import translation.Translator;
 	
 	import ui.media.MediaInfo;
@@ -194,7 +192,7 @@ package scratch {
 			app.stagePane.deleteClones();
 			cloneCount = 0;
 			clearKeyDownArray();
-			ScratchSoundPlayer.stopAllSounds();
+//			ScratchSoundPlayer.stopAllSounds();
 			app.extensionManager.stopButtonPressed();
 			app.stagePane.clearFilters();
 			for each (var s:ScratchSprite in app.stagePane.sprites()) {

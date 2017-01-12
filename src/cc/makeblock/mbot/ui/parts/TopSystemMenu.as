@@ -4,8 +4,6 @@ package cc.makeblock.mbot.ui.parts
 	import flash.display.NativeMenuItem;
 	import flash.display.Stage;
 	import flash.events.Event;
-	import flash.net.URLRequest;
-	import flash.net.navigateToURL;
 	
 	import cc.makeblock.mbot.uiwidgets.DynamicCompiler;
 	import cc.makeblock.mbot.uiwidgets.extensionMgr.ExtensionUtil;
@@ -13,13 +11,12 @@ package cc.makeblock.mbot.ui.parts
 	import cc.makeblock.media.MediaManager;
 	import cc.makeblock.menu.MenuUtil;
 	import cc.makeblock.menu.SystemMenu;
-	import cc.makeblock.updater.AppUpdater;
 	
-	import extensions.NodeMCUManager;
 	import extensions.ConnectionManager;
 	import extensions.DeviceManager;
 	import extensions.ExtensionManager;
 	import extensions.HIDManager;
+	import extensions.NodeMCUManager;
 	import extensions.SerialDevice;
 	import extensions.SerialManager;
 	import extensions.SocketManager;

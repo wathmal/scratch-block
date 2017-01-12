@@ -42,8 +42,6 @@ package ui.media {
 	import scratch.ScratchSound;
 	import scratch.ScratchSprite;
 	
-	import sound.mp3.MP3Loader;
-	
 	import translation.Translator;
 	
 	import uiwidgets.Button;
@@ -672,10 +670,10 @@ spriteFeaturesFilter.visible = false; // disable features filter for now
 		} else { // try to read data as an MP3 file
 			if (app.lp) app.lp.setTitle('Converting mp3...');
 			setTimeout(function():void {
-				MP3Loader.convertToScratchSound(sndName, data, function(s:ScratchSound):void {
-					snd = s;
-					startSoundUpload(s, origName, uploadComplete);
-				});
+//				MP3Loader.convertToScratchSound(sndName, data, function(s:ScratchSound):void {
+//					snd = s;
+//					startSoundUpload(s, origName, uploadComplete);
+//				});
 			}, 1);
 		}
 	}

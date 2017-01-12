@@ -14,7 +14,7 @@ package cc.makeblock.interpreter
 		public function ArduinoFunctionProvider()
 		{
 			FunctionProviderHelper.InitMath(this);
-			FunctionSounds.Init(this);
+//			FunctionSounds.Init(this);
 			new FunctionList().addPrimsTo(this);
 			new FunctionLooks().addPrimsTo(this);
 			new FunctionMotionAndPen().addPrimsTo(this);
