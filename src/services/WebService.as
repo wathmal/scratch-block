@@ -10,6 +10,8 @@ package services
 	import flash.net.URLRequestMethod;
 	import flash.net.URLVariables;
 	
+	import cc.makeblock.mbot.util.AppTitleMgr;
+	
 	import uiwidgets.DialogBox;
 	
 	import util.JSON;
@@ -109,6 +111,7 @@ package services
 					dialog.cancel();
 				});
 				dialog.showOnStage(WireMe.app.stage);
+				AppTitleMgr.Instance.updateTitle();
 			}
 			else{
 //			login failed

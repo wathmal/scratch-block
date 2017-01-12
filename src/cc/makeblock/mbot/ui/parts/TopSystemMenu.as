@@ -9,6 +9,7 @@ package cc.makeblock.mbot.ui.parts
 	
 	import cc.makeblock.mbot.uiwidgets.DynamicCompiler;
 	import cc.makeblock.mbot.uiwidgets.extensionMgr.ExtensionUtil;
+	import cc.makeblock.mbot.util.AppTitleMgr;
 	import cc.makeblock.media.MediaManager;
 	import cc.makeblock.menu.MenuUtil;
 	import cc.makeblock.menu.SystemMenu;
@@ -147,6 +148,7 @@ package cc.makeblock.mbot.ui.parts
 						dialog.cancel();
 					});
 					dialog.showOnStage(WireMe.app.stage);
+					AppTitleMgr.Instance.updateTitle();
 					break;
 				case "Log In":
 					WebService.getInstance().login();

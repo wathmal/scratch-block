@@ -258,6 +258,7 @@ package {
 //				trace("token=: "+SharedObjectManager.sharedManager().getObject("token"));
 //				WebService.getInstance().login();					
 //			}
+			AppTitleMgr.Instance.updateTitle();
 		}
 		
 		

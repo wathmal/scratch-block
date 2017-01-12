@@ -44,7 +44,7 @@ package cc.makeblock.mbot.util
 			updateTitle();
 		}
 
-		private function updateTitle():void
+		public function updateTitle():void
 		{
 			if(!window.closed)
 			{
