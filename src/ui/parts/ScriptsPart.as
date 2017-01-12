@@ -44,6 +44,7 @@ import flash.utils.getTimer;
 
 import blocks.Block;
 
+import cc.makeblock.mbot.util.AppTitleMgr;
 import cc.makeblock.util.HexUtil;
 
 import extensions.ArduinoManager;
@@ -384,6 +385,8 @@ public class ScriptsPart extends UIPart {
     private function writeToNodeMCU(code:String):void {
         var port:String = SerialManager.sharedManager().currentPort;
         SerialManager.sharedManager().close();
+		AppTitleMgr.Instance.setConnectInfo(" : uploading : ");
+		
         trace("write code to file :" + code);
         var codeFile:File = new File(File.applicationDirectory.resolvePath("luatool").nativePath + File.separator + "app.lua");
         var stream:FileStream = new FileStream();
