@@ -173,7 +173,7 @@ package extensions
 			var r:uint = _serial.open(port,baud);
 			_selectPort = port;
 			if(r==0){
-				ArduinoManager.sharedManager().isUploading = false;
+				NodeMCUManager.sharedManager().isUploading = false;
 				WireMe.app.topBarPart.setConnectedTitle("Serial Port "+currentPort);
 			}
 			return r == 0;
@@ -205,7 +205,7 @@ package extensions
 			executeUpgrade();
 			_hexToDownload = hexFile;
 			WireMe.app.topBarPart.setDisconnectedTitle();
-			ArduinoManager.sharedManager().isUploading = false;
+			NodeMCUManager.sharedManager().isUploading = false;
 			if(DeviceManager.sharedManager().currentDevice.indexOf("leonardo")>-1){
 				_serial.close();
 				setTimeout(function():void{
@@ -260,7 +260,7 @@ package extensions
 			currentPort = "";
 			WireMe.app.topBarPart.setDisconnectedTitle();
 //			WireMe.app.topBarPart.setBluetoothTitle(false);
-			ArduinoManager.sharedManager().isUploading = false;
+			NodeMCUManager.sharedManager().isUploading = false;
 			_serial.close();
 			_serial.removeEventListener(Event.CHANGE,onChanged);
 		}
@@ -436,7 +436,7 @@ package extensions
 //				process.addEventListener(IOErrorEvent.STANDARD_ERROR_IO_ERROR, onIOError);
 				process.start(nativeProcessStartupInfo);
 				sizeInfo.reset();
-				ArduinoManager.sharedManager().isUploading = true;
+				NodeMCUManager.sharedManager().isUploading = true;
 //			}else{
 //				trace("no support");
 //			}
@@ -489,7 +489,7 @@ package extensions
 		
 		private function onExit(event:NativeProcessExitEvent):void
 		{
-			ArduinoManager.sharedManager().isUploading = false;
+			NodeMCUManager.sharedManager().isUploading = false;
 			LogManager.sharedManager().log("Process exited with "+event.exitCode);
 			if(event.exitCode > 0){
 				_dialog.setText(Translator.map('Upload Failed'));

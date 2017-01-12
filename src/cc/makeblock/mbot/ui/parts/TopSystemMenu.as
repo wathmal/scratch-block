@@ -15,7 +15,7 @@ package cc.makeblock.mbot.ui.parts
 	import cc.makeblock.menu.SystemMenu;
 	import cc.makeblock.updater.AppUpdater;
 	
-	import extensions.ArduinoManager;
+	import extensions.NodeMCUManager;
 	import extensions.ConnectionManager;
 	import extensions.DeviceManager;
 	import extensions.ExtensionManager;
@@ -62,7 +62,7 @@ package cc.makeblock.mbot.ui.parts
 //			register("Help", __onHelp);
 			register("Manage Extensions", ExtensionUtil.OnManagerExtension);
 			register("Restore Extensions", ExtensionUtil.OnLoadExtension);
-			register("Clear Cache", ArduinoManager.sharedManager().clearTempFiles);
+			register("Clear Cache", NodeMCUManager.sharedManager().clearTempFiles);
 		}
 		
 		public function changeLang():void

@@ -170,7 +170,7 @@ package extensions
 						sendPage(pagelen);
 						dialogbox.setText(Translator.map("Uploading")+" "+Math.floor(hexptr*100/hex.length)+"%");
 						if(Math.floor(hexptr*100/hex.length)>=100){
-							ArduinoManager.sharedManager().isUploading = false;
+							NodeMCUManager.sharedManager().isUploading = false;
 							dialogbox.setText("Upload Finish");
 							setTimeout(function():void{dialogbox.cancel();},2000);
 						}

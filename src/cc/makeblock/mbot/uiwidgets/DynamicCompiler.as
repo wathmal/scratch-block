@@ -4,7 +4,7 @@ package cc.makeblock.mbot.uiwidgets
 	
 	import cc.makeblock.util.FileUtil;
 	
-	import extensions.ArduinoManager;
+	import extensions.NodeMCUManager;
 	import extensions.DeviceManager;
 	
 	import org.aswing.AsWingConstants;

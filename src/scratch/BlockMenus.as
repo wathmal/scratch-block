@@ -35,7 +35,7 @@ package scratch {
 	import cc.makeblock.mbot.uiwidgets.lightSetter.LightSetterFrame;
 	import cc.makeblock.menu.MenuUtil;
 	
-	import extensions.ArduinoManager;
+	import extensions.NodeMCUManager;
 	
 	import filters.FilterPack;
 	
@@ -612,8 +612,8 @@ public class BlockMenus implements DragClient {
 		if (!isInPalette(block)) {
 			if (!block.isProcDef()) {
 				if(block.op.indexOf("runArduino")>-1){
-					ArduinoManager.sharedManager().mainX = block.x;
-					ArduinoManager.sharedManager().mainY = block.y;
+					NodeMCUManager.sharedManager().mainX = block.x;
+					NodeMCUManager.sharedManager().mainY = block.y;
 					if(!app.stageIsArduino){
 						MenuUtil.AddItem(m, 'upload to arduino');
 //						m.addItem('upload to arduino',app.scriptsPart.showArduinoCode);

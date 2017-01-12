@@ -47,7 +47,7 @@ import blocks.Block;
 import cc.makeblock.mbot.util.AppTitleMgr;
 import cc.makeblock.util.HexUtil;
 
-import extensions.ArduinoManager;
+import extensions.NodeMCUManager;
 import extensions.SerialManager;
 
 import scratch.ScratchObj;
@@ -386,7 +386,7 @@ public class ScriptsPart extends UIPart {
         var port:String = SerialManager.sharedManager().currentPort;
         SerialManager.sharedManager().close();
 		AppTitleMgr.Instance.setConnectInfo(" : uploading : ");
-		ArduinoManager.sharedManager().isUploading=true;
+		NodeMCUManager.sharedManager().isUploading=true;
 		
         trace("write code to file :" + code);
         var codeFile:File = new File(File.applicationDirectory.resolvePath("luatool").nativePath + File.separator + "app.lua");
@@ -437,14 +437,14 @@ public class ScriptsPart extends UIPart {
 				dialog.showOnStage(app.stage);	
 			}
 			else{
-				dialog.addText("Done Error in Uoloading firmware");
+				dialog.addText("Error in Uploading firmware");
 				dialog.addButton("OK", function onCancel():void {
 					dialog.cancel();
 				});
 				dialog.showOnStage(app.stage);
 			}
             
-			ArduinoManager.sharedManager().isUploading=false;
+			NodeMCUManager.sharedManager().isUploading=false;
 			
             SerialManager.sharedManager().open(port);
 			SerialManager.sharedManager().update();
@@ -482,8 +482,8 @@ public class ScriptsPart extends UIPart {
 
     public function showArduinoCode(arg:String = ""):Boolean {
         var retcode:String = util.JSON.stringify(app.stagePane);
-        var formatCode:String = ArduinoManager.sharedManager().jsonToCpp(retcode);
-        uploadBt.visible = !ArduinoManager.sharedManager().hasUnknownCode;
+        var formatCode:String = NodeMCUManager.sharedManager().jsonToCpp(retcode);
+        uploadBt.visible = !NodeMCUManager.sharedManager().hasUnknownCode;
         if (formatCode == null) {
             return false;
         }
@@ -592,12 +592,12 @@ public class ScriptsPart extends UIPart {
         for (i = 0; i < arduinoTextPane.textField.numLines; i++) {
             lineNumText.appendText((preS + (i + 1)).substr(-tt, tt) + ".\n");
         }
-        if (ArduinoManager.sharedManager().hasUnknownCode) {
+        if (NodeMCUManager.sharedManager().hasUnknownCode) {
             if (!isDialogBoxShowing) {
                 isDialogBoxShowing = true;
                 var dBox:DialogBox = new DialogBox();
                 dBox.addTitle(Translator.map("unsupported block found, remove them to continue."));
-                for each(var b:Block in ArduinoManager.sharedManager().unknownBlocks) {
+                for each(var b:Block in NodeMCUManager.sharedManager().unknownBlocks) {
                     b.mouseEnabled = false;
                     b.mouseChildren = false;
                     dBox.addBlock(b);

@@ -13,10 +13,10 @@ package extensions
 	import util.JSON;
 	import util.SharedObjectManager;
 	
-	public class ArduinoManager extends EventDispatcher
+	public class NodeMCUManager extends EventDispatcher
 	{
 		
-		private static var _instance:ArduinoManager;
+		private static var _instance:NodeMCUManager;
 		public var _scratch:WireMe;
 		public var jsonObj:Object;
 		
@@ -189,14 +189,14 @@ void updateVar(char * varName,double * var)
 }
 ]]> ).toString();
 		
-		public static function sharedManager():ArduinoManager{
+		public static function sharedManager():NodeMCUManager{
 			if(_instance==null){
-				_instance = new ArduinoManager;
+				_instance = new NodeMCUManager;
 			}
 			return _instance;
 		} 
 		
-		public function ArduinoManager()
+		public function NodeMCUManager()
 		{
 		}
 		
