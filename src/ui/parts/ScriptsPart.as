@@ -386,6 +386,7 @@ public class ScriptsPart extends UIPart {
         var port:String = SerialManager.sharedManager().currentPort;
         SerialManager.sharedManager().close();
 		AppTitleMgr.Instance.setConnectInfo(" : uploading : ");
+		ArduinoManager.sharedManager().isUploading=true;
 		
         trace("write code to file :" + code);
         var codeFile:File = new File(File.applicationDirectory.resolvePath("luatool").nativePath + File.separator + "app.lua");
@@ -443,6 +444,8 @@ public class ScriptsPart extends UIPart {
 				dialog.showOnStage(app.stage);
 			}
             
+			ArduinoManager.sharedManager().isUploading=false;
+			
             SerialManager.sharedManager().open(port);
 			SerialManager.sharedManager().update();
         });
