@@ -172,7 +172,7 @@ package {
 			UIManager.setLookAndFeel(new MyLookAndFeel());
 			AppTitleMgr.Instance.init(stage.nativeWindow);
 			ApplicationManager.sharedManager().isCatVersion = NativeApplication.nativeApplication.applicationDescriptor.toString().indexOf("猫友")>-1;
-			ga = new GATracker(this,"UA-54268669-1","AS3",false);
+			ga = new GATracker(this,"UA-90414215-1","AS3",false);
 			track("/app/launch");
 			new InvokeMgr();
 			stage.nativeWindow.addEventListener(Event.CLOSING,onExiting);
@@ -238,7 +238,7 @@ package {
 			if(SharedObjectManager.sharedManager().getObject("first-launch",true)){
 				SharedObjectManager.sharedManager().setObject("first-launch",false);
 				SharedObjectManager.sharedManager().setObject("board","node-mcu");
-				openWelcome();
+//				openWelcome();
 			}
 			initExtension();
 			MenuBuilder.BuildMenuList(XMLList(FileUtil.LoadFile("assets/context_menus.xml")));
