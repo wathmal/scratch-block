@@ -387,6 +387,10 @@ public class ScriptsPart extends UIPart {
         SerialManager.sharedManager().close();
 		AppTitleMgr.Instance.setConnectInfo(" : uploading : ");
 		NodeMCUManager.sharedManager().isUploading=true;
+		var uploadDialog:DialogBox = new DialogBox();
+		uploadDialog.addTitle("NodeMCU");
+		uploadDialog.addText("Please wait");
+		uploadDialog.showOnStage(app.stage);	
 		
         trace("write code to file :" + code);
         var codeFile:File = new File(File.applicationDirectory.resolvePath("luatool").nativePath + File.separator + "app.lua");
@@ -427,6 +431,9 @@ public class ScriptsPart extends UIPart {
         });
         process.addEventListener(NativeProcessExitEvent.EXIT, function (event:NativeProcessExitEvent):void {
             trace("LUATOOL: Process exited with ", event.exitCode);
+			
+			uploadDialog.cancel();
+			
 			var dialog:DialogBox = new DialogBox();
 			dialog.addTitle("NodeMCU");
 			if(event.exitCode==0){
@@ -447,7 +454,7 @@ public class ScriptsPart extends UIPart {
 			NodeMCUManager.sharedManager().isUploading=false;
 			
             SerialManager.sharedManager().open(port);
-			SerialManager.sharedManager().update();
+			SerialManager.sharedManager().reconnectSerial()
         });
         process.start(nativeProcessStartupInfo);
 
