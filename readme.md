@@ -9,7 +9,7 @@ Register and login at: http://wireme.projects.mrt.ac.lk/login
 
 IoT Hub
 =======
-Windows Download Link : https://goo.gl/7neHQX 
+Windows Download Link : https://goo.gl/ASRPec
 
 Screenshot
 ==========
@@ -24,4 +24,3 @@ ToDo
 
 Bugs
 ====
-- Update the serial connection state on the title after upload the code to lua
