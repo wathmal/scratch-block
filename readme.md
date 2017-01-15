@@ -20,7 +20,6 @@ ToDo
 ====
  - Make widget configuration in one place.
  - Move functions to another lua file.
- - remove boards from the menu
 
 Bugs
 ====
