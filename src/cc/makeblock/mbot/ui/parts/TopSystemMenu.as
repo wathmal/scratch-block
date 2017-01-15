@@ -48,14 +48,14 @@ package cc.makeblock.mbot.ui.parts
 			getNativeMenu().getItemByName("File").submenu.addEventListener(Event.DISPLAYING, __onInitFielMenu);
 			getNativeMenu().getItemByName("Edit").submenu.addEventListener(Event.DISPLAYING, __onInitEditMenu);
 			getNativeMenu().getItemByName("Extensions").submenu.addEventListener(Event.DISPLAYING, __onInitExtMenu);
-			getNativeMenu().getItemByName("Boards").submenu.addEventListener(Event.DISPLAYING, __onShowBoards);
+//			getNativeMenu().getItemByName("Boards").submenu.addEventListener(Event.DISPLAYING, __onShowBoards);
 			getNativeMenu().getItemByName("Connect").submenu.addEventListener(Event.DISPLAYING, __onShowConnect);
 			getNativeMenu().getItemByName("Language").submenu.addEventListener(Event.DISPLAYING, __onShowLanguage);
 			
 			register("File", __onFile);
 			register("Edit", __onEdit);
 			register("Connect", __onConnect);
-			register("Boards", __onSelectBoard);
+//			register("Boards", __onSelectBoard);
 //			register("Help", __onHelp);
 			register("Manage Extensions", ExtensionUtil.OnManagerExtension);
 			register("Restore Extensions", ExtensionUtil.OnLoadExtension);
@@ -83,10 +83,10 @@ package cc.makeblock.mbot.ui.parts
 				}
 			}
 			setItemLabel(item);
-			if(item.name == "Boards"){
-//				setItemLabel(item.submenu.getItemByName("Others"));
-				return true;
-			}
+//			if(item.name == "Boards"){
+////				setItemLabel(item.submenu.getItemByName("Others"));
+//				return true;
+//			}
 			if(item.name == "Language"){
 				item = MenuUtil.FindItem(item.submenu, "set font size");
 				setItemLabel(item);
@@ -271,21 +271,6 @@ package cc.makeblock.mbot.ui.parts
 			
 		}
 		
-		private function __onSelectBoard(menuItem:NativeMenuItem):void
-		{
-			DeviceManager.sharedManager().onSelectBoard(menuItem.name);
-		}
-		
-		private function __onShowBoards(evt:Event):void
-		{
-			var menu:NativeMenu = evt.target as NativeMenu;
-			for each(var item:NativeMenuItem in menu.items){
-				if(item.enabled){
-					MenuUtil.setChecked(item, DeviceManager.sharedManager().checkCurrentBoard(item.name));
-				}
-			}
-		}
-		
 		private var initExtMenuItemCount:int = -1;
 		
 		private function __onInitExtMenu(evt:Event):void
@@ -341,6 +326,9 @@ package cc.makeblock.mbot.ui.parts
 					break;
 				case "PicoBoard":
 					result = board.indexOf("picoboard") >= 0;
+					break;
+				case "node-mcu":
+					result = board.indexOf("node-mcu") >= 0;
 					break;
 			}
 			return result;

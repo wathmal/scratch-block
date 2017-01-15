@@ -405,7 +405,6 @@ public class ScriptsPart extends UIPart {
         nativeProcessStartupInfo.workingDirectory = File.applicationDirectory.resolvePath("luatool");
 
         var processArgs:Vector.<String> = new Vector.<String>();
-//        processArgs.push("luatool.py")
         processArgs.push("--port");
         processArgs.push(port);
         processArgs.push("--src");
