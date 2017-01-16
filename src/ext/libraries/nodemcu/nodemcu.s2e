@@ -20,6 +20,9 @@
         
         ["w", "switch %d.state device at %d.sockets socket" ,"switchDigital", "ON", "red",
         {"encode":"{d0}{d1}","setup":"gpio.mode({1},gpio.OUTPUT)\n","inc":"","def":"","work":"gpio.write({1},{0})\n","loop":"","wifi":"", "mqtt":""}],
+        
+        ["w", "illumination : %s % at %d.sockets socket" ,"switchPwm", "50", "red",
+        {"encode":"{s0}{d1}","setup":"","inc":"","def":"","work":"pwm.setup({1},500,{0}*10)\n pwm.start({1})\n","loop":"","wifi":"", "mqtt":""}],
 
         ["w", "send to dashboard : %s as %s","sendToServer", "","temp",
         {"encode":"{s0}{d1}","setup":"","inc":"","def":"","work":"","loop":"","wifi":"", "mqtt":""}],
