@@ -46,11 +46,20 @@ package util {
 	import flash.display.BitmapData;
 	import flash.errors.IOError;
 	import flash.geom.Rectangle;
-	import flash.utils.*;
+	import flash.utils.ByteArray;
+	import flash.utils.Dictionary;
+	import flash.utils.Endian;
+	import flash.utils.IDataInput;
+	
 	import blocks.BlockArg;
-	import scratch.*;
-	import sound.*;
-	import watchers.*;
+	
+	import scratch.ScratchCostume;
+	import scratch.ScratchSound;
+	import scratch.ScratchSprite;
+	import scratch.ScratchStage;
+	
+	import watchers.ListWatcher;
+	import watchers.Watcher;
 
 public class ObjReader {
 	private const OBJ_REF:int = 99;

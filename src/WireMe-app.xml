@@ -148,12 +148,12 @@
 
 	<!-- The icon the system uses for the application. For at least one resolution, 
 		specify the path to a PNG file included in the AIR package. Optional. -->
-	<!--<icon>-->
-		<!--<image16x16>icons/AppIcon16.png</image16x16>-->
-		<!--<image32x32>icons/AppIcon32.png</image32x32>-->
-		<!--<image48x48>icons/AppIcon48.png</image48x48>-->
-		<!--<image128x128>icons/AppIcon128.png</image128x128>-->
-	<!--</icon>-->
+	<!--<icon> -->
+	<!--<image16x16>icons/AppIcon16.png</image16x16> -->
+	<!--<image32x32>icons/AppIcon32.png</image32x32> -->
+	<!--<image48x48>icons/AppIcon48.png</image48x48> -->
+	<!--<image128x128>icons/AppIcon128.png</image128x128> -->
+	<!--</icon> -->
 
 	<!-- Whether the application handles the update when a user double-clicks 
 		an update version of the AIR file (true), or the default AIR application 
@@ -183,12 +183,12 @@
 			<contentType>application/mblock.project-file</contentType>
 
 			<!-- The icon to display for the file type. Optional. -->
-			<!--<icon>-->
-				<!--<image16x16>icons/ProjectIcon16.png</image16x16>-->
-				<!--<image32x32>icons/ProjectIcon32.png</image32x32>-->
-				<!--<image48x48>icons/ProjectIcon48.png</image48x48>-->
-				<!--<image128x128>icons/ProjectIcon128.png</image128x128>-->
-			<!--</icon>-->
+			<!--<icon> -->
+			<!--<image16x16>icons/ProjectIcon16.png</image16x16> -->
+			<!--<image32x32>icons/ProjectIcon32.png</image32x32> -->
+			<!--<image48x48>icons/ProjectIcon48.png</image48x48> -->
+			<!--<image128x128>icons/ProjectIcon128.png</image128x128> -->
+			<!--</icon> -->
 
 		</fileType>
 	</fileTypes>
@@ -227,8 +227,6 @@
 	<extensions>
 		<extensionID>cc.makeblock.BluetoothExt</extensionID>
 		<extensionID>cc.makeblock.AIRSerial</extensionID>
-		<!-- <extensionID>cc.makeblock.AirHID</extensionID> -->
-		<!-- <extensionID>com.makeblock.AirHID</extensionID> -->
 		<extensionID>com.makeblock.AirHID</extensionID>
 	</extensions>
 </application>

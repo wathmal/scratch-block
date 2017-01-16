@@ -31,8 +31,6 @@ import flash.display.BitmapData;
 import flash.display.Loader;
 import flash.events.Event;
 import flash.net.URLLoader;
-import flash.net.URLLoaderDataFormat;
-import flash.net.URLRequest;
 import flash.utils.ByteArray;
 import flash.utils.Dictionary;
 import flash.utils.setTimeout;
@@ -44,9 +42,6 @@ import scratch.ScratchObj;
 import scratch.ScratchSound;
 import scratch.ScratchSprite;
 import scratch.ScratchStage;
-
-import sound.WAVFile;
-import sound.mp3.MP3Loader;
 
 import svgutils.SVGElement;
 import svgutils.SVGImporter;

@@ -67,8 +67,6 @@ package interpreter {
 	import cc.makeblock.interpreter.RemoteCallMgr;
 	
 	import scratch.ScratchObj;
-	
-	import sound.ScratchSoundPlayer;
 
 public class Interpreter {
 

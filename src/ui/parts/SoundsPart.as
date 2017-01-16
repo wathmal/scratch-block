@@ -24,17 +24,34 @@
 // as well as the sound recorder, editor, and import button.
 
 package ui.parts {
-	import flash.display.*;
+	import flash.display.Bitmap;
+	import flash.display.GradientType;
+	import flash.display.Graphics;
+	import flash.display.Shape;
+	import flash.display.Sprite;
 	import flash.events.KeyboardEvent;
-	import flash.geom.*;
-	import flash.text.*;
+	import flash.geom.Matrix;
+	import flash.geom.Point;
+	import flash.text.TextField;
+	import flash.text.TextFormat;
+	
 	import assets.Resources;
-	import scratch.*;
-	import sound.WAVFile;
+	
+	import scratch.ScratchObj;
+	import scratch.ScratchSound;
+	
 	import soundedit.SoundEditor;
+	
 	import translation.Translator;
-	import ui.media.*;
-	import uiwidgets.*;
+	
+	import ui.media.MediaLibrary;
+	import ui.media.MediaPane;
+	
+	import uiwidgets.EditableLabel;
+	import uiwidgets.IconButton;
+	import uiwidgets.Menu;
+	import uiwidgets.ScrollFrame;
+	import uiwidgets.SimpleTooltips;
 
 public class SoundsPart extends UIPart {
 
