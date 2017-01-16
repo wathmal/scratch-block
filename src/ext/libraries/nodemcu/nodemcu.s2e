@@ -9,14 +9,14 @@
         ["w", "set wifi %s and %s","configWifi","name","password",
 		{"encode":"{d0}","setup":"","inc":"","def":"","work":"","loop":"","wifi":"wifi.sta.config({0}, {1})\n", "mqtt":""}],
 
-		["R", "get temperature from %d.sockets socket" ,"getDHT","red",
-		{"encode":"{d0}","setup":"","inc":"","def":"","work":"selectindx(2, dht.read({0}))","loop":"", "wifi":"", "mqtt":""}],
+		["R", "get temperature from %d.sockets socket" ,"getDHTT","red",
+		{"encode":"{d0}","setup":"x,temperature,humidity = dht.read({0})\n","inc":"x,temperature,humidity = dht.read({0})\n","def":"","work":"temperature","loop":"", "wifi":"", "mqtt":""}],
 
-		["R", "get humidity from %d.sockets socket" ,"getDHT","green",
-        {"encode":"{d0}","setup":"","inc":"","def":"","work":"selectindx(3, dht.read({0}))","loop":"", "wifi":"", "mqtt":""}],
+		["R", "get humidity from %d.sockets socket" ,"getDHTH","green",
+        {"encode":"{d0}","setup":"x,temperature,humidity = dht.read({0})\n","inc":"x,temperature,humidity = dht.read({0})\n","def":"","work":"humidity","loop":"", "wifi":"", "mqtt":""}],
 
 		["R", "get temperature from %d.sockets DH18B20" ,"getTemp","blue",
-        {"encode":"{d0}","setup":"","inc":"t.setup({d0})","def":"","work":"t.read()","loop":"", "wifi":"", "mqtt":""}],
+        {"encode":"{d0}","setup":"t.setup({d0})","inc":"","def":"","work":"t.read()","loop":"", "wifi":"", "mqtt":""}],
         
         ["w", "switch %d.state device at %d.sockets socket" ,"switchDigital", "ON", "red",
         {"encode":"{d0}{d1}","setup":"gpio.mode({1},gpio.OUTPUT)\n","inc":"","def":"","work":"gpio.write({1},{0})\n","loop":"","wifi":"", "mqtt":""}],

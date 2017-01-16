@@ -83,13 +83,10 @@ package extensions
 		/**
 		 * Main code template
 		 */	
-		private var codeTemplate:String = ( <![CDATA[//setup
-//include
-t = require("ds18b20")
--- connect to wifi
+		private var codeTemplate:String = ( <![CDATA[t = require("ds18b20")
+//setup
 wifi.setmode(wifi.STATION)
 //wifi
--- MQTT Client configuration
 //mqttConfig
 m = mqtt.Client(mqtt_username, 120, mqtt_username, mqtt_password)
 m:on("connect", function(client) print ("connected to MQTT server!") end)
@@ -98,11 +95,10 @@ m:on("message", function(conn, topic, data)
 	print ("mqtt message received :".. topic .. data)
 	//mqtt
 end)
-
 function mainloop()
+	//include
 	//loop
 end	
-
 function mqttcon()
     if wifi.sta.getip()== nil then
         print("ip unavailable, waiting...")
@@ -119,16 +115,13 @@ function mqttcon()
 	end)
 	end
 end
-
 tmr.alarm(1,5000,1,mqttcon)
 //serialParser
 //function
 //serialParserCall
-
 function selectindx(n, ...)
 	return arg[n]
 end
-
 ]]> ).toString();//delay(50);
 		
 		private var codeSerialParser:String = ( <![CDATA[
