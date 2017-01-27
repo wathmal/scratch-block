@@ -20,6 +20,8 @@ ToDo
 ====
  - Make widget configuration in one place.
  - Move functions to another lua file.
+ - Add examples to main menu
+ - dropdowns to topics in widgets (done in wireme json)
 
 Bugs
 ====

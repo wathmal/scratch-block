@@ -29,7 +29,6 @@ package ui {
 	import flash.display.Sprite;
 	
 	import scratch.ScratchSprite;
-	import scratch.ScratchStage;
 	
 	import translation.Translator;
 
