@@ -24,16 +24,16 @@
         ["w", "illumination : %s % at %d.sockets socket" ,"switchPwm", "50", "red",
         {"encode":"{s0}{d1}","setup":"","inc":"","def":"","work":"pwm.setup({1},500,{0}*10)\n pwm.start({1})\n","loop":"","wifi":"", "mqtt":""}],
 
-        ["w", "send to dashboard : %s as %s","sendToServer", "","temp",
+        ["w", "send to dashboard : %s as %d.topics","sendToServer", "","temperature",
         {"encode":"{s0}{d1}","setup":"","inc":"","def":"","work":"","loop":"","wifi":"", "mqtt":""}],
         
-        ["w", "control switch at %d.sockets via %s ","mqttSubSwitch","red","switch",
+        ["w", "control switch at %d.sockets via %d.topics ","mqttSubSwitch","red","switch",
         {"encode":"{d0}","setup":"gpio.mode({0},gpio.OUTPUT)\n"
         ,"inc":""
         ,"def":"m:subscribe(mqtt_username..\"\/\"..{1},0, function(client) print({1}..\" subscribe success\") end)\n","work":"","loop":"","wifi":""
         ,"mqtt":"if topic == mqtt_username..\"\/\"..{1} then\n\tif cjson.decode(data).value == true then gpio.write({0},1) \nelse gpio.write({0},0) end \nend\n"}],
         
-        ["w", "control dimmer at %d.sockets via %s ","mqttSubDimmer","green","dimmer",
+        ["w", "control dimmer at %d.sockets via %d.topics ","mqttSubDimmer","green","dimmer",
         {"encode":"{d0}","setup":""
         ,"inc":""
         ,"def":"m:subscribe(mqtt_username..\"\/\"..{1},0, function(client) print({1}..\" subscribe success\") end)\n","work":"","loop":"","wifi":""
@@ -54,7 +54,8 @@
 		"state":["ON", "OFF"],
 		"types":["Temperature", "Motion"],
 		"opr": [">","==","<"],
-		"sockets": ["red","green","blue"]
+		"sockets": ["red","green","blue"],
+		"topics": ["temperature","humidity","switch","dimmer"]
 	},
 	"values":{
 		"run":2,
