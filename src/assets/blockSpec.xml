@@ -9,33 +9,33 @@
 <!-- <category id="7" name="Sensing" color="0x2ca5e2"/> -->
 <category id="8" name="Operators" color="0x5cb712"/>
 <!--<category id="9" name="Data&Blocks" color="0xEE7D16"/>-->
-<category id="10" name="Robots" color="0x0a8698"/>
+<category id="10" name="WireMe" color="0x0a8698"/>
 <!-- <category id="11" name="Parameter" color="0x5947B1"/>
 <category id="12" name="List" color="0xCC5B22"/>-->
 <category id="20" name="Widgets" color="0xEE7D16"/>
-<command category="1" type=" " opcode="forward:" spec="move %n steps">[10]</command>
-<command category="1" type=" " opcode="turnRight:" spec="turn @turnRight %n degrees">[15]</command>
-<command category="1" type=" " opcode="turnLeft:" spec="turn @turnLeft %n degrees">[15]</command>
-<command/>
-<command category="1" type=" " opcode="heading:" spec="point in direction %d.direction">[90]</command>
-<command category="1" type=" " opcode="pointTowards:" spec="point towards %m.spriteOrMouse">[""]</command>
-<command/>
-<command category="1" type=" " opcode="gotoX:y:" spec="go to x:%n y:%n"/>
-<command category="1" type=" " opcode="gotoSpriteOrMouse:" spec="go to %m.spriteOrMouse">["mouse-pointer"]</command>
-<command category="1" type=" " opcode="glideSecs:toX:y:elapsed:from:" spec="glide %n secs to x:%n y:%n"/>
-<command/>
-<command category="1" type=" " opcode="changeXposBy:" spec="change x by %n">[10]</command>
-<command category="1" type=" " opcode="xpos:" spec="set x to %n">[0]</command>
-<command category="1" type=" " opcode="changeYposBy:" spec="change y by %n">[10]</command>
-<command category="1" type=" " opcode="ypos:" spec="set y to %n">[0]</command>
-<command/>
-<command category="1" type=" " opcode="bounceOffEdge" spec="if on edge, bounce"/>
-<command/>
-<command category="1" type=" " opcode="setRotationStyle" spec="set rotation style %m.rotationStyle">["left-right"]</command>
-<command/>
-<command category="1" type="r" opcode="xpos" spec="x position"/>
-<command category="1" type="r" opcode="ypos" spec="y position"/>
-<command category="1" type="r" opcode="heading" spec="direction"/>
+<!-- <command category="1" type=" " opcode="forward:" spec="move %n steps">[10]</command> -->
+<!-- <command category="1" type=" " opcode="turnRight:" spec="turn @turnRight %n degrees">[15]</command> -->
+<!-- <command category="1" type=" " opcode="turnLeft:" spec="turn @turnLeft %n degrees">[15]</command> -->
+<!-- <command/> -->
+<!-- <command category="1" type=" " opcode="heading:" spec="point in direction %d.direction">[90]</command> -->
+<!-- <command category="1" type=" " opcode="pointTowards:" spec="point towards %m.spriteOrMouse">[""]</command> -->
+<!-- <command/> -->
+<!-- <command category="1" type=" " opcode="gotoX:y:" spec="go to x:%n y:%n"/> -->
+<!-- <command category="1" type=" " opcode="gotoSpriteOrMouse:" spec="go to %m.spriteOrMouse">["mouse-pointer"]</command> -->
+<!-- <command category="1" type=" " opcode="glideSecs:toX:y:elapsed:from:" spec="glide %n secs to x:%n y:%n"/> -->
+<!-- <command/> -->
+<!-- <command category="1" type=" " opcode="changeXposBy:" spec="change x by %n">[10]</command> -->
+<!-- <command category="1" type=" " opcode="xpos:" spec="set x to %n">[0]</command> -->
+<!-- <command category="1" type=" " opcode="changeYposBy:" spec="change y by %n">[10]</command> -->
+<!-- <command category="1" type=" " opcode="ypos:" spec="set y to %n">[0]</command> -->
+<!-- <command/> -->
+<!-- <command category="1" type=" " opcode="bounceOffEdge" spec="if on edge, bounce"/> -->
+<!-- <command/> -->
+<!-- <command category="1" type=" " opcode="setRotationStyle" spec="set rotation style %m.rotationStyle">["left-right"]</command> -->
+<!-- <command/> -->
+<!-- <command category="1" type="r" opcode="xpos" spec="x position"/> -->
+<!-- <command category="1" type="r" opcode="ypos" spec="y position"/> -->
+<!-- <command category="1" type="r" opcode="heading" spec="direction"/> -->
     <!--cat 2-->
 <command category="2" type=" " opcode="say:duration:elapsed:from:" spec="say %s for %n secs">["Hello!",2]</command>
 <command category="2" type=" " opcode="say:" spec="say %s">["Hello!"]</command>
