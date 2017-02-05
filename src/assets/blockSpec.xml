@@ -37,90 +37,135 @@
 <!-- <command category="1" type="r" opcode="ypos" spec="y position"/> -->
 <!-- <command category="1" type="r" opcode="heading" spec="direction"/> -->
     <!--cat 2-->
-<command category="2" type=" " opcode="say:duration:elapsed:from:" spec="say %s for %n secs">["Hello!",2]</command>
-<command category="2" type=" " opcode="say:" spec="say %s">["Hello!"]</command>
-<command category="2" type=" " opcode="think:duration:elapsed:from:" spec="think %s for %n secs">["Hmm...",2]</command>
-<command category="2" type=" " opcode="think:" spec="think %s">["Hmm..."]</command>
-<command/>
-<command category="2" type=" " opcode="show" spec="show"/>
-<command category="2" type=" " opcode="hide" spec="hide"/>
-<command/>
-<command category="2" type=" " opcode="lookLike:" spec="switch costume to %m.costume">["costume1"]</command>
-<command category="2" type=" " opcode="nextCostume" spec="next costume"/>
-<command category="2" type=" " opcode="startScene" spec="switch backdrop to %m.backdrop">["backdrop1"]</command>
-<command/>
-<command category="2" type=" " opcode="changeGraphicEffect:by:" spec="change %m.effect effect by %n">["color",25]</command>
-<command category="2" type=" " opcode="setGraphicEffect:to:" spec="set %m.effect effect to %n">["color",0]</command>
-<command category="2" type=" " opcode="filterReset" spec="clear graphic effects"/>
-<command/>
-<command category="2" type=" " opcode="changeSizeBy:" spec="change size by %n">[10]</command>
-<command category="2" type=" " opcode="setSizeTo:" spec="set size to %n%">[100]</command>
-<command/>
-<command category="2" type=" " opcode="comeToFront" spec="go to front"/>
-<command category="2" type=" " opcode="goBackByLayers:" spec="go back %n layers">[1]</command>
-<command/>
-<command category="2" type="r" opcode="costumeIndex" spec="costume #"/>
-<command category="2" type="r" opcode="sceneName" spec="backdrop name"/>
-<command category="2" type="r" opcode="scale" spec="size"/>
-    <!--cat 102-->
-<command category="102" type=" " opcode="startScene" spec="switch backdrop to %m.backdrop">["backdrop1"]</command>
-<command category="102" type=" " opcode="startSceneAndWait" spec="switch backdrop to %m.backdrop and wait">["backdrop1"]</command>
-<command category="102" type=" " opcode="nextScene" spec="next backdrop"/>
-<command/>
-<command category="102" type=" " opcode="changeGraphicEffect:by:" spec="change %m.effect effect by %n">["color",25]</command>
-<command category="102" type=" " opcode="setGraphicEffect:to:" spec="set %m.effect effect to %n">["color",0]</command>
-<command category="102" type=" " opcode="filterReset" spec="clear graphic effects"/>
-<command/>
-<command category="102" type="r" opcode="sceneName" spec="backdrop name"/>
-<command category="102" type="r" opcode="backgroundIndex" spec="backdrop #"/>
-    <!--cat 3-->
-<command category="3" type=" " opcode="playSound:" spec="play sound %m.sound">["pop"]</command>
-<command category="3" type=" " opcode="doPlaySoundAndWait" spec="play sound %m.sound until done">["pop"]</command>
-<command category="3" type=" " opcode="stopAllSounds" spec="stop all sounds"/>
-<command/>
-<command category="3" type=" " opcode="playDrum" spec="play drum %d.drum for %n beats">[1,0.25]</command>
-<command category="3" type=" " opcode="rest:elapsed:from:" spec="rest for %n beats">[0.25]</command>
-<command/>
-<command category="3" type=" " opcode="noteOn:duration:elapsed:from:" spec="play note %d.note for %n beats">[60,0.5]</command>
-<command category="3" type=" " opcode="instrument:" spec="set instrument to %d.instrument">[1]</command>
-<command/>
-<command category="3" type=" " opcode="changeVolumeBy:" spec="change volume by %n">[-10]</command>
-<command category="3" type=" " opcode="setVolumeTo:" spec="set volume to %n%">[100]</command>
-<command category="3" type="r" opcode="volume" spec="volume"/>
-<command/>
-<command category="3" type=" " opcode="changeTempoBy:" spec="change tempo by %n">[20]</command>
-<command category="3" type=" " opcode="setTempoTo:" spec="set tempo to %n bpm">[60]</command>
-<command category="3" type="r" opcode="tempo" spec="tempo"/>
-    <!--cat 4-->
-<command category="4" type=" " opcode="clearPenTrails" spec="clear"/>
-<command/>
-<command category="4" type=" " opcode="stampCostume" spec="stamp"/>
-<command/>
-<command category="4" type=" " opcode="putPenDown" spec="pen down"/>
-<command category="4" type=" " opcode="putPenUp" spec="pen up"/>
-<command/>
-<command category="4" type=" " opcode="penColor:" spec="set pen color to %c"/>
-<command category="4" type=" " opcode="changePenHueBy:" spec="change pen color by %n"/>
-<command category="4" type=" " opcode="setPenHueTo:" spec="set pen color to %n">[0]</command>
-<command/>
-<command category="4" type=" " opcode="changePenShadeBy:" spec="change pen shade by %n"/>
-<command category="4" type=" " opcode="setPenShadeTo:" spec="set pen shade to %n">[50]</command>
-<command/>
-<command category="4" type=" " opcode="changePenSizeBy:" spec="change pen size by %n">[1]</command>
-<command category="4" type=" " opcode="penSize:" spec="set pen size to %n">[1]</command>
-<command/>
-    <!--cat 5-->
-<command category="5" type="h" opcode="whenGreenFlag" spec="when @greenFlag clicked"/>
-<command category="5" type="h" opcode="whenKeyPressed" spec="when %m.key key pressed">["space"]</command>
-<command category="5" type="h" opcode="whenKeyReleased" spec="when %m.key key released">["space"]</command>
-<command category="5" type="h" opcode="whenClicked" spec="when this sprite clicked"/>
-<command category="5" type="h" opcode="whenSceneStarts" spec="when backdrop switches to %m.backdrop">["backdrop1"]</command>
-<command/>
-<command category="5" type="h" opcode="whenSensorGreaterThan" spec="when %m.triggerSensor > %n">["loudness",10]</command>
-<command/>
-<command category="5" type="h" opcode="whenIReceive" spec="when I receive %m.broadcast">[""]</command>
-<command category="5" type=" " opcode="broadcast:" spec="broadcast %m.broadcast">[""]</command>
-<command category="5" type=" " opcode="doBroadcastAndWait" spec="broadcast %m.broadcast and wait">[""]</command>
+	<!-- <command category="2" type=" " opcode="say:duration:elapsed:from:" 
+		spec="say %s for %n secs">["Hello!",2]</command> -->
+	<!-- <command category="2" type=" " opcode="say:" spec="say %s">["Hello!"]</command> -->
+	<!-- <command category="2" type=" " opcode="think:duration:elapsed:from:" 
+		spec="think %s for %n secs">["Hmm...",2]</command> -->
+	<!-- <command category="2" type=" " opcode="think:" spec="think %s">["Hmm..."]</command> -->
+	<!-- <command/> -->
+	<!-- <command category="2" type=" " opcode="show" spec="show"/> -->
+	<!-- <command category="2" type=" " opcode="hide" spec="hide"/> -->
+	<!-- <command/> -->
+	<!-- <command category="2" type=" " opcode="lookLike:" spec="switch costume 
+		to %m.costume">["costume1"]</command> -->
+	<!-- <command category="2" type=" " opcode="nextCostume" spec="next costume"/> -->
+	<!-- <command category="2" type=" " opcode="startScene" spec="switch backdrop 
+		to %m.backdrop">["backdrop1"]</command> -->
+	<!-- <command/> -->
+	<!-- <command category="2" type=" " opcode="changeGraphicEffect:by:" spec="change 
+		%m.effect effect by %n">["color",25]</command> -->
+	<!-- <command category="2" type=" " opcode="setGraphicEffect:to:" spec="set 
+		%m.effect effect to %n">["color",0]</command> -->
+	<!-- <command category="2" type=" " opcode="filterReset" spec="clear graphic 
+		effects"/> -->
+	<!-- <command/> -->
+	<!-- <command category="2" type=" " opcode="changeSizeBy:" spec="change 
+		size by %n">[10]</command> -->
+	<!-- <command category="2" type=" " opcode="setSizeTo:" spec="set size to 
+		%n%">[100]</command> -->
+	<!-- <command/> -->
+	<!-- <command category="2" type=" " opcode="comeToFront" spec="go to front"/> -->
+	<!-- <command category="2" type=" " opcode="goBackByLayers:" spec="go back 
+		%n layers">[1]</command> -->
+	<!-- <command/> -->
+	<!-- <command category="2" type="r" opcode="costumeIndex" spec="costume 
+		#"/> -->
+	<!-- <command category="2" type="r" opcode="sceneName" spec="backdrop name"/> -->
+	<!-- <command category="2" type="r" opcode="scale" spec="size"/> -->
+	<!-- cat 102 -->
+	<!-- <command category="102" type=" " opcode="startScene" spec="switch backdrop 
+		to %m.backdrop">["backdrop1"]</command> -->
+	<!-- <command category="102" type=" " opcode="startSceneAndWait" spec="switch 
+		backdrop to %m.backdrop and wait">["backdrop1"]</command> -->
+	<!-- <command category="102" type=" " opcode="nextScene" spec="next backdrop"/> -->
+	<!-- <command/> -->
+	<!-- <command category="102" type=" " opcode="changeGraphicEffect:by:" spec="change 
+		%m.effect effect by %n">["color",25]</command> -->
+	<!-- <command category="102" type=" " opcode="setGraphicEffect:to:" spec="set 
+		%m.effect effect to %n">["color",0]</command> -->
+	<!-- <command category="102" type=" " opcode="filterReset" spec="clear graphic 
+		effects"/> -->
+	<!-- <command/> -->
+	<!-- <command category="102" type="r" opcode="sceneName" spec="backdrop 
+		name"/> -->
+	<!-- <command category="102" type="r" opcode="backgroundIndex" spec="backdrop 
+		#"/> -->
+	<!-- cat 3 -->
+	<!-- <command category="3" type=" " opcode="playSound:" spec="play sound 
+		%m.sound">["pop"]</command> -->
+	<!-- <command category="3" type=" " opcode="doPlaySoundAndWait" spec="play 
+		sound %m.sound until done">["pop"]</command> -->
+	<!-- <command category="3" type=" " opcode="stopAllSounds" spec="stop all 
+		sounds"/> -->
+	<!-- <command/> -->
+	<!-- <command category="3" type=" " opcode="playDrum" spec="play drum %d.drum 
+		for %n beats">[1,0.25]</command> -->
+	<!-- <command category="3" type=" " opcode="rest:elapsed:from:" spec="rest 
+		for %n beats">[0.25]</command> -->
+	<!-- <command/> -->
+	<!-- <command category="3" type=" " opcode="noteOn:duration:elapsed:from:" 
+		spec="play note %d.note for %n beats">[60,0.5]</command> -->
+	<!-- <command category="3" type=" " opcode="instrument:" spec="set instrument 
+		to %d.instrument">[1]</command> -->
+	<!-- <command/> -->
+	<!-- <command category="3" type=" " opcode="changeVolumeBy:" spec="change 
+		volume by %n">[-10]</command> -->
+	<!-- <command category="3" type=" " opcode="setVolumeTo:" spec="set volume 
+		to %n%">[100]</command> -->
+	<!-- <command category="3" type="r" opcode="volume" spec="volume"/> -->
+	<!-- <command/> -->
+	<!-- <command category="3" type=" " opcode="changeTempoBy:" spec="change 
+		tempo by %n">[20]</command> -->
+	<!-- <command category="3" type=" " opcode="setTempoTo:" spec="set tempo 
+		to %n bpm">[60]</command> -->
+	<!-- <command category="3" type="r" opcode="tempo" spec="tempo"/> -->
+	<!-- cat 4 -->
+	<!-- <command category="4" type=" " opcode="clearPenTrails" spec="clear"/> -->
+	<!-- <command/> -->
+	<!-- <command category="4" type=" " opcode="stampCostume" spec="stamp"/> -->
+	<!-- <command/> -->
+	<!-- <command category="4" type=" " opcode="putPenDown" spec="pen down"/> -->
+	<!-- <command category="4" type=" " opcode="putPenUp" spec="pen up"/> -->
+	<!-- <command/> -->
+	<!-- <command category="4" type=" " opcode="penColor:" spec="set pen color 
+		to %c"/> -->
+	<!-- <command category="4" type=" " opcode="changePenHueBy:" spec="change 
+		pen color by %n"/> -->
+	<!-- <command category="4" type=" " opcode="setPenHueTo:" spec="set pen 
+		color to %n">[0]</command> -->
+	<!-- <command/> -->
+	<!-- <command category="4" type=" " opcode="changePenShadeBy:" spec="change 
+		pen shade by %n"/> -->
+	<!-- <command category="4" type=" " opcode="setPenShadeTo:" spec="set pen 
+		shade to %n">[50]</command> -->
+	<!-- <command/> -->
+	<!-- <command category="4" type=" " opcode="changePenSizeBy:" spec="change 
+		pen size by %n">[1]</command> -->
+	<!-- <command category="4" type=" " opcode="penSize:" spec="set pen size 
+		to %n">[1]</command> -->
+	<!-- <command/> -->
+	<!-- cat 5 -->
+	<!-- <command category="5" type="h" opcode="whenGreenFlag" spec="when @greenFlag 
+		clicked"/> -->
+	<!-- <command category="5" type="h" opcode="whenKeyPressed" spec="when %m.key 
+		key pressed">["space"]</command> -->
+	<!-- <command category="5" type="h" opcode="whenKeyReleased" spec="when 
+		%m.key key released">["space"]</command> -->
+	<!-- <command category="5" type="h" opcode="whenClicked" spec="when this 
+		sprite clicked"/> -->
+	<!-- <command category="5" type="h" opcode="whenSceneStarts" spec="when 
+		backdrop switches to %m.backdrop">["backdrop1"]</command> -->
+	<!-- <command/> -->
+	<!-- <command category="5" type="h" opcode="whenSensorGreaterThan" spec="when 
+		%m.triggerSensor > %n">["loudness",10]</command> -->
+	<!-- <command/> -->
+	<!-- <command category="5" type="h" opcode="whenIReceive" spec="when I receive 
+		%m.broadcast">[""]</command> -->
+	<!-- <command category="5" type=" " opcode="broadcast:" spec="broadcast 
+		%m.broadcast">[""]</command> -->
+	<!-- <command category="5" type=" " opcode="doBroadcastAndWait" spec="broadcast 
+		%m.broadcast and wait">[""]</command> -->
     <!--cat 6-->
 <command category="6" type=" " opcode="wait:elapsed:from:" spec="wait %n secs">[1]</command>
 <command/>
