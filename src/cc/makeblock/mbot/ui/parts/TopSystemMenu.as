@@ -118,18 +118,6 @@ package cc.makeblock.mbot.ui.parts
 				case "Save Project As":
 					WireMe.app.exportProjectToFile();
 					break;
-				case "Undo Revert":
-					WireMe.app.undoRevert();
-					break;
-				case "Revert":
-					WireMe.app.revertToOriginalProject();
-					break;
-				case "Import Image":
-					MediaManager.getInstance().importImage();
-					break;
-				case "Export Image":
-					MediaManager.getInstance().exportImage();
-					break;
 				case "Log Out":
 					SharedObjectManager.sharedManager().setObject("isUserNotSet",true);
 					SharedObjectManager.sharedManager().setObject("username","");
@@ -234,8 +222,8 @@ package cc.makeblock.mbot.ui.parts
 		{
 			var menu:NativeMenu = evt.target as NativeMenu;
 			
-			MenuUtil.setEnable(menu.getItemByName("Undo Revert"), WireMe.app.canUndoRevert());
-			MenuUtil.setEnable(menu.getItemByName("Revert"), WireMe.app.canRevert());
+//			MenuUtil.setEnable(menu.getItemByName("Undo Revert"), WireMe.app.canUndoRevert());
+//			MenuUtil.setEnable(menu.getItemByName("Revert"), WireMe.app.canRevert());
 			
 			WireMe.app.track("/OpenFile");
 		}
@@ -246,7 +234,6 @@ package cc.makeblock.mbot.ui.parts
 			MenuUtil.setEnable(menu.getItemByName("Undelete"), WireMe.app.runtime.canUndelete());
 			MenuUtil.setChecked(menu.getItemByName("Hide stage layout"), WireMe.app.stageIsHided);
 			MenuUtil.setChecked(menu.getItemByName("Small stage layout"), !WireMe.app.stageIsHided && WireMe.app.stageIsContracted);
-			MenuUtil.setChecked(menu.getItemByName("Turbo mode"), WireMe.app.interp.turboMode);
 			MenuUtil.setChecked(menu.getItemByName("Code mode"), WireMe.app.stageIsArduino);
 			WireMe.app.track("/OpenEdit");
 		}
@@ -267,7 +254,7 @@ package cc.makeblock.mbot.ui.parts
 				item.enabled = enabled;
 				item.checked = SerialDevice.sharedDevice().ports.indexOf(arr[i])>-1 && SerialManager.sharedManager().isConnected;
 			}
-			menu.getItemByName("Serial Port").submenu = subMenu;
+			menu.getItemByName("USB Port").submenu = subMenu;
 			
 		}
 		

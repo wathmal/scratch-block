@@ -274,6 +274,5 @@
     <!--cat 20-->
 <command category="20" type="h" opcode="initWidget" spec="configure widget" />
 <command category="20" type="w" opcode="setWidgetName" spec="set name %s">["my widget 1"]</command>
-<command category="20" type="w" opcode="sendDataToWidget" spec="send %s data to widget">["temp"]</command>
-<command category="20" type="w" opcode="receiveDataFromWidget" spec="receive %s data to device">["switch"]</command>
+<command category="20" type="w" opcode="sendDataToWidget" spec="commiunicate as %m.topic">["all"]</command>
 </xml>
