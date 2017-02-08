@@ -319,5 +319,5 @@
     <!--cat 20-->
 <command category="20" type="h" opcode="initWidget" spec="configure widget" />
 <command category="20" type="w" opcode="setWidgetName" spec="set name %s">["my widget 1"]</command>
-<command category="20" type="w" opcode="sendDataToWidget" spec="commiunicate as %m.topic">["all"]</command>
+<command category="20" type="w" opcode="sendDataToWidget" spec="commiunicate as %m.widgetMqttTopics">["all"]</command>
 </xml>

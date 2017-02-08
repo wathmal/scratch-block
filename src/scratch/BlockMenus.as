@@ -135,6 +135,7 @@ public class BlockMenus implements DragClient {
 		if (menuName == 'var') menuHandler.varMenu(evt);
 		if (menuName == 'videoMotionType') menuHandler.videoMotionTypeMenu(evt);
 		if (menuName == 'videoState') menuHandler.videoStateMenu(evt);
+		if (menuName == 'widgetMqttTopics') menuHandler.widgetMqttTopics(evt);
 	}
 	
 	public static function strings():Array {
@@ -406,7 +407,6 @@ public class BlockMenus implements DragClient {
 	static private const rotationStyles:Array = ['left-right', "don't rotate", 'all around'];
 	private function rotationStyleMenu(evt:MouseEvent):void {
 		var m:Menu = new Menu(setBlockArg, 'rotationStyle');
-		for each (var s:String in rotationStyles) m.addItem(s);
 		showMenu(m);
 	}
 
@@ -569,6 +569,15 @@ public class BlockMenus implements DragClient {
 		m.addItem('on-flipped');
 		showMenu(m);
 	}
+
+	//widgetMQTTtopics
+    static private const MqttTopics:Array = ['temperature', "temperature1", 'humidity', 'humidity1', 'switch', 'switch1', 'dimmer', 'dimmer1'];
+
+    private function widgetMqttTopics(evt:MouseEvent):void {
+        var m:Menu = new Menu(setBlockArg, 'widgetMqttTopics');
+        for each (var s:String in MqttTopics) m.addItem(s);
+        showMenu(m);
+    }
 
 	// ***** Generic block menu *****
 
