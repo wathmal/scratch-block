@@ -330,16 +330,16 @@ package {
 				evt.preventDefault();
 				saveProjectAndThen(quitApp);
 			}
-			WireMe.app.gh.mouseUp(new MouseEvent(MouseEvent.MOUSE_UP));
+//			WireMe.app.gh.mouseUp(new MouseEvent(MouseEvent.MOUSE_UP));
 			SerialManager.sharedManager().disconnect();
-			HIDManager.sharedManager().disconnect();
+//			HIDManager.sharedManager().disconnect();
 		}
 		
 		public function quitApp():void
 		{
 			NativeApplication.nativeApplication.exit();
 			track("/app/exit");
-			LogManager.sharedManager().save();
+//			LogManager.sharedManager().save();
 		}
 		
 		public function log(s:String):void {
