@@ -9,19 +9,22 @@
         ["w", "set wifi %s and %s","configWifi","name","password",
 		{"encode":"{d0}","setup":"","inc":"","def":"","work":"","loop":"","wifi":"wifi.sta.config({0}, {1})\n", "mqtt":""}],
 
-		["R", "get temperature from %d.sockets socket" ,"getDHTT","red",
+		["R", "get temperature from Helios at %d.sockets socket" ,"getDHTT","red",
 		{"encode":"{d0}","setup":"x,temperature,humidity = dht.read({0})\n","inc":"x,temperature,humidity = dht.read({0})\n","def":"","work":"temperature","loop":"", "wifi":"", "mqtt":""}],
 
-		["R", "get humidity from %d.sockets socket" ,"getDHTH","green",
+		["R", "get humidity from Helios at %d.sockets socket" ,"getDHTH","green",
         {"encode":"{d0}","setup":"x,temperature,humidity = dht.read({0})\n","inc":"x,temperature,humidity = dht.read({0})\n","def":"","work":"humidity","loop":"", "wifi":"", "mqtt":""}],
 
-		["R", "get temperature from %d.sockets DH18B20" ,"getTemp","blue",
+		["R", "get temperature from Horus at %d.sockets" ,"getTemp","blue",
         {"encode":"{d0}","setup":"t.setup({0})","inc":"","def":"","work":"t.read()","loop":"", "wifi":"", "mqtt":""}],
         
-        ["w", "switch %d.state device at %d.sockets socket" ,"switchDigital", "ON", "red",
+        ["R", "read value at %d.yellow" ,"getADC","yellow",
+        {"encode":"{d0}","setup":"","inc":"","def":"","work":"adc.read(0)","loop":"", "wifi":"", "mqtt":""}],
+        
+        ["w", "%d.state device at %d.sockets socket" ,"switchDigital", "ON", "red",
         {"encode":"{d0}{d1}","setup":"gpio.mode({1},gpio.OUTPUT)\n","inc":"","def":"","work":"gpio.write({1},{0})\n","loop":"","wifi":"", "mqtt":""}],
         
-        ["w", "illumination : %s % at %d.sockets socket" ,"switchPwm", "50", "red",
+        ["w", "set illumination : %s % at %d.sockets socket" ,"switchPwm", "50", "red",
         {"encode":"{s0}{d1}","setup":"","inc":"","def":"","work":"pwm.setup({1},500,{0}*10)\n pwm.start({1})\n","loop":"","wifi":"", "mqtt":""}],
 
         ["w", "send to dashboard : %s as %d.topics","sendToServer", "","temperature",
@@ -48,7 +51,8 @@
 		"types":["Temperature", "Motion"],
 		"opr": [">","==","<"],
 		"sockets": ["red","green","blue"],
-		"topics": ["temperature","humidity","switch","dimmer"]
+		"yellow": ["yellow"],
+		"topics": ["temperature","temperature1","humidity","humidity1","switch","switch1","dimmer","dimmer1"]
 	},
 	"values":{
 		"run":2,
