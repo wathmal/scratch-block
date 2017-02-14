@@ -89,6 +89,7 @@ wifi.setmode(wifi.STATION)
 //wifi
 //mqttConfig
 m = mqtt.Client(mqtt_username, 120, mqtt_username, mqtt_password)
+m:lwt(mqtt_username.."/".."alive", "0", 1, 1)
 m:on("connect", function(client) print ("connected to MQTT server!") end)
 m:on("offline", function(client) print ("mqtt offline") end)
 m:on("message", function(conn, topic, data)
@@ -107,6 +108,7 @@ function mqttcon()
     m:connect("wireme.projects.mrt.ac.lk", 1883, 0,
 	function(client) 
 		print("connected to mqtt")
+		m:publish(mqtt_username.."/".."alive","1",1,1)
 		//define
 		tmr.alarm(2,1000,1,mainloop)
 	end,
