@@ -18,7 +18,7 @@
 		["R", "get temperature from Horus at %d.sockets" ,"getTemp","blue",
         {"encode":"{d0}","setup":"t.setup({0})","inc":"","def":"","work":"t.read()","loop":"", "wifi":"", "mqtt":""}],
         
-        ["R", "read value at %d.yellow" ,"getADC","yellow",
+        ["R", "read value at %d.yellow from Theia" ,"getADC","yellow",
         {"encode":"{d0}","setup":"","inc":"","def":"","work":"adc.read(0)","loop":"", "wifi":"", "mqtt":""}],
         
         ["w", "%d.state device at %d.sockets socket" ,"switchDigital", "ON", "red",
@@ -43,10 +43,12 @@
         ,"mqtt":"if topic == mqtt_username..\"\/\"..{1} then\n\tif cjson.decode(data).value > 0 then pwm.setup({0},500,cjson.decode(data).value*10)\n pwm.start({0})\nelse pwm.stop({0}) end \nend\n"}],
         
         ["w", "control switch at %d.sockets via timer %d.timers ","mqttTimer","red","timer",
-        {"encode":"{d0}","setup":"gpio.mode({0},gpio.OUTPUT)\n"
+        {"encode":"{d0}","setup":"gpio.mode({0},gpio.OUTPUT)\ntime=0\nstarted=false\n target=0"
         ,"inc":""
-        ,"def":"m:subscribe(mqtt_username..\"\/\"..{1},0, function(client) print({1}..\" subscribe success\") end)\n","work":"","loop":"","wifi":""
-        ,"mqtt":"if topic == mqtt_username..\"\/\"..{1} then\n\tif cjson.decode(data).state == \"on\" then \n\t\tgpio.write({0},1)\n\t\ttmr.alarm(2,cjson.decode(data).value*60*1000,tmr.ALARM_SINGLE, \n\t\t\tfunction (timer) \n\t\t\t\tgpio.write({0},0) \n\t\t\tend) \n\telse \n\t\ttmr.stop(2)\n\tgpio.write({0},0) \n\tend \nend\n"}]
+        ,"def":"m:subscribe(mqtt_username..\"\/\"..{1},0, function(client) print({1}..\" subscribe success\") end)\n"
+        ,"work":""
+        ,"loop":"if started then \n\tm:publish(mqtt_username..\"\/\"..{1}..\"_pub\",cjson.encode({ target=target/1000,current=time }),1,1) \ntime=time+1 \nend","wifi":""
+        ,"mqtt":"if topic == mqtt_username..\"\/\"..{1} then\n\tif cjson.decode(data).state == \"on\" then \n\t\tstarted=true \n\ttarget=cjson.decode(data).value*60*1000 \n\t\tgpio.write({0},1)\n\t\ttmr.alarm(3,cjson.decode(data).value*60*1000,tmr.ALARM_SINGLE, \n\t\t\tfunction (timer) \n\t\t\t\tgpio.write({0},0) \n\t\t\tstarted=false \n\t\t\ttime=0\n\t\t\tend) \n\telse \n\t\ttmr.stop(3)\n\tgpio.write({0},0) \n\tstarted=false \n\ttime=0\n\tend \nend\n"}]
         
 	],
 	"menus": {
