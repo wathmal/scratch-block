@@ -365,7 +365,7 @@ public class ScriptsPart extends UIPart {
 		var widgetArray:Array = new Array();
 		var widget:Object;
 		for (var i:uint = 0; i < util.JSON.parse(util.JSON.stringify(app.stagePane)).children.length; i++) {
-			if(util.JSON.parse(util.JSON.stringify(app.stagePane)).children[i].objName.indexOf("node-mcu") < 0){
+			if(util.JSON.parse(util.JSON.stringify(app.stagePane)).children[i].objName.indexOf("nemesis") < 0){
 				widget= new Object();
 				widget.title= util.JSON.parse(util.JSON.stringify(app.stagePane)).children[i].objName;
 				widget.data= util.JSON.parse(util.JSON.stringify(app.stagePane)).children[i].scripts[0][2];
