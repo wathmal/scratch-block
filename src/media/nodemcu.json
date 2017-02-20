@@ -1,17 +1,17 @@
 {
-	"objName": "node-mcu",
+	"objName": "nemesis",
 	"sounds": [],
 	"costumes": [{
 			"costumeName": "node mcu",
 			"baseLayerID": -1,
-			"baseLayerMD5": "node-mcu.png",
+			"baseLayerMD5": "nemesis.png",
 			"rotationCenterX": 0,
 			"rotationCenterY": 0
 		}],
 	"currentCostumeIndex": 0,
 	"scratchX": 0,
 	"scratchY": 0,
-	"scale": 0.2,
+	"scale": 0.9,
 	"direction": 90,
 	"rotationStyle": "normal",
 	"isDraggable": false,

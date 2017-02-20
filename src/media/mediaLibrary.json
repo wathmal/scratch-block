@@ -1,7 +1,8 @@
 [
-{"name": "node-mcu", "md5": "nodemcu.json", "type": "sprite", "tags": ["platform"], "info": [0, 1, 1]},
+{"name": "nemesis", "md5": "nodemcu.json", "type": "sprite", "tags": ["platform"], "info": [0, 1, 1]},
 {"name": "line-chart", "md5": "line-chart.json", "type": "sprite", "tags": ["widgets"], "info": [0, 1, 1]},
 {"name": "gauge", "md5": "gauge.json", "type": "sprite", "tags": ["widgets"], "info": [0, 1, 1]},
 {"name": "switch", "md5": "switch.json", "type": "sprite", "tags": ["widgets"], "info": [0, 1, 1]},
-{"name": "knob", "md5": "knob.json", "type": "sprite", "tags": ["widgets"], "info": [0, 1, 1]}
+{"name": "knob", "md5": "knob.json", "type": "sprite", "tags": ["widgets"], "info": [0, 1, 1]},
+{"name": "timer", "md5": "timer.json", "type": "sprite", "tags": ["widgets"], "info": [0, 1, 1]}
 ]
