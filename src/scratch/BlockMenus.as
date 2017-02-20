@@ -571,7 +571,7 @@ public class BlockMenus implements DragClient {
 	}
 
 	//widgetMQTTtopics
-    static private const MqttTopics:Array = ['temperature', 'temperature1', 'humidity', 'humidity1', 'switch', 'switch1', 'dimmer', 'dimmer1'];
+    static private const MqttTopics:Array = ['temperature', 'temperature1', 'humidity', 'humidity1', 'switch', 'switch1', 'dimmer', 'dimmer1','timer','timer1'];
 
     private function widgetMqttTopics(evt:MouseEvent):void {
         var m:Menu = new Menu(setBlockArg, 'widgetMqttTopics');
