@@ -102,7 +102,6 @@ function mainloop()
 end	
 function mqttcon()
     if wifi.sta.getip()== nil then
-        print("ip unavailable, waiting...")
     else
     tmr.stop(1)
     m:connect("wireme.projects.mrt.ac.lk", 1883, 0,
